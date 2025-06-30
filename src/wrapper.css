@@ -1,0 +1,17 @@
+@theme {
+    --wrapper-size-xs: 12rem;
+    --wrapper-size-sm: 24rem;
+    --wrapper-size-md: 38rem;
+    --wrapper-size-lg: 52rem;
+    --wrapper-size-xl: 66rem;
+    --wrapper-size-2xl: 80rem;
+    --wrapper-size-3xl: 94rem;
+    --wrapper-size-4xl: 108rem;
+
+    --wrapper-minimum-padding: 1rem;
+}
+
+@utility wrapper-* {
+    /* prettier-ignore */
+    padding-inline: max(var(--wrapper-minimum-padding), calc(100% - --value(--wrapper-size-*, [length], [percentage])) / 2);
+}
