@@ -8,6 +8,8 @@
 }
 
 @utility section-* {
+  @apply relative;
+
   /* prettier-ignore */
   padding-block: --value(--section-*, [length], [percentage]);
 }
