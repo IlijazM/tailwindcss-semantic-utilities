@@ -1,0 +1,33 @@
+{
+  "name": "@ilijazm/tailwind-semantic-utilities",
+  "version": "0.1.0",
+  "description": "WIP. Some semantic utilities for tailwind.",
+  "main": "src/main.css",
+  "type": "module",
+  "files": [
+    "src/",
+    "README.md"
+  ],
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "plugin",
+    "css",
+    "utilities",
+    "components",
+    "wrapper"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/main.css",
+      "require": "./src/main.css",
+      "default": "./src/main.css"
+    }
+  },
+  "author": "Ilijaz Mehmedovic",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IlijazM/ilijaz-tailwind-utilities.git"
+  }
+}
