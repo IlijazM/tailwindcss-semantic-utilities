@@ -1,0 +1,91 @@
+@theme {
+  --color-content: var(--color-gray-800);
+  --color-content-muted: var(--color-gray-600);
+  --color-content-emphasis: var(--color-black);
+}
+
+@utility text-display-1 {
+  @apply text-7xl text-content-emphasis font-normal;
+  line-height: 1.272;
+  letter-spacing: -0.022rem;
+}
+
+@utility text-display-2 {
+  @apply text-5xl text-content-emphasis font-normal;
+  line-height: 1.272;
+  letter-spacing: -0.022rem;
+}
+
+@utility text-title-1 {
+  @apply text-5xl text-content-emphasis font-normal;
+  padding-bottom: var(--spacing-md, calc(var(--spacing) * 4));
+  line-height: 1.272;
+  letter-spacing: -0.022rem;
+}
+
+@utility text-title-2 {
+  @apply text-3xl text-content-emphasis font-normal;
+  padding-bottom: var(--spacing-md, calc(var(--spacing) * 4));
+  line-height: 1.272;
+  letter-spacing: -0.02rem;
+}
+
+@utility text-title-3 {
+  @apply text-2xl text-content-emphasis font-semibold;
+  line-height: 1.272;
+  letter-spacing: -0.017rem;
+}
+
+@utility text-heading {
+  @apply text-2xl text-content-emphasis font-semibold;
+  padding-top: var(--spacing-md, calc(var(--spacing) * 4));
+  padding-bottom: var(--spacing-sm, calc(var(--spacing) * 2));
+  line-height: 1.272;
+  letter-spacing: 0rem;
+}
+
+@utility text-subheading {
+  @apply text-base text-content-emphasis font-semibold;
+  line-height: 1.272;
+  letter-spacing: -0.007rem;
+}
+
+@utility text-body {
+  @apply text-base text-content font-normal;
+  padding-bottom: var(--spacing-xs, calc(var(--spacing)));
+  line-height: 1.618;
+  letter-spacing: -0.011rem;
+}
+
+@utility text-callout {
+  @apply text-base font-normal;
+  line-height: 1.272;
+  letter-spacing: -0.009rem;
+}
+
+@utility text-label {
+  @apply text-base text-content-muted font-semibold;
+  line-height: 1.272;
+  letter-spacing: -0.004rem;
+}
+
+@utility text-caption {
+  @apply text-base text-content-muted font-normal;
+  line-height: 1.272;
+  letter-spacing: -0.007rem;
+}
+
+@utility text-overline {
+  @apply text-base font-normal;
+  line-height: 1.272;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+@utility text-tagline {
+  @apply text-xl text-content font-normal;
+}
+
+@utility text-code {
+  @apply text-base text-content font-mono;
+}
