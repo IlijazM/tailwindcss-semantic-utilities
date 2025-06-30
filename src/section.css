@@ -1,0 +1,13 @@
+@theme {
+  --section-xs: var(--spacing-md);
+  --section-sm: var(--spacing-lg);
+  --section-md: var(--spacing-xl);
+  --section-lg: var(--spacing-2xl);
+  --section-xl: var(--spacing-3xl);
+  --section-2xl: var(--spacing-4xl);
+}
+
+@utility section-* {
+  /* prettier-ignore */
+  padding-block: --value(--section-*, [length], [percentage]);
+}
