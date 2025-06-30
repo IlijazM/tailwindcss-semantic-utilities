@@ -1,0 +1,211 @@
+@theme {
+  --color-base-lightest: white;
+  --color-base-light: var(--color-slate-50);
+  --color-base-default: var(--color-slate-100);
+  --color-base-dark: var(--color-slate-200);
+  --color-base-darkest: var(--color-slate-300);
+  --color-content: var(--color-gray-800);
+  --color-muted: var(--color-gray-600);
+  --color-emphasis: var(--color-black);
+
+  --color-primary: var(--color-indigo-200);
+  --color-primary-content: var(--color-indigo-900);
+  --color-primary-content-muted: var(--color-indigo-500);
+  --color-primary-content-emphasis: var(--color-indigo-950);
+
+  --color-secondary: var(--color-pink-200);
+  --color-secondary-content: var(--color-pink-900);
+  --color-secondary-content-muted: var(--color-pink-500);
+  --color-secondary-content-emphasis: var(--color-pink-950);
+
+  --color-accent: var(--color-lime-200);
+  --color-accent-content: var(--color-lime-900);
+  --color-accent-content-muted: var(--color-lime-600);
+  --color-accent-content-emphasis: var(--color-lime-950);
+
+  --color-info: var(--color-teal-200);
+  --color-info-content: var(--color-teal-900);
+  --color-info-content-muted: var(--color-teal-600);
+  --color-info-content-emphasis: var(--color-teal-950);
+
+  --color-success: var(--color-emerald-200);
+  --color-success-content: var(--color-emerald-900);
+  --color-success-content-muted: var(--color-emerald-600);
+  --color-success-content-emphasis: var(--color-emerald-950);
+
+  --color-warning: var(--color-amber-200);
+  --color-warning-content: var(--color-amber-950);
+  --color-warning-content-muted: var(--color-amber-500);
+  --color-warning-content-emphasis: var(--color-amber-950);
+
+  --color-error: var(--color-red-200);
+  --color-error-content: var(--color-red-900);
+  --color-error-content-muted: var(--color-red-400);
+  --color-error-content-emphasis: var(--color-red-950);
+}
+
+@utility text-on-primary {
+  --text-on-info: 1;
+}
+
+@utility text-on-secondary {
+  --text-on-info: 1;
+}
+
+@utility text-on-accent {
+  --text-on-info: 1;
+}
+
+@utility text-on-info {
+  --text-on-info: 1;
+}
+
+@utility text-on-success {
+  --text-on-success: 1;
+}
+
+@utility text-on-warning {
+  --text-on-warning: 1;
+}
+
+@utility text-on-error {
+  --text-on-error: 1;
+}
+
+@utility text-tone-default {
+  --text-tone-default: 1;
+}
+
+.text-tone-default.text-on-primary,
+.text-tone-default.bg-primary,
+.bg-primary > .text-tone-default {
+  @apply text-primary-content;
+}
+
+.text-tone-default.text-on-secondary,
+.text-tone-default.bg-secondary,
+.bg-secondary > .text-tone-default {
+  @apply text-secondary-content;
+}
+
+.text-tone-default.text-on-accent,
+.text-tone-default.bg-accent,
+.bg-accent > .text-tone-default {
+  @apply text-accent-content;
+}
+
+.text-tone-default.text-on-info,
+.text-tone-default.bg-info,
+.bg-info > .text-tone-default {
+  @apply text-info-content;
+}
+
+.text-tone-default.text-on-success,
+.text-tone-default.bg-success,
+.bg-success > .text-tone-default {
+  @apply text-success-content;
+}
+
+.text-tone-default.text-on-warning,
+.text-tone-default.bg-warning,
+.bg-warning > .text-tone-default {
+  @apply text-warning-content;
+}
+
+.text-tone-default.text-on-error,
+.text-tone-default.bg-error,
+.bg-error > .text-tone-default {
+  @apply text-error-content;
+}
+
+@utility text-tone-muted {
+  @apply text-muted;
+}
+
+.text-tone-muted.text-on-primary,
+.text-tone-muted.bg-primary,
+.bg-primary > .text-tone-muted {
+  @apply text-primary-content-muted;
+}
+
+.text-tone-muted.text-on-secondary,
+.text-tone-muted.bg-secondary,
+.bg-secondary > .text-tone-muted {
+  @apply text-secondary-content-muted;
+}
+
+.text-tone-muted.text-on-accent,
+.text-tone-muted.bg-accent,
+.bg-accent > .text-tone-muted {
+  @apply text-accent-content-muted;
+}
+
+.text-tone-muted.text-on-info,
+.text-tone-muted.bg-info,
+.bg-info > .text-tone-muted {
+  @apply text-info-content-muted;
+}
+
+.text-tone-muted.text-on-success,
+.text-tone-muted.bg-success,
+.bg-success > .text-tone-muted {
+  @apply text-success-content-muted;
+}
+
+.text-tone-muted.text-on-warning,
+.text-tone-muted.bg-warning,
+.bg-warning > .text-tone-muted {
+  @apply text-warning-content-muted;
+}
+
+.text-tone-muted.text-on-error,
+.text-tone-muted.bg-error,
+.bg-error > .text-tone-muted {
+  @apply text-error-content-muted;
+}
+
+@utility text-tone-emphasis {
+  @apply text-emphasis;
+}
+
+.text-tone-emphasis.text-on-primary,
+.text-tone-emphasis.bg-primary,
+.bg-primary > .text-tone-emphasis {
+  @apply text-primary-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-secondary,
+.text-tone-emphasis.bg-secondary,
+.bg-secondary > .text-tone-emphasis {
+  @apply text-secondary-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-accent,
+.text-tone-emphasis.bg-accent,
+.bg-accent > .text-tone-emphasis {
+  @apply text-accent-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-info,
+.text-tone-emphasis.bg-info,
+.bg-info > .text-tone-emphasis {
+  @apply text-info-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-success,
+.text-tone-emphasis.bg-success,
+.bg-success > .text-tone-emphasis {
+  @apply text-success-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-warning,
+.text-tone-emphasis.bg-warning,
+.bg-warning > .text-tone-emphasis {
+  @apply text-warning-content-emphasis;
+}
+
+.text-tone-emphasis.text-on-error,
+.text-tone-emphasis.bg-error,
+.bg-error > .text-tone-emphasis {
+  @apply text-error-content-emphasis;
+}
