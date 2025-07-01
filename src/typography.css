@@ -1,47 +1,41 @@
-@theme {
-  --color-content: var(--color-gray-800);
-  --color-content-muted: var(--color-gray-600);
-  --color-content-emphasis: var(--color-black);
-}
-
 @utility text-display-1 {
-  @apply text-7xl text-content-emphasis font-normal;
+  @apply text-7xl text-emphasis font-normal;
   line-height: 1.272;
   letter-spacing: -0.022rem;
 }
 
 @utility text-display-2 {
-  @apply text-5xl text-content-emphasis font-normal;
+  @apply text-5xl text-emphasis font-normal;
   line-height: 1.272;
   letter-spacing: -0.022rem;
 }
 
 @utility text-title-1 {
-  @apply text-5xl text-content-emphasis font-normal pb-xl;
+  @apply text-5xl text-emphasis font-normal pb-xl;
   line-height: 1.272;
   letter-spacing: -0.022rem;
 }
 
 @utility text-title-2 {
-  @apply text-3xl text-content-emphasis font-normal pb-xl;
+  @apply text-3xl text-emphasis font-normal pb-xl;
   line-height: 1.272;
   letter-spacing: -0.02rem;
 }
 
 @utility text-title-3 {
-  @apply text-2xl text-content-emphasis font-semibold pb-xl;
+  @apply text-2xl text-emphasis font-semibold pb-xl;
   line-height: 1.272;
   letter-spacing: -0.017rem;
 }
 
 @utility text-heading {
-  @apply text-2xl text-content-emphasis font-semibold py-xl;
+  @apply text-2xl text-emphasis font-semibold py-xl;
   line-height: 1.272;
   letter-spacing: 0rem;
 }
 
 @utility text-subheading {
-  @apply text-base text-content-emphasis font-semibold;
+  @apply text-base text-emphasis font-semibold;
   line-height: 1.272;
   letter-spacing: -0.007rem;
 }
@@ -59,19 +53,19 @@
 }
 
 @utility text-label {
-  @apply text-base text-content-muted font-semibold;
+  @apply text-base text-muted font-semibold;
   line-height: 1.272;
   letter-spacing: -0.004rem;
 }
 
 @utility text-caption {
-  @apply text-base text-content-muted font-normal;
+  @apply text-base text-muted font-normal;
   line-height: 1.272;
   letter-spacing: -0.007rem;
 }
 
 @utility text-overline {
-  @apply text-base font-normal;
+  @apply text-base text-content font-normal;
   line-height: 1.272;
   letter-spacing: 0.1rem;
   text-transform: uppercase;

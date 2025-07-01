@@ -1,12 +1,33 @@
 @theme {
-  --color-base-lightest: white;
-  --color-base-light: var(--color-slate-50);
-  --color-base-default: var(--color-slate-100);
-  --color-base-dark: var(--color-slate-200);
-  --color-base-darkest: var(--color-slate-300);
-  --color-content: var(--color-gray-800);
-  --color-muted: var(--color-gray-600);
-  --color-emphasis: var(--color-black);
+  --color-light-base-lightest: var(--color-white);
+  --color-light-base-light: var(--color-slate-50);
+  --color-light-base-default: var(--color-slate-100);
+  --color-light-base-dark: var(--color-slate-200);
+  --color-light-base-darkest: var(--color-slate-300);
+
+  --color-light-base-lightest: var(--color-stone-700);
+  --color-dark-base-light: var(--color-stone-800);
+  --color-dark-base-default: var(--color-stone-900);
+  --color-dark-base-dark: var(--color-stone-950);
+  --color-dark-base-darkest: var(--color-black);
+
+  --color-base-lightest: var(--color-light-base-lightest);
+  --color-base-light: var(--color-light-base-light);
+  --color-base-default: var(--color-light-base-default);
+  --color-base-dark: var(--color-light-base-dark);
+  --color-base-darkest: var(--color-light-base-darkest);
+
+  --color-content-on-light: var(--color-gray-800);
+  --color-muted-on-light: var(--color-gray-600);
+  --color-emphasis-on-light: var(--color-black);
+
+  --color-content-on-dark: var(--color-gray-200);
+  --color-muted-on-dark: var(--color-gray-400);
+  --color-emphasis-on-dark: var(--color-white);
+
+  --color-content: var(--color-content-on-light);
+  --color-muted: var(--color-muted-on-light);
+  --color-emphasis: var(--color-emphasis-on-light);
 
   --color-primary: var(--color-indigo-200);
   --color-primary-content: var(--color-indigo-900);
@@ -42,6 +63,18 @@
   --color-error-content: var(--color-red-900);
   --color-error-content-muted: var(--color-red-400);
   --color-error-content-emphasis: var(--color-red-950);
+}
+
+.dark {
+  --color-base-lightest: var(--color-dark-base-lightest);
+  --color-base-light: var(--color-dark-base-light);
+  --color-base-default: var(--color-dark-base-default);
+  --color-base-dark: var(--color-dark-base-dark);
+  --color-base-darkest: var(--color-dark-base-darkest);
+
+  --color-content: var(--color-content-on-dark);
+  --color-muted: var(--color-muted-on-dark);
+  --color-emphasis: var(--color-emphasis-on-dark);
 }
 
 @utility text-on-primary {
