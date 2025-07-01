@@ -1,0 +1,3 @@
+@utility debug {
+  @apply border-2 border-red-500 border-dotted;
+}

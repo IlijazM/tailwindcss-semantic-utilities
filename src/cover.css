@@ -1,0 +1,11 @@
+@utility absolute-cover {
+  @apply absolute inset-0;
+}
+
+@utility fixed-cover {
+  @apply fixed inset-0;
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
