@@ -1,15 +1,15 @@
 @theme {
-  --section-xs: var(--spacing-md);
-  --section-sm: var(--spacing-lg);
-  --section-md: var(--spacing-xl);
-  --section-lg: var(--spacing-2xl);
-  --section-xl: var(--spacing-3xl);
-  --section-2xl: var(--spacing-4xl);
+  --spacing-section-xs: var(--spacing-md);
+  --spacing-section-sm: var(--spacing-lg);
+  --spacing-section-md: var(--spacing-xl);
+  --spacing-section-lg: var(--spacing-2xl);
+  --spacing-section-xl: var(--spacing-3xl);
+  --spacing-section-2xl: var(--spacing-4xl);
 }
 
 @utility section-* {
   @apply relative;
 
   /* prettier-ignore */
-  padding-block: --value(--section-*, [length], [percentage]);
+  padding-block: --value(--spacing-section-*, [length], [percentage]);
 }
