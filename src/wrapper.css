@@ -12,5 +12,6 @@
 
 @utility wrapper-* {
   /* prettier-ignore */
-  padding-inline: max(var(--wrapper-minimum-padding), calc(100% - --value(--wrapper-size-*, [length], [percentage])) / 2);
+  width: --value(--wrapper-size-*);
+  margin-inline: auto;
 }
