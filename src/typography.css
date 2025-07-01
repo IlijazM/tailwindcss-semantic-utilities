@@ -17,29 +17,25 @@
 }
 
 @utility text-title-1 {
-  @apply text-5xl text-content-emphasis font-normal;
-  padding-bottom: var(--spacing-md, calc(var(--spacing) * 4));
+  @apply text-5xl text-content-emphasis font-normal pb-xl;
   line-height: 1.272;
   letter-spacing: -0.022rem;
 }
 
 @utility text-title-2 {
-  @apply text-3xl text-content-emphasis font-normal;
-  padding-bottom: var(--spacing-md, calc(var(--spacing) * 4));
+  @apply text-3xl text-content-emphasis font-normal pb-xl;
   line-height: 1.272;
   letter-spacing: -0.02rem;
 }
 
 @utility text-title-3 {
-  @apply text-2xl text-content-emphasis font-semibold;
+  @apply text-2xl text-content-emphasis font-semibold pb-xl;
   line-height: 1.272;
   letter-spacing: -0.017rem;
 }
 
 @utility text-heading {
-  @apply text-2xl text-content-emphasis font-semibold;
-  padding-top: var(--spacing-md, calc(var(--spacing) * 4));
-  padding-bottom: var(--spacing-sm, calc(var(--spacing) * 2));
+  @apply text-2xl text-content-emphasis font-semibold py-xl;
   line-height: 1.272;
   letter-spacing: 0rem;
 }
@@ -51,8 +47,7 @@
 }
 
 @utility text-body {
-  @apply text-base text-content font-normal;
-  padding-bottom: var(--spacing-xs, calc(var(--spacing)));
+  @apply text-base text-content font-normal pb-lg;
   line-height: 1.618;
   letter-spacing: -0.011rem;
 }
