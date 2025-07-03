@@ -5,7 +5,7 @@
   --color-light-base-dark: var(--color-slate-200);
   --color-light-base-darkest: var(--color-slate-300);
 
-  --color-light-base-lightest: var(--color-stone-700);
+  --color-dark-base-lightest: var(--color-stone-700);
   --color-dark-base-light: var(--color-stone-800);
   --color-dark-base-default: var(--color-stone-900);
   --color-dark-base-dark: var(--color-stone-950);
