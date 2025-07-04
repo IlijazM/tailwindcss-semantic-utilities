@@ -27,16 +27,17 @@ These are all blobs included in this plugin:
 
 ### Classes
 
-| Classname      | Type   |     |
-| -------------- | ------ | --- |
-| `.mask-blob`   | `mask` |     |
-| `.mask-blob-1` | `mask` |     |
-| `.mask-blob-2` | `mask` |     |
-| `.mask-blob-3` | `mask` |     |
-| `.mask-blob-4` | `mask` |     |
-| `.mask-blob-5` | `mask` |     |
-| `.mask-blob-6` | `mask` |     |
-| `.mask-blob-7` | `mask` |     |
+| Classname      | Type   |                        |
+| -------------- | ------ | ---------------------- |
+| `.mask-blob`   | `mask` | Same as `.mask-blob-1` |
+| `.mask-blob-1` | `mask` |                        |
+| `.mask-blob-2` | `mask` |                        |
+| `.mask-blob-3` | `mask` |                        |
+| `.mask-blob-4` | `mask` |                        |
+| `.mask-blob-5` | `mask` |                        |
+| `.mask-blob-6` | `mask` |                        |
+| `.mask-blob-7` | `mask` |                        |
+| `.mask-blob-8` | `mask` |                        |
 
 ## Installation
 
@@ -61,9 +62,9 @@ npm install @ilijazm/tailwindcss-blob`
     └── 📁 src/
 ```
 
-### Run examples
+### Run example
 
-1. Go into the directory `examples/`.
+1. Go into the directory `example/`.
 1. Install dependencies with npm `install`
 1. Run development build with `npm run dev`
 1. Check the example via `http://localhost:5173/`
