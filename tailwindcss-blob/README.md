@@ -47,7 +47,7 @@ npm install @ilijazm/tailwindcss-blob`
 
 ```diff
 @import "tailwindcss";
-+ @plugin "@ilijazm/tailwindcss-blob";
++ @import "@ilijazm/tailwindcss-blob";
 ```
 
 ## Development
