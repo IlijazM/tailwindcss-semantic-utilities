@@ -42,7 +42,7 @@ These are all blobs included in this plugin:
 ## Installation
 
 ```
-npm install @ilijazm/tailwindcss-blob`
+npm install @ilijazm/tailwindcss-blob
 ```
 
 ```diff
