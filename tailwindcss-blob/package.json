@@ -1,6 +1,6 @@
 {
     "name": "@ilijazm/tailwindcss-blob",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Tailwind CSS Blob Plugin is a plugin for Tailwind CSS that adds some blob-shaped masks.",
     "main": "src/tailwindcss-blob.css",
     "type": "module",

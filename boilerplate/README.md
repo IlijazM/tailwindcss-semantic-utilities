@@ -4,7 +4,7 @@ Tailwind CSS {{ pluginName }} is a plugin for Tailwind CSS v4 that {{ pluginDesc
 
 ## Features
 
-### Basic Example
+### Basic example
 
 ### Classes
 

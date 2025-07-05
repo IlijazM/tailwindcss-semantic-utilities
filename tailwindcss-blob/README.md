@@ -6,7 +6,7 @@ Tailwind CSS Blob Plugin is a plugin for Tailwind CSS v4 that adds some blob-sha
 
 Use the utility `mask-blob` to mask a div.
 
-### Basic Example
+### Basic example
 
 To mask a diff use `mask-blob`:
 

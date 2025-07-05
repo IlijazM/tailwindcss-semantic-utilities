@@ -1,6 +1,6 @@
 {
     "name": "@ilijazm/tailwindcss-semantic-spacing",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Tailwind CSS Semantic Spacing is a plugin for Tailwind CSS v4 that abstracts spacing values (e.g., margins, gaps, widths) from primitive tokens like `2`, `4`, `8`, etc. to semantic tokens like `sm`, `md`, `lg` etc.",
     "main": "src/tailwindcss-semantic-spacing.css",
     "type": "module",

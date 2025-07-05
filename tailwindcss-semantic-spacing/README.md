@@ -11,7 +11,7 @@ It improves maintenance, is easier to change, and lets developer be more verbose
 
 The semantic spacing values can be used for widths (`w-*`), heights (`h-*`), gaps (`gap-*`), margins (`m-*`), paddings (`p-*`), and everything else that use the `--spacing-*` variable.
 
-### Basic Example
+### Basic example
 
 To set the width, height, and margin of a diff to `2xl` use `w-2xl`, `h-2xl`, and `mb-2xl`.
 
