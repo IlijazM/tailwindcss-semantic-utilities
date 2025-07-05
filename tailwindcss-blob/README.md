@@ -1,6 +1,6 @@
 # Tailwind CSS Blob Plugin
 
-Tailwind CSS Blob Plugin is a plugin for Tailwind CSS that adds some blob-shaped masks.
+Tailwind CSS Blob Plugin is a plugin for Tailwind CSS v4 that adds some blob-shaped masks.
 
 ## Features
 
