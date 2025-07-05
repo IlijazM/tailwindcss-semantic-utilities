@@ -16,7 +16,7 @@ The semantic spacing values can be used for widths (`w-*`), heights (`h-*`), gap
 To set the width, height, and margin of a diff to `2xl` use `w-2xl`, `h-2xl`, and `mb-2xl`.
 
 ```html
-<div class="bg-blue-400">
+<div class="striped-background bg-blue-400">
   <div class="mb-2xl w-2xl h-2xl bg-green-500 border-6 border-green-300"></div>
 </div>
 ```
@@ -26,6 +26,37 @@ This yields the following result:
 ![Exaple 2XL](docs/example_2xl.png)
 
 The green box represents the actual diff and the blue box represents its margin.
+
+### Gap example
+
+To set the gap to a semantic value use `gap-sm`, `gap-md`, `gap-lg`, etc.
+
+```html
+<div class="gap-md striped-background flex bg-blue-400">
+  <div class="w-2xl h-2xl bg-green-500 border-6 border-green-300"></div>
+  <div class="w-2xl h-2xl bg-green-500 border-6 border-green-300"></div>
+</div>
+```
+
+This yields the following result:
+
+![example gap-md](docs/example_gap-md.png)
+
+The following shows further examples of gap values:
+
+![exaples gap](docs/example_gaps.png)
+
+### Button example
+
+Design a buttong with `py-sm` and `px-lg` like in this example:
+
+```html
+<div class="py-sm px-lg bg-blue-700 text-white rounded-full">PRESS ME</div>
+```
+
+This yields the following result:
+
+![Button example](docs/button_example.png)
 
 ### Exponential growth
 
