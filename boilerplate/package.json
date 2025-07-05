@@ -1,0 +1,38 @@
+{
+    "name": "{{ pluginPath }}",
+    "version": "1.0.0",
+    "description": "Tailwind CSS {{ pluginName }} is a plugin for Tailwind CSS v4 that {{ pluginDescription }}.",
+    "main": "src/{{ pluginDirName }}.css",
+    "type": "module",
+    "files": [
+        "src/",
+        "docs/",
+        "README.md"
+    ],
+    "keywords": [
+        "tailwind",
+        "tailwindcss",
+        "plugin",
+        "css",
+        "utilities",
+        "components",
+        "wrapper"
+    ],
+    "exports": {
+        ".": {
+            "import": "./src/{{ pluginDirName }}.css",
+            "require": "./src/{{ pluginDirName }}.css",
+            "default": "./src/{{ pluginDirName }}.css"
+        }
+    },
+    "author": "Ilijaz Mehmedovic",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+git@github.com:IlijazM/tailwindcss-semantic-utilities.git",
+        "directory": "{{ pluginDirName }}"
+    },
+    "dependencies": {
+        "tailwindcss": "^4.1.10"
+    }
+}
