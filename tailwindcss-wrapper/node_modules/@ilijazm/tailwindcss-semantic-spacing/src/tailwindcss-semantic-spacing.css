@@ -1,0 +1,18 @@
+@theme {
+  --spacing-power-basis: 1.8;
+  --spacing-4xs: calc(var(--spacing-3xs) / var(--spacing-power-basis));
+  --spacing-3xs: calc(var(--spacing-2xs) / var(--spacing-power-basis));
+  --spacing-2xs: calc(var(--spacing-xs) / var(--spacing-power-basis));
+  --spacing-xs: calc(var(--spacing-sm) / var(--spacing-power-basis));
+  --spacing-sm: calc(var(--spacing-md) / var(--spacing-power-basis));
+  --spacing-md: calc(var(--spacing) * 4);
+  --spacing-lg: calc(var(--spacing-md) * var(--spacing-power-basis));
+  --spacing-xl: calc(var(--spacing-lg) * var(--spacing-power-basis));
+  --spacing-2xl: calc(var(--spacing-xl) * var(--spacing-power-basis));
+  --spacing-3xl: calc(var(--spacing-2xl) * var(--spacing-power-basis));
+  --spacing-4xl: calc(var(--spacing-3xl) * var(--spacing-power-basis));
+  --spacing-5xl: calc(var(--spacing-4xl) * var(--spacing-power-basis));
+  --spacing-6xl: calc(var(--spacing-5xl) * var(--spacing-power-basis));
+  --spacing-7xl: calc(var(--spacing-6xl) * var(--spacing-power-basis));
+  --spacing-8xl: calc(var(--spacing-7xl) * var(--spacing-power-basis));
+}
