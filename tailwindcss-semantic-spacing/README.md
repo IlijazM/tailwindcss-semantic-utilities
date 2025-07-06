@@ -2,7 +2,7 @@
 
 Tailwind CSS Semantic Spacing is a plugin for Tailwind CSS v4 that abstracts spacing values (e.g., margins, gaps, widths) from primitive tokens like `2`, `4`, `8`, etc. to semantic tokens like `sm`, `md`, `lg` etc.
 
-## Reasons
+## Reason
 
 Semantic spacing tokens offers advantages over primitive tokens:
 It improves maintenance, is easier to change, and lets developer be more verbose with their designs.
