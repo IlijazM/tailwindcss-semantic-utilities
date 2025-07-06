@@ -41,7 +41,7 @@ These are all blobs included in this plugin:
 
 ## Installation
 
-```
+```bash
 npm install @ilijazm/tailwindcss-blob
 ```
 

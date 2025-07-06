@@ -13,7 +13,7 @@ Tailwind CSS {{ pluginName }} is a plugin for Tailwind CSS v4 that {{ pluginDesc
 
 ## Installation
 
-```
+```bash
 npm install {{ pluginPath }}
 ```
 
