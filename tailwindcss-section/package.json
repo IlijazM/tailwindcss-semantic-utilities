@@ -1,8 +1,8 @@
 {
-  "name": "@ilijazm/tailwindcss-semantic-spacing",
-  "version": "1.0.0",
+  "name": "@ilijazm/tailwindcss-section",
+  "version": "1.0.1",
   "description": "Tailwind CSS Section is a plugin for Tailwind CSS v4 that adds semantic utility classes for sections which add block padding and a relative position.",
-  "main": "src/tailwindcss-semantic-spacing.css",
+  "main": "src/tailwindcss-section.css",
   "type": "module",
   "files": [
     "src/",
@@ -20,9 +20,9 @@
   ],
   "exports": {
     ".": {
-      "import": "./src/tailwindcss-semantic-spacing.css",
-      "require": "./src/tailwindcss-semantic-spacing.css",
-      "default": "./src/tailwindcss-semantic-spacing.css"
+      "import": "./src/tailwindcss-section.css",
+      "require": "./src/tailwindcss-section.css",
+      "default": "./src/tailwindcss-section.css"
     }
   },
   "author": "Ilijaz Mehmedovic",
@@ -30,10 +30,10 @@
   "repository": {
     "type": "git",
     "url": "git+git@github.com:IlijazM/tailwindcss-semantic-utilities.git",
-    "directory": "tailwindcss-semantic-spacing"
+    "directory": "tailwindcss-section"
   },
   "dependencies": {
     "tailwindcss": "^4.1.10",
-    "@ilijazm/tailwindcss-semantic-spacing": "^1.0.3"
+    "@ilijazm/tailwindcss-section": "^1.0.3"
   }
 }
