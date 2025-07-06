@@ -1,2 +1,21 @@
 @import 'tailwindcss';
 @import '../src/tailwindcss-wrapper.css';
+
+.striped-background {
+  @apply relative bg-blue-500 overflow-hidden after:absolute after:top-[-50%] after:left-[-50%] after:w-[200%] after:h-[200%] after:pointer-events-none;
+}
+
+.striped-background::after {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-slate-100),
+    var(--color-slate-100) var(--spacing-xs),
+    var(--color-white) var(--spacing-xs),
+    var(--color-white) calc(var(--spacing-xs) * 2)
+  );
+}
+
+.striped-background > * {
+  position: relative;
+  z-index: 1;
+}
