@@ -1,6 +1,6 @@
 {
   "name": "@ilijazm/tailwindcss-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tailwind CSS Wrapper is a plugin for Tailwind CSS v4 that {{ pluginDescription }}.",
   "main": "src/tailwindcss-wrapper.css",
   "type": "module",

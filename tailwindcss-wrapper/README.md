@@ -35,7 +35,7 @@ To center it, use `mx-auto`, and to ensure horizontal padding on smaller screens
 The following example demonstrates the proposed approach:
 
 ```html
-<div class="w-[24rem] mx-auto px-4"></div>
+<div class="max-w-[24rem] mx-auto px-4"></div>
 ```
 
 ### 🔧 Maintainability Issues
@@ -56,15 +56,15 @@ Semantic names like `sm`, `md`, `lg` help you think in terms of intent instead o
 This plugin solves the previously stated problems by introducing utility classes such as `wrapper-md`.
 These classes:
 
-- ✅ Use **semantic names** (`sm`, `md`, `lg`) instead of primitive values.
-- ✅ Set a consistent width.
-- ✅ Center the container.
-- ✅ Apply default horizontal padding.
+- ✅ Use **semantic names** (`sm`, `md`, `lg`) instead of primitive values. \
+- ✅ Set a consistent width. \
+- ✅ Center the container. \
+- ✅ Apply default horizontal padding. \
 
 **❌ Without Tailwind CSS Wrapper plugin:**
 
 ```html
-<div class="w-[24rem] mx-auto px-4"></div>
+<div class="max-w-[24rem] mx-auto px-4"></div>
 ```
 
 **✅ With Tailwind CSS Wrapper plugin:**
@@ -110,8 +110,8 @@ This yields the following result:
 **Limitations**:
 `wrapped-*` does not work correctly inside another wrapped container.
 
-**✅ Use** `wrapped-*` to apply background color across the full container width.
-**✅ Use** `wrapper-*` as the default, reliable choice.
+**✅ Use** `wrapped-*` to apply background color across the full container width. \
+**✅ Use** `wrapper-*` as the default, reliable choice. \
 
 ### Set width
 
@@ -127,8 +127,8 @@ This yields the following result:
 
 ![Example w-wrapper-md lorem](docs/example_w-wrapper-md_lorem.png)
 
-**✅ Use** `w-wrapper-*` when centering is not required.
-**❌ Don't use** `w-wrapper-*` in combination with `mx-auto` since this destroys the purpose of `wrapper-*`.
+**✅ Use** `w-wrapper-*` when centering is not required. \
+**❌ Don't use** `w-wrapper-*` in combination with `mx-auto` since this destroys the purpose of `wrapper-*`. \
 
 ### Grid
 
