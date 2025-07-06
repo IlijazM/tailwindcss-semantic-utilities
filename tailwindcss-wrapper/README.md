@@ -29,25 +29,49 @@ Also making the text scale with the width of the website is bad practise.
 
 ### 📦 Conventional Method
 
-To address this issue one can set the width of the container like the following: `w-[24rem]`.
+To address this issue one can set the width of the container like the following: `max-w-[24rem]`.
 Further, one can center the div by setting the inline margin to `auto` like that: `mx-auto`.
+Additionally, do always have some padding on the left and right even if the screen's width is smaller than the wrappers width,
+one must set an inline padding like that: `px-4`
 The following example demonstrates the proposed approach:
 
 ```html
-<div class="w-[24rem] mx-auto"></div>
+<div class="w-[24rem] mx-auto px-4"></div>
 ```
 
 ### 🔧 Maintainability Issues
 
 Setting the width to a primitive value like `24rem` leads to inconsistencies, is hard to maintain, and not verbose at all.
-Setting the width and centering the diff is a common practice that deserves its own utility class.
 
-### 📱 Responsiveness Issues
+**Inconsistent**:
+If used inconsistently the user interface might not align vertically which leads do off-looking designs.
+Also when different units like `rem`, `em`, and `px` are mixed together the scaling could get inconsistent as well.
 
-Furthermore, this approach is not responsive at all.
-When the
+**Maintaintable**:
+If one wishes to change all widths of contents at the same time,
+it is easier if one must only change one variable instead of carefully checking all present values in the code.
+
+**Not verbose**:
+Using semantic names like `sm`, `md`, `lg` instead of primitives like `24rem`, `32rem`, `64rem` disconnects the developer from using actual values for widths and let's the developer think about the meaning or intent behind the size.
 
 ### 🚀 Proposed Solution
+
+This plugin proposes the following solution the the previously state problem statement:
+Setting the width and centering the diff is a common practice that deserves its own utility class.
+This utility class sets the width of a container based on a **semantic naming schema** like `sm`, `md`, `lg` instead of a schema relying on primitive values like `24rem`, `32rem`, `64rem`.
+Furthermore, it sets a default inline padding and centers the container.
+
+**❌ Without tailwindcss-wrapper plugin:**
+
+```html
+<div class="w-[24rem] mx-auto px-4"></div>
+```
+
+**✅ With tailwindcss-wrapper plugin:**
+
+```html
+<div class="wrapper-md"></div>
+```
 
 ### 🔄 Alternative Approach
 
