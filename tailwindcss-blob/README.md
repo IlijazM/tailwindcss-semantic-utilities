@@ -64,7 +64,7 @@ npm install @ilijazm/tailwindcss-blob
 
 ### Run example
 
-1. Go into the directory `example/`.
+1. Go into the directory `example/`
 1. Install dependencies with npm `install`
 1. Run development build with `npm run dev`
 1. Check the example via `http://localhost:5173/`
