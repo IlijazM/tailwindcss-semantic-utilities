@@ -150,8 +150,8 @@ This yields the following result:
 
 | Classname   | Type      |     |
 | ----------- | --------- | --- |
-| `wrapper-*` | `utility` |     |
-| `wrapped-*` | `utility` |     |
+| `wrapper-*` | `spacing` |     |
+| `wrapped-*` | `spacing` |     |
 
 ### Variables
 
@@ -175,6 +175,13 @@ npm install @ilijazm/tailwindcss-wrapper
 ```diff
 @import "tailwindcss";
 + @import "@ilijazm/tailwindcss-wrapper";
+```
+
+## Dependencies
+
+```
+.
+└── 📦 @ilijam/tailwindcss-semantic-spacing
 ```
 
 ## Development
