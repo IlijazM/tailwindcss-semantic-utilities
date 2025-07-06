@@ -73,13 +73,77 @@ Furthermore, it sets a default inline padding and centers the container.
 <div class="wrapper-md"></div>
 ```
 
-### 🔄 Alternative Approach
-
-### 🚀 Alternative Proposed Solution
-
 ## Features
 
 ### Basic example
+
+To set the width and center the div's content use `wrapper-md` like that:
+
+```html
+<div class="wrapper-md">
+  <div class="bg-slate-200">Lorem ipsum...</div>
+</div>
+```
+
+This yields the following result:
+
+![Example wrapper-md lorem](docs/example_wrapper-md_lorem.png)
+
+### Alternative approach
+
+Instead of using the utility class `wrapper-*` one can use `wrapped-*`.
+`wrapped-*` works in the same way however it uses only padding to set the width and center the content instead of a width and margins.
+The benefit with this utility class is that one can set a background color and wrap the content and the background color is not limited to the content of the div.
+
+It works like in this example:
+
+```html
+<div class="bg-slate-400 wrapper-md">
+  <div class="bg-slate-200">Lorem ipsum...</div>
+</div>
+```
+
+This yields the following result:
+
+![Example wrapped-md lorem](docs/example_wrapped-md_lorem.png)
+
+This approach has its limitations.
+For example this will not work properly if used inside an already wrapped container.
+
+**✅ Use** `wrapped-*` if you want to set the background color of the whole div and be aware of its limitations.
+
+**✅ Use** `wrapper-*` as the default. It gets the job done 100% of the time.
+
+### Set width
+
+Alternatively you can set the width of any container to be one of the wrappers widths.
+Simply use the variables with the utility class `w-*` like that:
+
+```html
+<div class="w-wrapper-md">
+  <div class="bg-slate-200">Lorem ipsum...</div>
+</div>
+```
+
+This yields the following result:
+
+![Example w-wrapper-md lorem](docs/example_w-wrapper-md_lorem.png)
+
+**✅ Use** `w-wrapper-*` if centering the content is not the intended thing to do.
+
+**❌ Don't use** `w-wrapper-*` in combination with `mx-auto` since this destroys the purpose of `wrapper-*`.
+
+### Grid
+
+```html
+<div class="h-[10rem] grid grid-cols-[1fr_var(--spacing-wrapper-lg)_1fr]">
+  <div class="bg-blue-600"></div>
+  <div class="bg-indigo-600"></div>
+  <div class="bg-violet-600"></div>
+</div>
+```
+
+![Example grid](docs/example_grid.png)
 
 ### Classes
 
