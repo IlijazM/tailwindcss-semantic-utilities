@@ -1,5 +1,39 @@
 {
+  "name": "@ilijazm/tailwindcss-wrapper",
+  "version": "1.0.0",
+  "description": "Tailwind CSS Wrapper is a plugin for Tailwind CSS v4 that {{ pluginDescription }}.",
+  "main": "src/tailwindcss-wrapper.css",
+  "type": "module",
+  "files": [
+    "src/",
+    "docs/",
+    "README.md"
+  ],
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "plugin",
+    "css",
+    "utilities",
+    "components",
+    "wrapper"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/tailwindcss-wrapper.css",
+      "require": "./src/tailwindcss-wrapper.css",
+      "default": "./src/tailwindcss-wrapper.css"
+    }
+  },
+  "author": "Ilijaz Mehmedovic",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+git@github.com:IlijazM/tailwindcss-semantic-utilities.git",
+    "directory": "tailwindcss-wrapper"
+  },
   "dependencies": {
+    "tailwindcss": "^4.1.10",
     "@ilijazm/tailwindcss-semantic-spacing": "^1.0.2"
   }
 }
