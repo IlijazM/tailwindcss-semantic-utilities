@@ -135,6 +135,8 @@ This yields the following result:
 
 ### Grid
 
+For layouting a website with e.g. a left and right sidebar, you can use the wrapper variables in the `grid-cols` utility class like this:
+
 ```html
 <div class="h-[10rem] grid grid-cols-[1fr_var(--spacing-wrapper-lg)_1fr]">
   <div class="bg-blue-600"></div>
@@ -142,6 +144,8 @@ This yields the following result:
   <div class="bg-violet-600"></div>
 </div>
 ```
+
+This yields the following result:
 
 ![Example grid](docs/example_grid.png)
 
@@ -153,6 +157,17 @@ This yields the following result:
 | `wrapped-*` | `utility` |     |
 
 ### Variables
+
+| Variable                          | Type      | Default Value |                                                                                |
+| --------------------------------- | --------- | ------------- | ------------------------------------------------------------------------------ |
+| `spacing-wrapper-minimum-padding` | `spacing` | `1rem`        | The default inline padding if the wrapper exceeds the parent container's width |
+| `spacing-wrapper-xs`              | `spacing` | `spacing-3xl` |                                                                                |
+| `spacing-wrapper-sm`              | `spacing` | `spacing-4xl` |                                                                                |
+| `spacing-wrapper-md`              | `spacing` | `spacing-5xl` |                                                                                |
+| `spacing-wrapper-lg`              | `spacing` | `spacing-6xl` |                                                                                |
+| `spacing-wrapper-xl`              | `spacing` | `spacing-7xl` |                                                                                |
+| `spacing-wrapper-2xl`             | `spacing` | `spacing-8xl` |                                                                                |
+| `spacing-wrapper-3xl`             | `spacing` | `spacing-9xl` |                                                                                |
 
 ## Installation
 
