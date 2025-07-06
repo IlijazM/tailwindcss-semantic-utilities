@@ -16,7 +16,7 @@
         "css",
         "utilities",
         "components",
-        "wrapper"
+        {{ keywords }}
     ],
     "exports": {
         ".": {
