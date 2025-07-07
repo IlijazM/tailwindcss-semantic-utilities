@@ -1,7 +1,7 @@
 {
   "name": "@ilijazm/tailwindcss-wrapper",
-  "version": "1.0.1",
-  "description": "Tailwind CSS Wrapper is a plugin for Tailwind CSS v4 that {{ pluginDescription }}.",
+  "version": "1.0.2",
+  "description": "Tailwind CSS Wrapper is a plugin for Tailwind CSS v4 that adds commonly used utilities for limiting content width and centering it.",
   "main": "src/tailwindcss-wrapper.css",
   "type": "module",
   "files": [
