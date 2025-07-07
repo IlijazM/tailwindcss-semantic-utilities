@@ -33,7 +33,7 @@
     "directory": "tailwindcss-section"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.10",
-    "@ilijazm/tailwindcss-section": "^1.0.3"
+    "@ilijazm/tailwindcss-semantic-spacing": "^1.0.3",
+    "tailwindcss": "^4.1.10"
   }
 }
