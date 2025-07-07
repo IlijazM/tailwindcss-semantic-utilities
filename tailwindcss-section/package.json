@@ -1,6 +1,6 @@
 {
   "name": "@ilijazm/tailwindcss-section",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tailwind CSS Section is a plugin for Tailwind CSS v4 that adds semantic utility classes for sections which add block padding and a relative position.",
   "main": "src/tailwindcss-section.css",
   "type": "module",
