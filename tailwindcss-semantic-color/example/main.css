@@ -40,7 +40,6 @@
 }
 
 .card {
-  width: 16rem;
   @apply flex flex-col justify-end p-4 font-mono rounded-xl shadow-md;
 }
 

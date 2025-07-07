@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="/main.css" />
   </head>
-  <body class="flex justify-center items-center min-h-screen">
+  <body class="items-center min-h-screen">
     <table class="font-mono">
       <thead>
         <th></th>
@@ -39,32 +39,18 @@
           <td><div class="color bg-base-950"></div></td>
         </tr>
         <tr>
-          <td class="bg-white">canvas</td>
-          <td><div class="color bg-canvas-50"></div></td>
-          <td><div class="color bg-canvas-100"></div></td>
-          <td><div class="color bg-canvas-200"></div></td>
-          <td><div class="color bg-canvas-300"></div></td>
-          <td><div class="color bg-canvas-400"></div></td>
-          <td><div class="color bg-canvas-500"></div></td>
-          <td><div class="color bg-canvas-600"></div></td>
-          <td><div class="color bg-canvas-700"></div></td>
-          <td><div class="color bg-canvas-800"></div></td>
-          <td><div class="color bg-canvas-900"></div></td>
-          <td><div class="color bg-canvas-950"></div></td>
-        </tr>
-        <tr>
-          <td class="bg-white">content</td>
-          <td><div class="color bg-content-50"></div></td>
-          <td><div class="color bg-content-100"></div></td>
-          <td><div class="color bg-content-200"></div></td>
-          <td><div class="color bg-content-300"></div></td>
-          <td><div class="color bg-content-400"></div></td>
-          <td><div class="color bg-content-500"></div></td>
-          <td><div class="color bg-content-600"></div></td>
-          <td><div class="color bg-content-700"></div></td>
-          <td><div class="color bg-content-800"></div></td>
-          <td><div class="color bg-content-900"></div></td>
-          <td><div class="color bg-content-950"></div></td>
+          <td class="bg-white">surface</td>
+          <td><div class="color bg-surface-50"></div></td>
+          <td><div class="color bg-surface-100"></div></td>
+          <td><div class="color bg-surface-200"></div></td>
+          <td><div class="color bg-surface-300"></div></td>
+          <td><div class="color bg-surface-400"></div></td>
+          <td><div class="color bg-surface-500"></div></td>
+          <td><div class="color bg-surface-600"></div></td>
+          <td><div class="color bg-surface-700"></div></td>
+          <td><div class="color bg-surface-800"></div></td>
+          <td><div class="color bg-surface-900"></div></td>
+          <td><div class="color bg-surface-950"></div></td>
         </tr>
         <tr>
           <td class="bg-white">brand</td>
@@ -194,5 +180,180 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="checkerboard-background flex flex-col gap-4 font-mono py-[8rem]">
+      <div class="grid grid-cols-5 gap-4">
+        <div class="card bg-surface-lightest">surface-lightest</div>
+        <div class="card bg-surface-light">surface-light</div>
+        <div class="card bg-surface">surface</div>
+        <div class="card bg-surface-dark">surface-dark</div>
+        <div class="card bg-surface-darkest">surface-darkest</div>
+      </div>
+      <div class="grid grid-cols-5 gap-4">
+        <div class="card bg-surface-lightest-inverted text-white">surface-lightest-inverted</div>
+        <div class="card bg-surface-light-inverted text-white">surface-light-inverted</div>
+        <div class="card bg-surface-inverted text-white">surface-inverted</div>
+        <div class="card bg-surface-dark-inverted text-white">surface-dark-inverted</div>
+        <div class="card bg-surface-darkest-inverted text-white">surface-darkest-inverted</div>
+      </div>
+      <div class="grid grid-cols-5 gap-4">
+        <div class="card bg-surface-lowest">surface-lowest</div>
+        <div class="card bg-surface-low">surface-low</div>
+        <div class="card bg-surface">surface</div>
+        <div class="card bg-surface-high">surface-high</div>
+        <div class="card bg-surface-highest">surface-highest</div>
+      </div>
+      <div class="grid grid-cols-5 gap-4">
+        <div class="card bg-surface-lowest-inverted text-white">surface-lowest-inverted</div>
+        <div class="card bg-surface-low-inverted text-white">surface-low-inverted</div>
+        <div class="card bg-surface-inverted text-white">surface-inverted</div>
+        <div class="card bg-surface-high-inverted text-white">surface-high-inverted</div>
+        <div class="card bg-surface-highest-inverted text-white">surface-highest-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-brand-light">surface-brand-light</div>
+        <div class="card bg-surface-brand">surface-brand</div>
+        <div class="card bg-surface-brand-dark">surface-brand-dark</div>
+        <div class="card bg-surface-brand-light-inverted text-white">surface-brand-light-inverted</div>
+        <div class="card bg-surface-brand-inverted text-white">surface-brand-inverted</div>
+        <div class="card bg-surface-brand-dark-inverted text-white">surface-brand-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-brand-low">surface-brand-low</div>
+        <div class="card bg-surface-brand">surface-brand</div>
+        <div class="card bg-surface-brand-high">surface-brand-high</div>
+        <div class="card bg-surface-brand-low-inverted text-white">surface-brand-low-inverted</div>
+        <div class="card bg-surface-brand-inverted text-white">surface-brand-inverted</div>
+        <div class="card bg-surface-brand-high-inverted text-white">surface-brand-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-primary-light">surface-primary-light</div>
+        <div class="card bg-surface-primary">surface-primary</div>
+        <div class="card bg-surface-primary-dark">surface-primary-dark</div>
+        <div class="card bg-surface-primary-light-inverted text-white">surface-primary-light-inverted</div>
+        <div class="card bg-surface-primary-inverted text-white">surface-primary-inverted</div>
+        <div class="card bg-surface-primary-dark-inverted text-white">surface-primary-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-primary-low">surface-primary-low</div>
+        <div class="card bg-surface-primary">surface-primary</div>
+        <div class="card bg-surface-primary-high">surface-primary-high</div>
+        <div class="card bg-surface-primary-low-inverted text-white">surface-primary-low-inverted</div>
+        <div class="card bg-surface-primary-inverted text-white">surface-primary-inverted</div>
+        <div class="card bg-surface-primary-high-inverted text-white">surface-primary-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-secondary-light">surface-secondary-light</div>
+        <div class="card bg-surface-secondary">surface-secondary</div>
+        <div class="card bg-surface-secondary-dark">surface-secondary-dark</div>
+        <div class="card bg-surface-secondary-light-inverted text-white">surface-secondary-light-inverted</div>
+        <div class="card bg-surface-secondary-inverted text-white">surface-secondary-inverted</div>
+        <div class="card bg-surface-secondary-dark-inverted text-white">surface-secondary-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-secondary-low">surface-secondary-low</div>
+        <div class="card bg-surface-secondary">surface-secondary</div>
+        <div class="card bg-surface-secondary-high">surface-secondary-high</div>
+        <div class="card bg-surface-secondary-low-inverted text-white">surface-secondary-low-inverted</div>
+        <div class="card bg-surface-secondary-inverted text-white">surface-secondary-inverted</div>
+        <div class="card bg-surface-secondary-high-inverted text-white">surface-secondary-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-tertiary-light">surface-tertiary-light</div>
+        <div class="card bg-surface-tertiary">surface-tertiary</div>
+        <div class="card bg-surface-tertiary-dark">surface-tertiary-dark</div>
+        <div class="card bg-surface-tertiary-light-inverted text-white">surface-tertiary-light-inverted</div>
+        <div class="card bg-surface-tertiary-inverted text-white">surface-tertiary-inverted</div>
+        <div class="card bg-surface-tertiary-dark-inverted text-white">surface-tertiary-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-tertiary-low">surface-tertiary-low</div>
+        <div class="card bg-surface-tertiary">surface-tertiary</div>
+        <div class="card bg-surface-tertiary-high">surface-tertiary-high</div>
+        <div class="card bg-surface-tertiary-low-inverted text-white">surface-tertiary-low-inverted</div>
+        <div class="card bg-surface-tertiary-inverted text-white">surface-tertiary-inverted</div>
+        <div class="card bg-surface-tertiary-high-inverted text-white">surface-tertiary-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-accent-light">surface-accent-light</div>
+        <div class="card bg-surface-accent">surface-accent</div>
+        <div class="card bg-surface-accent-dark">surface-accent-dark</div>
+        <div class="card bg-surface-accent-light-inverted text-white">surface-accent-light-inverted</div>
+        <div class="card bg-surface-accent-inverted text-white">surface-accent-inverted</div>
+        <div class="card bg-surface-accent-dark-inverted text-white">surface-accent-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-accent-low">surface-accent-low</div>
+        <div class="card bg-surface-accent">surface-accent</div>
+        <div class="card bg-surface-accent-high">surface-accent-high</div>
+        <div class="card bg-surface-accent-low-inverted text-white">surface-accent-low-inverted</div>
+        <div class="card bg-surface-accent-inverted text-white">surface-accent-inverted</div>
+        <div class="card bg-surface-accent-high-inverted text-white">surface-accent-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-info-light">surface-info-light</div>
+        <div class="card bg-surface-info">surface-info</div>
+        <div class="card bg-surface-info-dark">surface-info-dark</div>
+        <div class="card bg-surface-info-light-inverted text-white">surface-info-light-inverted</div>
+        <div class="card bg-surface-info-inverted text-white">surface-info-inverted</div>
+        <div class="card bg-surface-info-dark-inverted text-white">surface-info-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-info-low">surface-info-low</div>
+        <div class="card bg-surface-info">surface-info</div>
+        <div class="card bg-surface-info-high">surface-info-high</div>
+        <div class="card bg-surface-info-low-inverted text-white">surface-info-low-inverted</div>
+        <div class="card bg-surface-info-inverted text-white">surface-info-inverted</div>
+        <div class="card bg-surface-info-high-inverted text-white">surface-info-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-success-light">surface-success-light</div>
+        <div class="card bg-surface-success">surface-success</div>
+        <div class="card bg-surface-success-dark">surface-success-dark</div>
+        <div class="card bg-surface-success-light-inverted text-white">surface-success-light-inverted</div>
+        <div class="card bg-surface-success-inverted text-white">surface-success-inverted</div>
+        <div class="card bg-surface-success-dark-inverted text-white">surface-success-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-success-low">surface-success-low</div>
+        <div class="card bg-surface-success">surface-success</div>
+        <div class="card bg-surface-success-high">surface-success-high</div>
+        <div class="card bg-surface-success-low-inverted text-white">surface-success-low-inverted</div>
+        <div class="card bg-surface-success-inverted text-white">surface-success-inverted</div>
+        <div class="card bg-surface-success-high-inverted text-white">surface-success-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-warning-light">surface-warning-light</div>
+        <div class="card bg-surface-warning">surface-warning</div>
+        <div class="card bg-surface-warning-dark">surface-warning-dark</div>
+        <div class="card bg-surface-warning-light-inverted text-white">surface-warning-light-inverted</div>
+        <div class="card bg-surface-warning-inverted text-white">surface-warning-inverted</div>
+        <div class="card bg-surface-warning-dark-inverted text-white">surface-warning-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-warning-low">surface-warning-low</div>
+        <div class="card bg-surface-warning">surface-warning</div>
+        <div class="card bg-surface-warning-high">surface-warning-high</div>
+        <div class="card bg-surface-warning-low-inverted text-white">surface-warning-low-inverted</div>
+        <div class="card bg-surface-warning-inverted text-white">surface-warning-inverted</div>
+        <div class="card bg-surface-warning-high-inverted text-white">surface-warning-high-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-danger-light">surface-danger-light</div>
+        <div class="card bg-surface-danger">surface-danger</div>
+        <div class="card bg-surface-danger-dark">surface-danger-dark</div>
+        <div class="card bg-surface-danger-light-inverted text-white">surface-danger-light-inverted</div>
+        <div class="card bg-surface-danger-inverted text-white">surface-danger-inverted</div>
+        <div class="card bg-surface-danger-dark-inverted text-white">surface-danger-dark-inverted</div>
+      </div>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="card bg-surface-danger-low">surface-danger-low</div>
+        <div class="card bg-surface-danger">surface-danger</div>
+        <div class="card bg-surface-danger-high">surface-danger-high</div>
+        <div class="card bg-surface-danger-low-inverted text-white">surface-danger-low-inverted</div>
+        <div class="card bg-surface-danger-inverted text-white">surface-danger-inverted</div>
+        <div class="card bg-surface-danger-high-inverted text-white">surface-danger-high-inverted</div>
+      </div>
+    </div>
   </body>
 </html>
