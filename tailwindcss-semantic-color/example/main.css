@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+@import '../src/tailwindcss-semantic-color.css';
+
+.striped-background {
+  @apply relative bg-blue-500 overflow-hidden after:absolute after:top-[-50%] after:left-[-50%] after:w-[200%] after:h-[200%] after:pointer-events-none;
+}
+
+.striped-background::after {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-gray-400),
+    var(--color-gray-400) 1rem,
+    var(--color-gray-300) 1rem,
+    var(--color-gray-300) calc(1rem * 2)
+  );
+}
+
+.striped-background > * {
+  position: relative;
+  z-index: 1;
+}
+
+.checkerboard-background {
+  @apply relative overflow-hidden after:absolute after:inset-0 after:z-0 after:pointer-events-none;
+}
+
+.checkerboard-background::after {
+  content: '';
+  background-image: linear-gradient(45deg, var(--color-gray-300) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--color-gray-300) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--color-gray-300) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--color-gray-300) 75%);
+  background-size: 2rem 2rem;
+  background-position: 0 0, 0 1rem, 1rem -1rem, -1rem 0;
+}
+
+.checkerboard-background > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  width: 16rem;
+  @apply flex flex-col justify-end p-4 font-mono rounded-xl shadow-md;
+}
+
+td {
+  @apply p-2;
+}
+
+.color {
+  @apply p-8 aspect-square rounded-md shadow-md;
+}
