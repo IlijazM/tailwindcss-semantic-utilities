@@ -3,7 +3,6 @@ import { TailwindCssSemanticColorPlugin } from './tailwindcss-semantic-color';
 
 export default plugin.withOptions(
   (options) => {
-    console.log(options);
     const parsedOptions = new TailwindCssSemanticColorPlugin(options);
 
     return ({ addBase, addUtilities }) => {
@@ -19,8 +18,6 @@ export default plugin.withOptions(
     };
   },
   (options) => {
-    console.log(options);
-
     const parsedOptions = new TailwindCssSemanticColorPlugin(options);
 
     return {
