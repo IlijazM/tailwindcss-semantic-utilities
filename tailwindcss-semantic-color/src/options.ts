@@ -1,18 +1,28 @@
-import { Configuration, configuration, PrimitiveColors } from './configuration';
+import { configuration, PrimitiveColors } from './configuration';
+import { generateColors } from './generate-colors';
+import { Preconditions } from './Preconditions';
 
-export interface Options {
-  colors?: string[];
-}
+export class Options {
+  private options: Object;
 
-/**
- * Parses tailwind's options and mutates the configuration.
- *
- * @param options the options passed in by tailwind.
- */
-export function optionParser(options: unknown): Configuration {
-  if (options && typeof options === 'object' && 'colors' in options && options.colors !== undefined && options.colors instanceof Array) {
+  constructor(options: unknown) {
+    this.options = options ?? {};
+  }
+
+  colors() {
+    if (!('colors' in this.options)) {
+      return this.getDefaultColors();
+    }
+
+    Preconditions.notNullish(this.options.colors, 'colors must not null');
+
+    const optionColors = typeof this.options.colors === 'string' ? [this.options.colors] : this.options.colors;
+
+    Preconditions.instanceofArray(optionColors, 'colors must be an array');
+
     const primitiveColors: PrimitiveColors = {};
-    options.colors.forEach((color) => {
+
+    (optionColors as string[]).forEach((color) => {
       let colorName: string;
       let colorValue: string | null;
 
@@ -30,8 +40,10 @@ export function optionParser(options: unknown): Configuration {
       primitiveColors[colorName] = colorValue ?? 'neutral';
     });
 
-    configuration.primitiveColors = primitiveColors;
+    return generateColors(primitiveColors);
   }
 
-  return configuration;
+  private getDefaultColors() {
+    return generateColors(configuration.primitiveColors);
+  }
 }

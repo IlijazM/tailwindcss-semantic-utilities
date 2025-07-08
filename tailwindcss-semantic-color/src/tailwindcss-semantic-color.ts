@@ -1,17 +1,15 @@
 import plugin from 'tailwindcss/plugin';
-import { optionParser } from './options';
+import { Options } from './options';
 
 export default plugin.withOptions(
   (options) => {
     console.log(options);
-    const configuration = optionParser(options);
-
-    console.log(configuration.colors());
+    const parsedOptions = new Options(options);
 
     return ({ addBase, addUtilities }) => {
       const base = {};
 
-      for (const [colorName, color] of Object.entries(configuration.primitiveColors)) {
+      for (const [colorName, color] of Object.entries(parsedOptions.colors())) {
         base[`--color-${colorName}`] = color;
       }
 
@@ -21,12 +19,14 @@ export default plugin.withOptions(
     };
   },
   (options) => {
-    const configuration = optionParser(options);
+    console.log(options);
+
+    const parsedOptions = new Options(options);
 
     return {
       theme: {
         extend: {
-          colors: configuration.colors(),
+          colors: parsedOptions.colors(),
         },
       },
     };
