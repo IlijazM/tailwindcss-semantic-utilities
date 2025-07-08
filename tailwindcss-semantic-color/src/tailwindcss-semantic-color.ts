@@ -1,34 +1,15 @@
-import plugin from 'tailwindcss/plugin';
+import { DEFAULT_COLORS } from './consts';
+import { generateColors } from './generate-colors';
 import { Options } from './options';
 
-export default plugin.withOptions(
-  (options) => {
-    console.log(options);
-    const parsedOptions = new Options(options);
+export class TailwindCssSemanticColorPlugin {
+  private readonly options: Options;
 
-    return ({ addBase, addUtilities }) => {
-      const base = {};
+  constructor(options: unknown) {
+    this.options = new Options(options);
+  }
 
-      for (const [colorName, color] of Object.entries(parsedOptions.colors())) {
-        base[`--color-${colorName}`] = color;
-      }
-
-      addBase({
-        ':root': base,
-      });
-    };
-  },
-  (options) => {
-    console.log(options);
-
-    const parsedOptions = new Options(options);
-
-    return {
-      theme: {
-        extend: {
-          colors: parsedOptions.colors(),
-        },
-      },
-    };
-  },
-);
+  colors() {
+    return generateColors(Object.fromEntries(this.options.colors.map((color) => [color, DEFAULT_COLORS[color] ?? 'neutral'])));
+  }
+}

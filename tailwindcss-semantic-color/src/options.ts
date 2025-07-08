@@ -1,7 +1,3 @@
-import { configuration, PrimitiveColors } from './configuration';
-import { generateColors } from './generate-colors';
-import { Preconditions } from './Preconditions';
-
 export class Options {
   private options: Object;
 
@@ -9,41 +5,23 @@ export class Options {
     this.options = options ?? {};
   }
 
-  colors() {
+  get colors(): string[] {
     if (!('colors' in this.options)) {
-      return this.getDefaultColors();
+      return ['brand', 'primary', 'secondary', 'tertiary', 'accent', 'info', 'success', 'warning', 'danger'];
     }
 
-    Preconditions.notNullish(this.options.colors, 'colors must not null');
+    if (this.options.colors == null) {
+      throw new Error('colors must not null');
+    }
 
-    const optionColors = typeof this.options.colors === 'string' ? [this.options.colors] : this.options.colors;
+    if (typeof this.options.colors === 'string') {
+      return [this.options.colors];
+    }
 
-    Preconditions.instanceofArray(optionColors, 'colors must be an array');
+    if (this.options.colors instanceof Array) {
+      return this.options.colors;
+    }
 
-    const primitiveColors: PrimitiveColors = {};
-
-    (optionColors as string[]).forEach((color) => {
-      let colorName: string;
-      let colorValue: string | null;
-
-      if (color.includes(':')) {
-        [colorName, colorValue] = color.split(':').map((e) => e.trim());
-      } else {
-        colorName = color;
-        colorValue = null;
-      }
-
-      if (colorValue === null && colorName in configuration.primitiveColors) {
-        colorValue = configuration.primitiveColors[colorName];
-      }
-
-      primitiveColors[colorName] = colorValue ?? 'neutral';
-    });
-
-    return generateColors(primitiveColors);
-  }
-
-  private getDefaultColors() {
-    return generateColors(configuration.primitiveColors);
+    throw new Error('colors must be either a string or an array');
   }
 }
