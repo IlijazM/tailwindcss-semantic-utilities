@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '../src/tailwindcss-semantic-color.css';
+@plugin '../src/tailwindcss-semantic-color';
 
 .striped-background {
   @apply relative bg-blue-500 overflow-hidden after:absolute after:top-[-50%] after:left-[-50%] after:w-[200%] after:h-[200%] after:pointer-events-none;
