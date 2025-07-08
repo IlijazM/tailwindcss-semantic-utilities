@@ -1,7 +1,4 @@
 {
-  "scripts": {
-    "build": "node --experimental-transform-types ../tools/build.ts"
-  },
   "dependencies": {
     "tailwindcss": "^4.1.11"
   }
