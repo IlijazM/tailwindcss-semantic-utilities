@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@plugin '../src/tailwindcss-semantic-color' {
-  colors: primary, secondary, brand;
+@plugin '../src/' {
+  colors: '*', custom;
 }
 
 .striped-background {
