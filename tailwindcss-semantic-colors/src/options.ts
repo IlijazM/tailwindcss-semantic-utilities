@@ -1,7 +1,22 @@
-import { DEFAULT_COLORS } from './consts';
+const DEFAULT_SEMANTIC_COLORS = [
+  'brand',
+  'primary',
+  'secondary',
+  'tertiary',
+  'accent',
+  'info',
+  'success',
+  'warning',
+  'danger',
+];
+const DEFAULT_SURFACE_COLORS = ['surface'];
+const DEFAULT_CONTENT_COLORS = ['content'];
 
-const COLORS_DEFAULT_VALUE = ['brand', 'primary', 'secondary', 'tertiary', 'accent', 'info', 'success', 'warning', 'danger'];
+type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
 
+/**
+ * A data wrapper for the options inputted to tailwindcss.
+ */
 export class Options {
   private options: Object;
 
@@ -9,28 +24,40 @@ export class Options {
     this.options = options ?? {};
   }
 
-  get colors(): string[] {
-    if (!('colors' in this.options)) {
-      return COLORS_DEFAULT_VALUE;
+  get semanticColors(): string[] {
+    return this.getColors('semantic-colors', DEFAULT_SEMANTIC_COLORS);
+  }
+
+  get surfaceColors(): string[] {
+    return this.getColors('semantic-colors', DEFAULT_SURFACE_COLORS);
+  }
+
+  get contentColors(): string[] {
+    return this.getColors('semantic-colors', DEFAULT_CONTENT_COLORS);
+  }
+
+  private getColors(colorType: ColorType, defaultValue: string[]): string[] {
+    if (!(colorType in this.options)) {
+      return defaultValue;
     }
 
-    if (this.options.colors == null) {
-      throw new Error('colors must not null');
+    if (this.options[colorType] == null) {
+      throw new Error(`${colorType} must not null`);
     }
 
-    if (this.options.colors === '*') {
-      return COLORS_DEFAULT_VALUE;
+    if (this.options[colorType] === '*') {
+      return defaultValue;
     }
 
-    if (typeof this.options.colors === 'string') {
-      return [this.options.colors];
+    if (typeof this.options[colorType] === 'string') {
+      return [this.options[colorType]];
     }
 
-    if (this.options.colors instanceof Array) {
-      if (this.options.colors.includes('*')) {
-        return [...this.options.colors.filter((color) => color !== '*'), ...COLORS_DEFAULT_VALUE];
+    if (this.options[colorType] instanceof Array) {
+      if (this.options[colorType].includes('*')) {
+        return [...this.options[colorType].filter((color) => color !== '*'), ...defaultValue];
       }
-      return this.options.colors;
+      return this.options[colorType];
     }
 
     throw new Error('colors must be either a string or an array');
