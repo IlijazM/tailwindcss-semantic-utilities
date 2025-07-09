@@ -1,68 +1,64 @@
 import { DEFAULT_COLORS } from './consts';
 
-import { parse, converter, formatHsl } from 'culori';
-import { TailwindCssTheme } from './tailwindcss-semantic-color';
+import { BASE_COLORS, TailwindCssTheme } from './tailwindcss-semantic-color';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
-const BASE_COLORS = ['base', 'surface', 'content'];
-
-const SEMANTIC_COLOR_STEPS = {
-  '-low': 300,
-  '': 400,
-  '-high': 500,
-  '-low-inverted': 700,
-  '-inverted': 600,
-  '-high-inverted': 500,
-  '-light': 300,
-  '-dark': 500,
-  '-light-inverted': 500,
-  '-dark-inverted': 700,
-};
-
-const SURFACE_STEPS = {
-  '-low': 50,
-  '': 100,
-  '-high': 200,
-  '-low-inverted': 950,
-  '-inverted': 900,
-  '-high-inverted': 800,
-  '-light': 50,
-  '-dark': 200,
-  '-light-inverted': 800,
-  '-dark-inverted': 950,
-};
-
-const SURFACE_STEPS_EXTRA = {
-  ...SURFACE_STEPS,
-  '-lowest': 'white',
-  '-highest': 300,
-  '-lowest-inverted': 'black',
-  '-highest-inverted': 700,
-  '-lightest': 'white',
-  '-darkest': 300,
-  '-lightest-inverted': 700,
-  '-darkest-inverted': 'black',
-};
-
-const COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-
-export function generateColors(theme: TailwindCssTheme, primitiveColorMapping: Record<string, string>): Colors {
+export function generateColors(theme: TailwindCssTheme, colorMapping: Record<string, string>): Colors {
   return {
-    ...getPrimitives(primitiveColorMapping),
-    ...getSemanticColors(primitiveColorMapping),
-    ...getSurfaceColors(primitiveColorMapping),
+    ...generateUtilityColors(colorMapping),
+    ...generateSemanticColors(colorMapping),
+    ...generateSurfaceColors(colorMapping),
   };
 }
 
-function getPrimitives(colorMapping: Record<string, string>): Colors {
+/**
+ * Generates all utility colors.
+ *
+ * Utility colors are all colors with the following format: `--color-<colorName>-<utilityColorSteps>`.
+ * E.g. `--color-primary-500`, `--color-secondary-200`, `color-tertiary-800`, etc..
+ *
+ * `colorName` includes all colors included in the `colorMapping`. These are e.g. `primary`, `secondary`, `info`, etc.
+ * Additionally, `colorName` includes `BASE_COLORS`.
+ *
+ * `utilityColorSteps` range from 50 to 950 like in regular tailwind colors.
+ *
+ * @example
+ * Given the color mapping `primary` and `secondary` the result would look like this:
+ *
+ * ```json
+ * {
+ *   "primary-50": "var(--color-indigo-50)",
+ *   "primary-100": "var(--color-indigo-100)",
+ *   "primary-200": "var(--color-indigo-200)",
+ *   ...
+ *   "primary-800": "var(--color-indigo-800)",
+ *   "primary-900": "var(--color-indigo-900)",
+ *   "primary-950": "var(--color-indigo-950)",
+ *   "secondary-50": "var(--color-pink-50)",
+ *   "secondary-100": "var(--color-pink-100)",
+ *   ...
+ * }
+ * ```
+ *
+ * @see BASE_COLORS
+ * @see UTILITY_COLOR_STEPS
+ * @param colorMapping the existing colors and their corresponding mapping.
+ * @returns the generated colors.
+ */
+function generateUtilityColors(colorMapping: Record<string, string>): Colors {
+  // Colors steps like the colors steps defined by tailwindcss.
+  const UTILITY_COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+
   const result: Colors = {};
 
+  // Colors include the inputted colors and the default colors this plugin always includes.
   const colors = [...BASE_COLORS, ...Object.keys(colorMapping)];
 
+  // Generate cross product between colors and color steps.
   for (const color of colors) {
-    for (const step of COLOR_STEPS) {
+    for (const step of UTILITY_COLOR_STEPS) {
       const targetColor = colorMapping[color] ?? DEFAULT_COLORS[color];
       result[`${color}-${step}`] = `var(--color-${targetColor}-${step})`;
     }
@@ -71,11 +67,42 @@ function getPrimitives(colorMapping: Record<string, string>): Colors {
   return result;
 }
 
-function getSemanticColors(colorMapping: Record<string, string>): Colors {
+/**
+ * Generates all semantic colors.
+ *
+ * Semantic colors are all colors with the following format: `--color-<colorName>-<semanticColorSteps>`.
+ * E.g. `--color-primary`, `--color-secondary-light`, `--color-tertiary-dark`, etc.
+ *
+ * `colorName` includes all colors included in the `colorMapping`. These are e.g. `primary`, `secondary`, `info`, etc.
+ *
+ * `semanticColorSteps` are defined in the constant variable `SEMANTIC_COLOR_STEPS`.
+ *
+ * @example
+ * Given the color mapping `primary` and `secondary` the result would look like this:
+ *
+ * ```json
+ * {
+ *   "primary": "var(--color-primary-600)",
+ *   "primary-light": "var(--color-primary-500)",
+ *   "primary-dark": "var(--color-primary-700)",
+ *   "secondary": "var(--color-secondary-600)",
+ *   "secondary-light": "var(--color-secondary-500)",
+ *   "secondary-dark": "var(--color-secondary-700)"
+ * }
+ * ```
+ *
+ * @see SEMANTIC_COLOR_STEPS
+ * @param colorMapping the existing colors and their corresponding mapping.
+ * @returns the generated colors.
+ */
+function generateSemanticColors(colorMapping: Record<string, string>): Colors {
+  const SEMANTIC_COLOR_STEPS = { '': 600, '-light': 500, '-dark': 700 };
+
   const result: Colors = {};
 
   const colors = Object.keys(colorMapping);
 
+  // Generate cross product between colors and color steps.
   for (const color of colors) {
     for (const [sourceStep, targetStep] of Object.entries(SEMANTIC_COLOR_STEPS)) {
       result[`${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
@@ -85,11 +112,54 @@ function getSemanticColors(colorMapping: Record<string, string>): Colors {
   return result;
 }
 
-function getSurfaceColors(colorMapping: Record<string, string>): Colors {
+/**
+ * Generates all surface colors.
+ *
+ * Surface colors are all colors with the following format `--color-surface-<colorName>-<surfaceStep>.
+ *
+ * `colorName` includes all colors included in the `colorMapping`. These are e.g. `primary`, `secondary`, `info`, etc.
+ *
+ * `surfaceSteps` are defined in the constant variable `SURFACE_STEPS`.
+ *
+ * Additionally, this function includes the surface colors for the color `surface`.
+ * The steps for the color `surface` are extended.
+ *
+ * @example
+ * Given the color mapping `primary` and `secondary` the result would look like this:
+ *
+ * ```json
+ * {
+ *   "surface": "var(--color-surface-100)",
+ *   "surface-light": "var(--color-surface-50)",
+ *   "surface-lightest": "var(--color-white)",
+ *   "surface-dark": "var(--color-surface-100)",
+ *   "surface-darkest": "var(--color-surface-200)",
+ *   "surface-primary": "var(--color-primary-100)",
+ *   "surface-primary-light": "var(--color-primary-50)",
+ *   "surface-primary-dark": "var(--color-primary-200)",
+ *   "surface-secondary": "var(--color-secondary-100)",
+ *   "surface-secondary-light": "var(--color-secondary-50)",
+ *   "surface-secondary-dark": "var(--color-secondary-200)"
+ * }
+ * ```
+ *
+ * @see SURFACE_STEPS
+ * @see SURFACE_STEPS_EXTRA
+ * @param colorMapping the existing colors and their corresponding mapping.
+ * @returns the generated colors.
+ */
+function generateSurfaceColors(colorMapping: Record<string, string>): Colors {
+  const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
+
+  // extend the surface steps for the surface colors.
+  const SURFACE_STEPS_EXTRA = { ...SURFACE_STEPS, '-lightest': 'white', '-darkest': 300 };
+
   const result: Colors = {};
 
+  // Colors include the inputted colors and the surface color.
   const colors = ['surface', ...Object.keys(colorMapping)];
 
+  // Generate cross product between colors and color steps.
   for (const color of colors) {
     if (color === 'surface') {
       for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
