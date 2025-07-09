@@ -1,11 +1,27 @@
 import { DEFAULT_COLORS } from './consts';
 
+import { parse, converter, formatHsl } from 'culori';
+import { TailwindCssTheme } from './tailwindcss-semantic-color';
+
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
 const BASE_COLORS = ['base', 'surface', 'content'];
 
-const STEPS = {
+const SEMANTIC_COLOR_STEPS = {
+  '-low': 300,
+  '': 400,
+  '-high': 500,
+  '-low-inverted': 700,
+  '-inverted': 600,
+  '-high-inverted': 500,
+  '-light': 300,
+  '-dark': 500,
+  '-light-inverted': 500,
+  '-dark-inverted': 700,
+};
+
+const SURFACE_STEPS = {
   '-low': 50,
   '': 100,
   '-high': 200,
@@ -18,44 +34,74 @@ const STEPS = {
   '-dark-inverted': 950,
 };
 
+const SURFACE_STEPS_EXTRA = {
+  ...SURFACE_STEPS,
+  '-lowest': 'white',
+  '-highest': 300,
+  '-lowest-inverted': 'black',
+  '-highest-inverted': 700,
+  '-lightest': 'white',
+  '-darkest': 300,
+  '-lightest-inverted': 700,
+  '-darkest-inverted': 'black',
+};
+
 const COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
-export function generateColors(primitiveColorMapping: Record<string, string>): Colors {
+export function generateColors(theme: TailwindCssTheme, primitiveColorMapping: Record<string, string>): Colors {
   return {
-    ...Object.fromEntries(
-      [...BASE_COLORS, ...Object.keys(primitiveColorMapping)].flatMap((primitiveColor) =>
-        COLOR_STEPS.map((colorStep) => [`${primitiveColor}-${colorStep}`, `var(--color-${primitiveColorMapping[primitiveColor] ?? DEFAULT_COLORS[primitiveColor]}-${colorStep})`]),
-      ),
-    ),
-
-    ...Object.fromEntries(Object.keys(primitiveColorMapping).map((primitiveColor) => [primitiveColor, `var(--color-${primitiveColor}-400)`])),
-
-    'surface-lightest': 'white',
-    'surface-light': 'var(--color-surface-50)',
-    surface: 'var(--color-surface-100)',
-    'surface-dark': 'var(--color-surface-200)',
-    'surface-darkest': 'var(--color-surface-300)',
-
-    'surface-lightest-inverted': 'var(--color-surface-700)',
-    'surface-light-inverted': 'var(--color-surface-800)',
-    'surface-inverted': 'var(--color-surface-900)',
-    'surface-dark-inverted': 'var(--color-surface-950)',
-    'surface-darkest-inverted': 'black',
-
-    'surface-lowest': 'white',
-    'surface-low': 'var(--color-surface-50)',
-    'surface-high': 'var(--color-surface-200)',
-    'surface-highest': 'var(--color-surface-300)',
-
-    'surface-lowest-inverted': 'black',
-    'surface-low-inverted': 'var(--color-surface-950)',
-    'surface-high-inverted': 'var(--color-surface-800)',
-    'surface-highest-inverted': 'var(--color-surface-700)',
-
-    ...Object.fromEntries(
-      Object.keys(primitiveColorMapping).flatMap((primitiveColor) =>
-        Object.entries(STEPS).map(([step, stepValue]) => [`surface-${primitiveColor}${step}`, `var(--color-${primitiveColor}-${stepValue})`]),
-      ),
-    ),
+    ...getPrimitives(primitiveColorMapping),
+    ...getSemanticColors(primitiveColorMapping),
+    ...getSurfaceColors(primitiveColorMapping),
   };
+}
+
+function getPrimitives(colorMapping: Record<string, string>): Colors {
+  const result: Colors = {};
+
+  const colors = [...BASE_COLORS, ...Object.keys(colorMapping)];
+
+  for (const color of colors) {
+    for (const step of COLOR_STEPS) {
+      const targetColor = colorMapping[color] ?? DEFAULT_COLORS[color];
+      result[`${color}-${step}`] = `var(--color-${targetColor}-${step})`;
+    }
+  }
+
+  return result;
+}
+
+function getSemanticColors(colorMapping: Record<string, string>): Colors {
+  const result: Colors = {};
+
+  const colors = Object.keys(colorMapping);
+
+  for (const color of colors) {
+    for (const [sourceStep, targetStep] of Object.entries(SEMANTIC_COLOR_STEPS)) {
+      result[`${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
+    }
+  }
+
+  return result;
+}
+
+function getSurfaceColors(colorMapping: Record<string, string>): Colors {
+  const result: Colors = {};
+
+  const colors = ['surface', ...Object.keys(colorMapping)];
+
+  for (const color of colors) {
+    if (color === 'surface') {
+      for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
+        const value = typeof targetStep === 'string' ? targetStep : `var(--color-${color}-${targetStep})`;
+        result[`${color}${sourceStep}`] = value;
+      }
+    } else {
+      for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS)) {
+        result[`surface-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
+      }
+    }
+  }
+
+  return result;
 }
