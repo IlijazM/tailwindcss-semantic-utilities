@@ -1,6 +1,6 @@
 import { DEFAULT_COLORS } from './consts';
 
-import { BASE_COLORS, TailwindCssTheme } from './tailwindcss-semantic-color';
+import { BASE_COLORS, TailwindCssTheme } from './tailwindcss-semantic-colors';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };

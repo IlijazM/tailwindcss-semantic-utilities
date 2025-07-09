@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin';
-import { TailwindCssSemanticColorPlugin } from './tailwindcss-semantic-color';
+import { TailwindCssSemanticColorPlugin } from './tailwindcss-semantic-colors';
 
 export default plugin.withOptions(
   (options) => {
