@@ -1,4 +1,9 @@
 @import 'tailwindcss';
+
+/*
+The only reason the wildcard ('*') is in quotes is because of the IDE displaying an error. 
+Wildcards without quotes work as well in tailwind.
+*/
 @plugin '../src/' {
   colors: '*', custom;
 }
