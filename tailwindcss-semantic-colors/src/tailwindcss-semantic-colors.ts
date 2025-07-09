@@ -15,7 +15,6 @@ export class TailwindCssSemanticColorPlugin {
 
   colors() {
     return generateColors(
-      this.theme,
       Object.fromEntries(this.options.colors.map((color) => [color, DEFAULT_COLORS[color] ?? 'neutral'])),
     );
   }
