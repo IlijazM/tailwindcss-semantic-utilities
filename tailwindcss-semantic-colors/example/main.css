@@ -4,9 +4,7 @@
 The only reason the wildcard ('*') is in quotes is because of the IDE displaying an error. 
 Wildcards without quotes work as well in tailwind.
 */
-@plugin '../src/' {
-  semantic-colos: '*', custom;
-}
+@plugin '../src/';
 
 .striped-background {
   @apply relative bg-blue-500 overflow-hidden after:absolute after:top-[-50%] after:left-[-50%] after:w-[200%] after:h-[200%] after:pointer-events-none;

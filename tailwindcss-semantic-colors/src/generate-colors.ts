@@ -1,21 +1,21 @@
-import { DEFAULT_COLORS } from './consts';
-
-import { BASE_COLORS, TailwindCssTheme } from './tailwindcss-semantic-colors';
-
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
 /**
  * Generates all colors.
  *
- * @param colorMapping the existing colors and their corresponding mapping.
+ * @param semanticColorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-export function generateColors(colorMapping: Record<string, string>): Colors {
+export function generateColors(
+  semanticColorMapping: Record<string, string[]>,
+  surfaceColorMapping: Record<string, string[]>,
+  contentColorMapping: Record<string, string[]>,
+): Colors {
   return {
-    ...generateUtilityColors(colorMapping),
-    ...generateSemanticColors(colorMapping),
-    ...generateSurfaceColors(colorMapping),
+    ...generateUtilityColors(semanticColorMapping, surfaceColorMapping, contentColorMapping),
+    ...generateSemanticColors(semanticColorMapping),
+    ...generateSurfaceColors(semanticColorMapping),
   };
 }
 
@@ -62,20 +62,35 @@ export function generateColors(colorMapping: Record<string, string>): Colors {
  * @param colorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-function generateUtilityColors(colorMapping: Record<string, string>): Colors {
+function generateUtilityColors(
+  semanticColorMapping: Record<string, string[]>,
+  surfaceColorMapping: Record<string, string[]>,
+  contentColorMapping: Record<string, string[]>,
+): Colors {
   // Colors steps like the colors steps defined by tailwindcss.
   const UTILITY_COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
   const result: Colors = {};
 
-  // Colors include the inputted colors and the default colors this plugin always includes.
-  const colors = [...BASE_COLORS, ...Object.keys(colorMapping)];
-
-  // Generate cross product between colors and color steps.
-  for (const color of colors) {
+  for (const color of Object.keys(semanticColorMapping)) {
+    let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      const targetColor = colorMapping[color] ?? DEFAULT_COLORS[color];
-      result[`${color}-${step}`] = `var(--color-${targetColor}-${step})`;
+      result[`${color}-${step}`] = semanticColorMapping[color][++i];
+    }
+  }
+
+  console.log(contentColorMapping);
+  for (const color of Object.keys(surfaceColorMapping)) {
+    let i = 0;
+    for (const step of UTILITY_COLOR_STEPS) {
+      result[`${color}-${step}`] = surfaceColorMapping[color][++i];
+    }
+  }
+
+  for (const color of Object.keys(contentColorMapping)) {
+    let i = 0;
+    for (const step of UTILITY_COLOR_STEPS) {
+      result[`${color}-${step}`] = contentColorMapping[color][++i];
     }
   }
 
@@ -112,7 +127,7 @@ function generateUtilityColors(colorMapping: Record<string, string>): Colors {
  * @param colorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-function generateSemanticColors(colorMapping: Record<string, string>): Colors {
+function generateSemanticColors(colorMapping: Record<string, string[]>): Colors {
   const SEMANTIC_COLOR_STEPS = { '': 600, '-light': 500, '-dark': 700 };
 
   const result: Colors = {};
@@ -167,7 +182,7 @@ function generateSemanticColors(colorMapping: Record<string, string>): Colors {
  * @param colorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-function generateSurfaceColors(colorMapping: Record<string, string>): Colors {
+function generateSurfaceColors(colorMapping: Record<string, string[]>): Colors {
   const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
 
   // extend the surface steps for the surface colors.

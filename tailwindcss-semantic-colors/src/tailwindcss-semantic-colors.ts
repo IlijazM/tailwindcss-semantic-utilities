@@ -1,4 +1,3 @@
-import { DEFAULT_COLORS } from './consts';
 import { generateColors } from './generate-colors';
 import { Options } from './options';
 
@@ -14,8 +13,6 @@ export class TailwindCssSemanticColorPlugin {
   }
 
   colors() {
-    return generateColors(
-      Object.fromEntries(this.options.semanticColors.map((color) => [color, DEFAULT_COLORS[color] ?? 'neutral'])),
-    );
+    return generateColors(this.options.semanticColors, this.options.surfaceColors, this.options.contentColors);
   }
 }
