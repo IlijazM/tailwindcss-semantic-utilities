@@ -1,3 +1,4 @@
+import { toColorArray } from './colors/to-color-array';
 import { TAILWIND_COLORS_STEPS } from './common';
 
 type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
@@ -8,23 +9,23 @@ type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
 export class Options {
   //#region consts
 
-  private static readonly DEFAULT_COLOR = Options.toColorArray('var(--color-neutral-*)');
+  private static readonly DEFAULT_COLOR = toColorArray('var(--color-neutral-*)');
 
   private static readonly DEFAULT_SEMANTIC_COLORS = {
-    brand: Options.toColorArray('var(--color-blue-*)'),
-    primary: Options.toColorArray('var(--color-indigo-*)'),
-    secondary: Options.toColorArray('var(--color-pink-*)'),
-    tertiary: Options.toColorArray('var(--color-lime-*)'),
-    accent: Options.toColorArray('var(--color-teal-*)'),
-    info: Options.toColorArray('var(--color-cyan-*)'),
-    success: Options.toColorArray('var(--color-green-*)'),
-    warning: Options.toColorArray('var(--color-amber-*)'),
-    danger: Options.toColorArray('var(--color-red-*)'),
+    brand: toColorArray('var(--color-blue-*)'),
+    primary: toColorArray('var(--color-indigo-*)'),
+    secondary: toColorArray('var(--color-pink-*)'),
+    tertiary: toColorArray('var(--color-lime-*)'),
+    accent: toColorArray('var(--color-teal-*)'),
+    info: toColorArray('var(--color-cyan-*)'),
+    success: toColorArray('var(--color-green-*)'),
+    warning: toColorArray('var(--color-amber-*)'),
+    danger: toColorArray('var(--color-red-*)'),
   };
 
   private static readonly DEFAULT_SURFACE_COLORS = {
-    surface: Options.toColorArray('var(--color-gray-*)'),
-    container: Options.toColorArray('var(--color-slate-*)'),
+    surface: toColorArray('var(--color-gray-*)'),
+    container: toColorArray('var(--color-slate-*)'),
   };
 
   private static readonly DEFAULT_CONTENT_COLORS = {
@@ -81,21 +82,6 @@ export class Options {
     throw new Error('colors must be either a string or an array');
   }
 
-  private static toColorArray(variableName: string): string[] {
-    if (/^((var\()?--)?(color-)/.test(variableName) === false) {
-      return TAILWIND_COLORS_STEPS.map((_) => variableName);
-    }
-
-    variableName = variableName
-      // replaces "--var(color-" and "--color-", and "color-".
-      .replace(/^((var\()?--)?(color-)/, '')
-
-      // replaces ")", "*)", "-*)", "-*"
-      .replace(/-?\*\)?$|\)$/, '');
-
-    return TAILWIND_COLORS_STEPS.map((steps) => `var(--color-${variableName}-${steps})`);
-  }
-
   private static parseColor(color: string): Record<string, string[]> {
     if (color.includes(':')) {
       // expect the content to be of the form `<colorName>: <colorValue>`.
@@ -109,7 +95,7 @@ export class Options {
       if (Options.isColorValueArray(colorValue)) {
         return { [colorName]: Options.colorArrayParsingAndValidation(colorValue) };
       } else {
-        return { [colorName]: Options.toColorArray(colorValue) };
+        return { [colorName]: toColorArray(colorValue) };
       }
     } else {
       return { [color]: Options.DEFAULT_COLOR };

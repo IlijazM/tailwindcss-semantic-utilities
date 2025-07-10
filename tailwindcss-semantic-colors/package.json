@@ -1,5 +1,14 @@
 {
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "tailwindcss": "^4.1.11"
-  }
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0"
+  },
+  "type": "module"
 }
