@@ -1,3 +1,5 @@
+import { TAILWIND_COLORS_STEPS } from './common';
+
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
@@ -68,7 +70,7 @@ function generateUtilityColors(
   contentColorMapping: Record<string, string[]>,
 ): Colors {
   // Colors steps like the colors steps defined by tailwindcss.
-  const UTILITY_COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+  const UTILITY_COLOR_STEPS = TAILWIND_COLORS_STEPS;
 
   const result: Colors = {};
 
