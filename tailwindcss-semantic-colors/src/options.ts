@@ -34,7 +34,7 @@ export class Options {
 
   //#endregion
 
-  private options: Object;
+  private options: Record<string, any>;
 
   constructor(options: unknown) {
     this.options = options ?? {};
