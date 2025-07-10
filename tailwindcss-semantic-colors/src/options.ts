@@ -81,7 +81,7 @@ export class Options {
 
   private static toColorArray(variableName: string): string[] {
     if (/^((var\()?--)?(color-)/.test(variableName) === false) {
-      return [50, 100, 200, 300, 400, 500, 600, 700, 800, 950].map((_) => variableName);
+      return [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((_) => variableName);
     }
 
     variableName = variableName
@@ -91,7 +91,9 @@ export class Options {
       // replaces ")", "*)", "-*)", "-*"
       .replace(/-?\*\)?$|\)$/, '');
 
-    return [50, 100, 200, 300, 400, 500, 600, 700, 800, 950].map((steps) => `var(--color-${variableName}-${steps})`);
+    return [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map(
+      (steps) => `var(--color-${variableName}-${steps})`,
+    );
   }
 
   private static parseColor(color: string): Record<string, string[]> {

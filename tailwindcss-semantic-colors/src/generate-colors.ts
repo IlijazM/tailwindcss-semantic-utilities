@@ -75,7 +75,7 @@ function generateUtilityColors(
   for (const color of Object.keys(semanticColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = semanticColorMapping[color][++i];
+      result[`${color}-${step}`] = semanticColorMapping[color][i++];
     }
   }
 
@@ -83,14 +83,14 @@ function generateUtilityColors(
   for (const color of Object.keys(surfaceColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = surfaceColorMapping[color][++i];
+      result[`${color}-${step}`] = surfaceColorMapping[color][i++];
     }
   }
 
   for (const color of Object.keys(contentColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = contentColorMapping[color][++i];
+      result[`${color}-${step}`] = contentColorMapping[color][i++];
     }
   }
 
