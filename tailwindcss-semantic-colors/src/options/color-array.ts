@@ -74,12 +74,12 @@ function repairWarning(message: string) {
  * The following repair steps are done:
  *
  * 1. Normalizes all quotes do be double quotes
- * 1. Replaces the semicolon delimiter with a comma instead
- * 1. If no quotes are used at all attempt to insert quotes where items are separated by comma or space
- * 1. If items are just separated by spaces separate them with commas as well
- * 1. Trims all strings
- * 1. Removes empty strings
- * 1. Removes trailing commas
+ * 2. Replaces the semicolon delimiter with a comma instead
+ * 3. If no quotes are used at all attempt to insert quotes where items are separated by comma or space
+ * 4. If items are just separated by spaces separate them with commas as well
+ * 5. Trims all strings
+ * 6. Removes empty strings
+ * 7. Removes trailing commas
  *
  * This function also warns the user if the syntax is incorrect and states that the warnings are getting resolved
  * automatically.
@@ -92,58 +92,111 @@ export function repairColorValue(colorValue: string): string {
 
   let repaired = colorValue.trim();
 
-  // Step 1: Warn and normalize all single quotes to double quotes
-  if (colorValue.includes("'")) {
-    repaired = colorValue.trim().replace(/'/g, '"');
+  repaired = normalizeQuotes(repaired);
+  repaired = replaceSemicolonsWithCommas(repaired);
+  repaired = addQuotesIfMissing(repaired);
+  repaired = replaceSpaceSeparatedItemsWithCommas(repaired);
+  repaired = removeExtraWhitespace(repaired);
+  repaired = removeEmptyStrings(repaired);
+  repaired = removeTrailingCommas(repaired);
+
+  return repaired;
+}
+
+/**
+ * Step 1: Normalizes all single quotes to double quotes.
+ * Warns if single quotes are detected.
+ * @param input The color value string.
+ * @returns The string with normalized quotes.
+ */
+function normalizeQuotes(input: string): string {
+  if (input.includes("'")) {
     repairWarning('Single quotes detected in color value array. Normalizing to double quotes.');
+    return input.replace(/'/g, '"');
   }
+  return input;
+}
 
-  // Step 2: Warn and replace semicolons with commas
-  if (repaired.includes(';')) {
+/**
+ * Step 2: Replaces semicolons with commas.
+ * Warns if semicolons are detected.
+ * @param input The color value string.
+ * @returns The string with semicolons replaced by commas.
+ */
+function replaceSemicolonsWithCommas(input: string): string {
+  if (input.includes(';')) {
     repairWarning('Semicolons detected in color value array. Replacing with commas.');
-    repaired = repaired.replace(/;/g, ',');
+    return input.replace(/;/g, ',');
   }
+  return input;
+}
 
-  // Step 3: Warn and add quotes if none are present
-  if (!repaired.includes('"')) {
+/**
+ * Step 3: Adds quotes around items if none are present.
+ * Warns if no quotes are detected.
+ * @param input The color value string.
+ * @returns The string with quotes added around items.
+ */
+function addQuotesIfMissing(input: string): string {
+  if (!input.includes('"')) {
     repairWarning('No quotes detected in color value array. Attempting to add quotes around items.');
-    // Remove brackets for easier processing
-    let inner = repaired.slice(1, -1).trim();
-
-    // Split by comma or whitespace
+    let inner = input.slice(1, -1).trim();
     let items = inner.split(/[\s,]+/).filter(Boolean);
-
-    // Add quotes and join with commas
     inner = items.map((item) => `"${item.trim()}"`).join(', ');
-
-    repaired = `[${inner}]`;
+    return `[${inner}]`;
   }
+  return input;
+}
 
-  // Step 4: Warn and replace space-separated items with commas
-  const spaceSeparatedArray = /\[\s*([^\]]+)\s*\]/.exec(repaired);
+/**
+ * Step 4: Replaces space-separated items with commas if no commas are present.
+ * Warns if items are separated by spaces.
+ * @param input The color value string.
+ * @returns The string with space-separated items replaced by commas.
+ */
+function replaceSpaceSeparatedItemsWithCommas(input: string): string {
+  const spaceSeparatedArray = /\[\s*([^\]]+)\s*\]/.exec(input);
   if (spaceSeparatedArray?.[1] && !spaceSeparatedArray[1].includes(',')) {
     repairWarning('Items in color value array are separated by spaces. Replacing with commas.');
     const items = spaceSeparatedArray[1]
       .split(/\s+/)
       .filter(Boolean)
       .map((s) => s.trim());
-
-    repaired = `[${items.map((item) => `"${item}"`).join(', ')}]`;
+    return `[${items.map((item) => `"${item}"`).join(', ')}]`;
   }
+  return input;
+}
 
-  // Step 5: Remove extra whitespace inside the array
-  repaired = repaired.replace(/\s*,\s*/g, ', ');
+/**
+ * Step 5: Removes extra whitespace inside the array.
+ * @param input The color value string.
+ * @returns The string with extra whitespace removed.
+ */
+function removeExtraWhitespace(input: string): string {
+  return input.replace(/\s*,\s*/g, ', ');
+}
 
-  // Step 6: Warn and remove empty strings
-  if (/"(\s*)"/.test(repaired)) {
+/**
+ * Step 6: Removes empty strings from the array.
+ * Warns if empty strings are detected.
+ * @param input The color value string.
+ * @returns The string with empty strings removed.
+ */
+function removeEmptyStrings(input: string): string {
+  if (/"(\s*)"/.test(input)) {
     repairWarning('Empty strings detected in color value array. Removing empty strings.');
-    repaired = repaired.replace(/"(\s*)"/g, '').replace(/,\s*,/g, ',');
+    return input.replace(/"(\s*)"/g, '').replace(/,\s*,/g, ',');
   }
+  return input;
+}
 
-  // Step 7: Remove trailing commas
-  repaired = repaired.replace(/,(\s*)\]/g, ']');
-
-  return repaired;
+/**
+ * Step 7: Removes trailing commas before the closing bracket.
+ * @param input The color value string.
+ * @returns The string with trailing commas removed.
+ */
+function removeTrailingCommas(input: string): string {
+  return input.replace(/,(\s*)\]/g, ']');
 }
 
 /**
