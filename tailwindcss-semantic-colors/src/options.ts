@@ -1,4 +1,4 @@
-import { toColorArray } from '@src/options/to-color-array.ts';
+import { toColorArray } from '@/src/options/to-color-array.ts';
 
 type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
 

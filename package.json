@@ -29,5 +29,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IlijazM/ilijaz-tailwind-utilities.git"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
