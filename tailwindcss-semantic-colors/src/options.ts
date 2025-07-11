@@ -1,4 +1,5 @@
 import { toColorArray } from '@/src/options/to-color-array.ts';
+import { attemptToParseColorValueArray } from './options/color-value-array.ts';
 
 type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
 
@@ -91,8 +92,10 @@ export class Options {
 
       const [colorName, colorValue] = colorSplit;
 
-      if (Options.isColorValueArray(colorValue!)) {
-        return { [colorName!]: Options.colorArrayParsingAndValidation(colorValue!) };
+      const colorValueArray = attemptToParseColorValueArray(colorValue!);
+
+      if (colorValueArray !== false) {
+        return { [colorName!]: colorValueArray };
       } else {
         return { [colorName!]: toColorArray(colorValue!) };
       }

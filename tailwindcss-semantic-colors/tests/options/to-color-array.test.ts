@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from '@jest/globals';
 
-import { toColorArray } from '@/src/options/to-color-array.ts';
+import { toColorArray } from '@src/options/to-color-array.ts';
 import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
 
 describe('toColorArray', () => {

@@ -105,21 +105,43 @@ function repairColorValue(colorValue: string): string {
 
 /**
  * Step 1: Normalizes all quotes to double quotes.
- * 
- * All quotes are: …["'", "`", "´"]
- * 
+ *
+ * Only replaces quotes that are used as array item delimiters, not quotes inside quoted strings.
  * Warns if different quotes are detected.
- * 
+ *
+ * If the input starts with [ and ends with ], and there are more than 22 "wrong quotes" (single, backtick, acute),
+ * then only replace wrapping quotes around array items.
+ *
  * @param input The color value string.
  * @returns The string with normalized quotes.
  */
 function normalizeQuotes(input: string): string {
-  if (input.includes("'")) {
-    repairWarning('Quotations other than double quotes detected in color value array. Normalizing to double quotes.');
-    return input.replace(/'|`|´/g, '"');
+  const wrongQuoteRegex = /(['`´])/g;
+  const wrongQuotesCount = (input.match(wrongQuoteRegex) || []).length;
+
+  // Only normalize if input starts with [ and ends with ], and there are more than 22 wrong quotes
+  if (wrongQuotesCount > 22 && /^\[\s*['`´]/.test(input) && /['`´]\s*\]$/.test(input)) {
+    // Replace only quotes that are directly wrapping array items, not those inside the string
+    // Handles multiple items in the array: ['item1', 'item2', ...]
+    const normalized = input.replace(/(['`´])([^"'`´\[\],]*?)\1/g, (match, quote, content) => {
+      if (quote !== '"') {
+        repairWarning(
+          'Quotations other than double quotes detected in color value array. Normalizing to double quotes.',
+        );
+      }
+      return `"${content}"`;
+    });
+    return normalized;
   }
-  
-  return input;
+
+  // Otherwise, replace any non-double quotes wrapping array items
+  const normalized = input.replace(/(["'`´])([^"'`´\[\],]*?)\1/g, (match, quote, content) => {
+    if (quote !== '"') {
+      repairWarning('Quotations other than double quotes detected in color value array. Normalizing to double quotes.');
+    }
+    return `"${content}"`;
+  });
+  return normalized;
 }
 
 /**
@@ -174,11 +196,31 @@ function replaceSpaceSeparatedItemsWithCommas(input: string): string {
 
 /**
  * Step 5: Removes extra whitespace inside the array.
+ *
  * @param input The color value string.
  * @returns The string with extra whitespace removed.
  */
 function removeExtraWhitespace(input: string): string {
-  return input.replace(/\s*,\s*/g, ', ');
+  // Find all items inside double quotes
+  const matches = input.match(/"((?:[^"\\]|\\")*)"/g);
+  if (!matches) {
+    return input;
+  }
+
+  // Trim each item and reinsert
+  const trimmedItems = matches.map((item) => `"${item.replace(/^"|"$/g, '').trim()}"`);
+
+  // Replace the original quoted items with trimmed ones
+  let result = input;
+  matches.forEach((original, idx) => {
+    const replacement = trimmedItems[idx] ?? '';
+    result = result.replace(original, replacement);
+  });
+
+  if (input !== result) {
+    repairWarning('Extra whitespace detected in color value array. Removing extra whitespace.');
+  }
+  return result;
 }
 
 /**
@@ -188,9 +230,15 @@ function removeExtraWhitespace(input: string): string {
  * @returns The string with empty strings removed.
  */
 function removeEmptyStrings(input: string): string {
-  if (/"(\s*)"/.test(input)) {
+  // Remove empty strings, but do not remove escaped quotes (e.g. \" or \\")
+  // Match only empty quoted strings not preceded by a backslash
+  if (/([^\\])"(\s*)"/.test(input) || /^\s*"(\s*)"/.test(input)) {
     repairWarning('Empty strings detected in color value array. Removing empty strings.');
-    return input.replace(/"(\s*)"/g, '').replace(/,\s*,/g, ',');
+    // Replace empty quoted strings not preceded by a backslash
+    input = input.replace(/([^\\])"(\s*)"/g, '$1').replace(/^\s*"(\s*)"/, '');
+    // Remove double commas that may result
+    input = input.replace(/,\s*,/g, ',');
+    return input;
   }
   return input;
 }
@@ -291,9 +339,9 @@ function validateIsArray(value: any): void {
 
 /**
  * Checks if the array has the expected length.
- * 
+ *
  * The expected length is eleven.
- * 
+ *
  * @param arr The array to check.
  * @throws {ColorValueArraySyntaxException} if length does not match.
  */
