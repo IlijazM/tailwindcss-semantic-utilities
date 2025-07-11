@@ -1,9 +1,4 @@
 @import 'tailwindcss';
-
-/*
-The only reason the wildcard ('*') is in quotes is because of the IDE displaying an error. 
-Wildcards without quotes work as well in tailwind.
-*/
 @plugin '../dist/index.js';
 
 .striped-background {
@@ -31,12 +26,17 @@ Wildcards without quotes work as well in tailwind.
 
 .checkerboard-background::after {
   content: '';
-  background-image: linear-gradient(45deg, var(--color-gray-300) 25%, transparent 25%),
+  background-image:
+    linear-gradient(45deg, var(--color-gray-300) 25%, transparent 25%),
     linear-gradient(-45deg, var(--color-gray-300) 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, var(--color-gray-300) 75%),
     linear-gradient(-45deg, transparent 75%, var(--color-gray-300) 75%);
   background-size: 2rem 2rem;
-  background-position: 0 0, 0 1rem, 1rem -1rem, -1rem 0;
+  background-position:
+    0 0,
+    0 1rem,
+    1rem -1rem,
+    -1rem 0;
 }
 
 .checkerboard-background > * {
