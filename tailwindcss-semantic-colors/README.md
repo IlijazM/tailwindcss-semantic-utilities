@@ -16,11 +16,13 @@ Traditionally, Tailwind CSS projects use direct color classes (e.g., `bg-blue-50
 
 When design requirements change, updating colors across a large codebase is tedious and error-prone. Directly using raw color values (such as `bg-blue-500` or `text-green-600`) means every instance must be manually updated, increasing the risk of missing spots and introducing inconsistencies. Over time, different developers may choose slightly different shades for similar UI elements, leading to a fragmented and inconsistent visual experience.
 
-These color classes are also vague—they do not communicate the intended purpose or meaning behind their usage. For example, `bg-blue-500` might represent a primary action in one place and an informational message in another, making it difficult to enforce a unified design language. As a result, maintaining a consistent brand identity and user experience becomes challenging, especially as the project grows and more contributors are involved.
+These color classes are also vague. They do not communicate the intended purpose or meaning behind their usage. For example, `bg-blue-500` might represent a primary action in one place and an informational message in another, making it difficult to enforce a unified design language. As a result, maintaining a consistent brand identity and user experience becomes challenging, especially as the project grows and more contributors are involved.
 
 ### 🚀 Proposed Solution
 
-TailwindCSS Semantic Colors introduces semantic color tokens (such as `primary`, `success`, `warning`) that map to specific color values. The plugin is highly configurable, allowing you to define your own semantic tokens and extend beyond the basics. In addition to core colors, it also provides respective surface colors (like `surface-primary`, `surface-success`, `surface-warning`) for backgrounds and containers, enabling even richer semantic meaning and consistency throughout your UI. By referencing colors semantically, you can easily update color schemes, maintain consistency, and communicate design intent more clearly.
+TailwindCSS Semantic Colors introduces semantic color tokens (such as `primary`, `success`, `warning`) that map to specific color values. The plugin is highly configurable, allowing you to define your own semantic tokens and extend beyond the basics.
+
+In addition to core colors, it also provides respective surface colors (like `surface-primary`, `surface-success`, `surface-warning`) for backgrounds and containers, enabling even richer semantic meaning and consistency throughout your UI. By referencing colors semantically, you can easily update color schemes, maintain consistency, and communicate design intent more clearly.
 
 **❌ Without Tailwind CSS Semantic Colors:**
 
@@ -34,9 +36,9 @@ TailwindCSS Semantic Colors introduces semantic color tokens (such as `primary`,
 **✅ With Tailwind CSS Semantic Colors plugin:**
 
 ```html
-<div class="bg-surface-primary">
+<div class="bg-success-primary">
   {{ container_code }}
-  <span class="text-primary-600">Success!</span>
+  <span class="text-success-600">Success!</span>
 </div>
 ```
 
@@ -62,14 +64,14 @@ This abstraction improves maintainability, scalability, and clarity in your Tail
 
 ## Customization
 
-This yields the following result:
-
 ```css
 @plugin "@ilijazm/tailwindcss-semantic-colors" {
   semantic-colors: 'primary: --color-sky-*', 'secondary: --color-orange-*', 'info', 'success', 'warning', 'danger';
   surface-colors: 'surface: slate';
 }
 ```
+
+This yields the following result:
 
 ![Custom Options](docs/custom_options.png)
 
