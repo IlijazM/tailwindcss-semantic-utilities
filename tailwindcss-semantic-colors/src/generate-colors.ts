@@ -16,8 +16,8 @@ export function generateColors(
 ): Colors {
   return {
     ...generateUtilityColors(semanticColorMapping, surfaceColorMapping, contentColorMapping),
-    ...generateSemanticColors(semanticColorMapping),
-    ...generateSurfaceColors(semanticColorMapping),
+    ...generateSemanticColors(semanticColorMapping, surfaceColorMapping, contentColorMapping),
+    ...generateSurfaceColors(semanticColorMapping, surfaceColorMapping, contentColorMapping),
   };
 }
 
@@ -129,12 +129,16 @@ function generateUtilityColors(
  * @param colorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-function generateSemanticColors(colorMapping: Record<string, string[]>): Colors {
+function generateSemanticColors(
+  semanticColorMapping: Record<string, string[]>,
+  surfaceColorMapping: Record<string, string[]>,
+  contentColorMapping: Record<string, string[]>,
+): Colors {
   const SEMANTIC_COLOR_STEPS = { '': 600, '-light': 500, '-dark': 700 };
 
   const result: Colors = {};
 
-  const colors = Object.keys(colorMapping);
+  const colors = Object.keys(semanticColorMapping);
 
   // Generate cross product between colors and color steps.
   for (const color of colors) {
@@ -184,7 +188,11 @@ function generateSemanticColors(colorMapping: Record<string, string[]>): Colors 
  * @param colorMapping the existing colors and their corresponding mapping.
  * @returns the generated colors.
  */
-function generateSurfaceColors(colorMapping: Record<string, string[]>): Colors {
+function generateSurfaceColors(
+  semanticColorMapping: Record<string, string[]>,
+  surfaceColorMapping: Record<string, string[]>,
+  contentColorMapping: Record<string, string[]>,
+): Colors {
   const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
 
   // extend the surface steps for the surface colors.
@@ -193,19 +201,22 @@ function generateSurfaceColors(colorMapping: Record<string, string[]>): Colors {
   const result: Colors = {};
 
   // Colors include the inputted colors and the surface color.
-  const colors = ['surface', ...Object.keys(colorMapping)];
+  const semanticColors = Object.keys(semanticColorMapping);
 
   // Generate cross product between colors and color steps.
-  for (const color of colors) {
-    if (color === 'surface') {
-      for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
-        const value = typeof targetStep === 'string' ? targetStep : `var(--color-${color}-${targetStep})`;
-        result[`${color}${sourceStep}`] = value;
-      }
-    } else {
-      for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS)) {
-        result[`surface-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
-      }
+  for (const color of semanticColors) {
+    for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS)) {
+      result[`surface-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
+    }
+  }
+
+  const surfaceColors = Object.keys(surfaceColorMapping);
+
+  // Generate cross product between colors and color steps.
+  for (const color of surfaceColors) {
+    for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
+      const value = typeof targetStep === 'string' ? targetStep : `var(--color-${color}-${targetStep})`;
+      result[`${color}${sourceStep}`] = value;
     }
   }
 

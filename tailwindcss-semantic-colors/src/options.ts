@@ -11,7 +11,7 @@ export class Options {
 
   private static readonly DEFAULT_COLOR = toColorArray('var(--color-neutral-*)');
 
-  private static readonly DEFAULT_SEMANTIC_COLORS = {
+  private static readonly DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
     brand: toColorArray('var(--color-blue-*)'),
     primary: toColorArray('var(--color-indigo-*)'),
     secondary: toColorArray('var(--color-pink-*)'),
@@ -23,12 +23,12 @@ export class Options {
     danger: toColorArray('var(--color-red-*)'),
   };
 
-  private static readonly DEFAULT_SURFACE_COLORS = {
+  private static readonly DEFAULT_SURFACE_COLORS: Record<string, string[]> = {
     surface: toColorArray('var(--color-gray-*)'),
     container: toColorArray('var(--color-slate-*)'),
   };
 
-  private static readonly DEFAULT_CONTENT_COLORS = {
+  private static readonly DEFAULT_CONTENT_COLORS: Record<string, string[]> = {
     content: Options.DEFAULT_COLOR,
   };
 
@@ -45,11 +45,11 @@ export class Options {
   }
 
   get surfaceColors(): Record<string, string[]> {
-    return this.getColors('semantic-colors', Options.DEFAULT_SURFACE_COLORS);
+    return this.getColors('surface-colors', Options.DEFAULT_SURFACE_COLORS);
   }
 
   get contentColors(): Record<string, string[]> {
-    return this.getColors('semantic-colors', Options.DEFAULT_CONTENT_COLORS);
+    return this.getColors('content-colors', Options.DEFAULT_CONTENT_COLORS);
   }
 
   private getColors(colorType: ColorType, defaultValue: Record<string, string[]>): Record<string, string[]> {
@@ -100,7 +100,7 @@ export class Options {
         return { [colorName!]: toColorArray(colorValue!) };
       }
     } else {
-      return { [color]: Options.DEFAULT_COLOR };
+      return { [color]: Options.DEFAULT_SEMANTIC_COLORS[color] ?? Options.DEFAULT_COLOR };
     }
   }
 

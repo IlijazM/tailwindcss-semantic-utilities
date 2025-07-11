@@ -5,7 +5,7 @@ import { TailwindCssSemanticColorPlugin } from '@src/tailwindcss-semantic-colors
 
 const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
   (options) => {
-    return ({ addBase, addUtilities, theme }) => {
+    return ({ addBase, theme }) => {
       const parsedOptions = new TailwindCssSemanticColorPlugin(options, theme);
 
       const base: Record<string, string> = {};
