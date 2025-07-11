@@ -258,37 +258,90 @@ function parseColorValueToColorValueArray(colorValue: string): any {
  * The following validations happen:
  *
  * 1. It is an array
- * 1. It has exactly eleven entries
- * 1. It only contains strings
- * 1. All of the strings are trimmed
- * 1. None of the strings are empty
+ * 2. It has exactly eleven entries
+ * 3. It only contains strings
+ * 4. All of the strings are trimmed
+ * 5. None of the strings are empty
  *
- * A color value array must have exactly eleven string.
+ * A color value array must have exactly eleven strings.
  *
  * @param parsedJson the just parsed json string to validate
  * @returns a valid color value array.
  * @throws {ColorValueArraySyntaxException} if a validation fails
  */
 function validateColorValueArray(parsedJson: any): string[] {
-  if (!Array.isArray(parsedJson)) {
+  validateIsArray(parsedJson);
+  validateArrayLength(parsedJson);
+  validateAllStrings(parsedJson);
+  validateAllTrimmed(parsedJson);
+  validateNoEmptyStrings(parsedJson);
+  return parsedJson as string[];
+}
+
+/**
+ * Checks if the value is an array.
+ * @param value The value to check.
+ * @throws {ColorValueArraySyntaxException} if not an array.
+ */
+function validateIsArray(value: any): void {
+  if (!Array.isArray(value)) {
     throw new ColorValueArraySyntaxException('Value is not an array.');
   }
-  if (parsedJson.length !== 11) {
-    throw new ColorValueArraySyntaxException('Array must have exactly eleven entries.');
+}
+
+/**
+ * Checks if the array has the expected length.
+ * 
+ * The expected length is eleven.
+ * 
+ * @param arr The array to check.
+ * @throws {ColorValueArraySyntaxException} if length does not match.
+ */
+function validateArrayLength(arr: any[]): void {
+  const EXPECTED_LENGTH = 11;
+
+  if (arr.length !== EXPECTED_LENGTH) {
+    throw new ColorValueArraySyntaxException(`Array must have exactly ${EXPECTED_LENGTH} entries.`);
   }
-  for (let i = 0; i < parsedJson.length; i++) {
-    const value = parsedJson[i];
+}
+
+/**
+ * Checks if all entries in the array are strings.
+ * @param arr The array to check.
+ * @throws {ColorValueArraySyntaxException} if any entry is not a string.
+ */
+function validateAllStrings(arr: any[]): void {
+  arr.forEach((value, i) => {
     if (typeof value !== 'string') {
       throw new ColorValueArraySyntaxException(`Entry at index ${i} is not a string.`);
     }
+  });
+}
+
+/**
+ * Checks if all strings in the array are trimmed.
+ * @param arr The array to check.
+ * @throws {ColorValueArraySyntaxException} if any string is not trimmed.
+ */
+function validateAllTrimmed(arr: string[]): void {
+  arr.forEach((value, i) => {
     if (value.trim() !== value) {
       throw new ColorValueArraySyntaxException(`Entry at index ${i} is not trimmed.`);
     }
+  });
+}
+
+/**
+ * Checks if any string in the array is empty.
+ * @param arr The array to check.
+ * @throws {ColorValueArraySyntaxException} if any string is empty.
+ */
+function validateNoEmptyStrings(arr: string[]): void {
+  arr.forEach((value, i) => {
     if (value.trim() === '') {
       throw new ColorValueArraySyntaxException(`Entry at index ${i} is empty.`);
     }
-  }
-  return parsedJson as string[];
+  });
 }
 
 /**
