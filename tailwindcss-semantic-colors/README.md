@@ -41,3 +41,85 @@ TailwindCSS Semantic Colors introduces semantic color tokens (such as `primary`,
 ```
 
 This abstraction improves maintainability, scalability, and clarity in your Tailwind CSS projects.
+
+## Features
+
+### Default color tokens
+
+![Default color tokens](docs/default_color_tokens.png)
+
+### Default semantic colors
+
+![Default semantic colors](docs/default_semantic_colors.png)
+
+### Default surface colors
+
+![Default surface colors](docs/default_surface_colors.png)
+
+### Default semantic surface colors
+
+![Default semantic surface colors](docs/default_semantic_surface_colors.png)
+
+## Customization
+
+This yields the following result:
+
+```css
+@plugin "@ilijazm/tailwindcss-semantic-colors" {
+  semantic-colors: 'primary: --color-sky-*', 'secondary: --color-orange-*', 'info', 'success', 'warning', 'danger';
+  surface-colors: 'surface: slate';
+}
+```
+
+![Custom Options](docs/custom_options.png)
+
+## Installation
+
+```bash
+npm install @ilijazm/tailwindcss-semantic-colors
+```
+
+```diff
+@import "tailwindcss";
++ @plugin "@ilijazm/tailwindcss-semantic-colors";
+```
+
+## Development
+
+1. Clone the repository.
+1. Go into the directory `tailwindcss-semantic-colors/`.
+
+```
+.
+└── 📁 tailwindcss-semantic-colors/
+    ├── 📁 example/
+    └── 📁 src/
+```
+
+### Build project
+
+1. Install dependencies with npm `install`
+1. Run `npm run build`
+1. Result is in the `dist/` directory
+
+### Run example
+
+1. Go into the directory `example/`
+1. Install dependencies with npm `install`
+1. Run development build with `npm run dev`
+1. Check the example via `http://localhost:5173/`
+
+## Roadmap
+
+Future work includes:
+
+- automatic dark mode
+- text colors
+
+## Contributions
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+[MIT](../LICENSE)
