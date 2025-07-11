@@ -2,8 +2,8 @@
 
 import { describe, expect, it } from '@jest/globals';
 
-import { toColorArray } from '../../src/colors/to-color-array';
-import { TAILWIND_COLORS_STEPS } from '../../src/common';
+import { toColorArray } from '@src/options/to-color-array.ts';
+import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
 
 describe('toColorArray', () => {
   it('returns single variable repeated for each step when input has no color-* prefix', () => {

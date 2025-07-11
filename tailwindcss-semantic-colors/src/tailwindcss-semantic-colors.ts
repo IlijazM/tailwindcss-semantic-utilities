@@ -1,5 +1,5 @@
-import { generateColors } from './generate-colors';
-import { Options } from './options';
+import { generateColors } from '@src/generate-colors.ts';
+import { Options } from '@src/options.ts';
 
 export type TailwindCssTheme = (path: string, defaultValue?: any) => any;
 

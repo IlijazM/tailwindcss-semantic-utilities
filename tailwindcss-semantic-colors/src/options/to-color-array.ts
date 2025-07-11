@@ -1,4 +1,4 @@
-import { TAILWIND_COLORS_STEPS } from '../common';
+import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
 
 /**
  * Matches the following prefixes:

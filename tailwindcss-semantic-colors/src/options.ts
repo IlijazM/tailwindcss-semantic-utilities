@@ -1,5 +1,4 @@
-import { toColorArray } from './colors/to-color-array';
-import { TAILWIND_COLORS_STEPS } from './common';
+import { toColorArray } from '@src/options/to-color-array.ts';
 
 type ColorType = 'semantic-colors' | 'surface-colors' | 'content-colors';
 
@@ -92,10 +91,10 @@ export class Options {
 
       const [colorName, colorValue] = colorSplit;
 
-      if (Options.isColorValueArray(colorValue)) {
-        return { [colorName]: Options.colorArrayParsingAndValidation(colorValue) };
+      if (Options.isColorValueArray(colorValue!)) {
+        return { [colorName!]: Options.colorArrayParsingAndValidation(colorValue!) };
       } else {
-        return { [colorName]: toColorArray(colorValue) };
+        return { [colorName!]: toColorArray(colorValue!) };
       }
     } else {
       return { [color]: Options.DEFAULT_COLOR };
@@ -107,11 +106,11 @@ export class Options {
       throw new Error(`Expected color to be of form "<colorName>: <colorValue>", but found multiple ":".`);
     }
 
-    if (colorSplit[0].length === 0) {
+    if (colorSplit[0]!.length === 0) {
       throw new Error(`Expected color to be of form "<colorName>: <colorValue>", but left hand side is empty.`);
     }
 
-    if (colorSplit[1].length === 0) {
+    if (colorSplit[1]!.length === 0) {
       throw new Error(`Expected color to be of form "<colorName>: <colorValue>", but right hand side is empty.`);
     }
   }

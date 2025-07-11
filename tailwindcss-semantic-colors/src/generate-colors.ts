@@ -1,4 +1,4 @@
-import { TAILWIND_COLORS_STEPS } from './common';
+import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
@@ -77,22 +77,22 @@ function generateUtilityColors(
   for (const color of Object.keys(semanticColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = semanticColorMapping[color][i++];
+      // Cannot be undefined because color is a key of semanticColorMapping.
+      result[`${color}-${step}`] = semanticColorMapping[color]![i++]!;
     }
   }
 
-  console.log(contentColorMapping);
   for (const color of Object.keys(surfaceColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = surfaceColorMapping[color][i++];
+      result[`${color}-${step}`] = surfaceColorMapping[color]![i++]!;
     }
   }
 
   for (const color of Object.keys(contentColorMapping)) {
     let i = 0;
     for (const step of UTILITY_COLOR_STEPS) {
-      result[`${color}-${step}`] = contentColorMapping[color][i++];
+      result[`${color}-${step}`] = contentColorMapping[color]![i++]!;
     }
   }
 
