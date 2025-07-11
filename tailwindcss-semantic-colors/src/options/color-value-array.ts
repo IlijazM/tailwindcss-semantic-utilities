@@ -34,7 +34,7 @@
  * 2.`colorValue` successfully got parsed into a color value array in which case the color value array gets returned.
  * 3. An error gets thrown because `colorValue` is of the syntax of a color value array but the syntax is incorrect.
  */
-export default function attemptToParseColorValueArray(colorValue: string): string[] | false {
+export function attemptToParseColorValueArray(colorValue: string): string[] | false {
   if (!couldBeColorValueArray(colorValue)) {
     // Case 1.
     return false;
@@ -87,7 +87,7 @@ function repairWarning(message: string) {
  * @param colorValue the incorrect syntax that should be repaired.
  * @returns a repaired version of `colorValue`
  */
-export function repairColorValue(colorValue: string): string {
+function repairColorValue(colorValue: string): string {
   repairWarning('The provided color value array syntax was incorrect and has been automatically repaired.');
 
   let repaired = colorValue.trim();
@@ -104,16 +104,21 @@ export function repairColorValue(colorValue: string): string {
 }
 
 /**
- * Step 1: Normalizes all single quotes to double quotes.
- * Warns if single quotes are detected.
+ * Step 1: Normalizes all quotes to double quotes.
+ * 
+ * All quotes are: …["'", "`", "´"]
+ * 
+ * Warns if different quotes are detected.
+ * 
  * @param input The color value string.
  * @returns The string with normalized quotes.
  */
 function normalizeQuotes(input: string): string {
   if (input.includes("'")) {
-    repairWarning('Single quotes detected in color value array. Normalizing to double quotes.');
-    return input.replace(/'/g, '"');
+    repairWarning('Quotations other than double quotes detected in color value array. Normalizing to double quotes.');
+    return input.replace(/'|`|´/g, '"');
   }
+  
   return input;
 }
 
@@ -215,7 +220,7 @@ function removeTrailingCommas(input: string): string {
  * @param colorValue the string to check if it could be a color value array.
  * @returns true, of the exception `colorValue` could be a color value array.
  */
-export function couldBeColorValueArray(colorValue: string): boolean {
+function couldBeColorValueArray(colorValue: string): boolean {
   const trimmedColorValue = colorValue.trim();
 
   return trimmedColorValue.startsWith('[') && trimmedColorValue.endsWith(']');
@@ -228,7 +233,7 @@ export function couldBeColorValueArray(colorValue: string): boolean {
  * @see validateColorValueArray
  * @param colorValue the color value array to parse and validate.
  */
-export function parseAndValidateColorValueToColorValueArray(colorValue: string): string[] {
+function parseAndValidateColorValueToColorValueArray(colorValue: string): string[] {
   const colorValueArrayJson = parseColorValueToColorValueArray(colorValue);
   return validateColorValueArray(colorValueArrayJson);
 }
@@ -239,7 +244,7 @@ export function parseAndValidateColorValueToColorValueArray(colorValue: string):
  * @param colorValue the color value to parse into a color value array.
  * @returns the color value array parsed to json
  */
-export function parseColorValueToColorValueArray(colorValue: string): any {
+function parseColorValueToColorValueArray(colorValue: string): any {
   try {
     return JSON.parse(colorValue);
   } catch (error) {
@@ -264,15 +269,33 @@ export function parseColorValueToColorValueArray(colorValue: string): any {
  * @returns a valid color value array.
  * @throws {ColorValueArraySyntaxException} if a validation fails
  */
-export function validateColorValueArray(parsedJson: any): string[] {
-  throw 'not implemented';
+function validateColorValueArray(parsedJson: any): string[] {
+  if (!Array.isArray(parsedJson)) {
+    throw new ColorValueArraySyntaxException('Value is not an array.');
+  }
+  if (parsedJson.length !== 11) {
+    throw new ColorValueArraySyntaxException('Array must have exactly eleven entries.');
+  }
+  for (let i = 0; i < parsedJson.length; i++) {
+    const value = parsedJson[i];
+    if (typeof value !== 'string') {
+      throw new ColorValueArraySyntaxException(`Entry at index ${i} is not a string.`);
+    }
+    if (value.trim() !== value) {
+      throw new ColorValueArraySyntaxException(`Entry at index ${i} is not trimmed.`);
+    }
+    if (value.trim() === '') {
+      throw new ColorValueArraySyntaxException(`Entry at index ${i} is empty.`);
+    }
+  }
+  return parsedJson as string[];
 }
 
 /**
  * Exception thrown when a color value array fails to parse or validate due to incorrect syntax.
  */
 
-export class ColorValueArraySyntaxException extends Error {
+class ColorValueArraySyntaxException extends Error {
   constructor(reason: string | null = null) {
     let extendedReason = reason ? `: ${reason}` : '';
     super(`Failed to parse to color value array${extendedReason}`);
