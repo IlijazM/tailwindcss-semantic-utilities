@@ -64,6 +64,7 @@ export function attemptToParseColorValueArray(colorValue: string): string[] | fa
  * @param message message to log
  */
 function repairWarning(message: string) {
+  // eslint-disable-next-line
   console.warn(`[tailwindcss-semantic-colors] Warning: ${message}`);
 }
 
@@ -123,7 +124,7 @@ function normalizeQuotes(input: string): string {
   if (wrongQuotesCount > 22 && /^\[\s*['`´]/.test(input) && /['`´]\s*\]$/.test(input)) {
     // Replace only quotes that are directly wrapping array items, not those inside the string
     // Handles multiple items in the array: ['item1', 'item2', ...]
-    const normalized = input.replace(/(['`´])([^"'`´\[\],]*?)\1/g, (match, quote, content) => {
+    const normalized = input.replace(/(['`´])([^"'`´[],]*?)\1/g, (match, quote, content) => {
       if (quote !== '"') {
         repairWarning(
           'Quotations other than double quotes detected in color value array. Normalizing to double quotes.',
@@ -135,7 +136,7 @@ function normalizeQuotes(input: string): string {
   }
 
   // Otherwise, replace any non-double quotes wrapping array items
-  const normalized = input.replace(/(["'`´])([^"'`´\[\],]*?)\1/g, (match, quote, content) => {
+  const normalized = input.replace(/(["'`´])([^"'`´[],]*?)\1/g, (match, quote, content) => {
     if (quote !== '"') {
       repairWarning('Quotations other than double quotes detected in color value array. Normalizing to double quotes.');
     }
@@ -295,7 +296,7 @@ function parseAndValidateColorValueToColorValueArray(colorValue: string): string
 function parseColorValueToColorValueArray(colorValue: string): any {
   try {
     return JSON.parse(colorValue);
-  } catch (error) {
+  } catch {
     throw new ColorValueArraySyntaxException("'JSON.parse' failed.");
   }
 }

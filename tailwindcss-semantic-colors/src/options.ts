@@ -137,7 +137,7 @@ export class Options {
   private static colorArrayParsing(colorValue: string): any {
     try {
       return JSON.parse(colorValue);
-    } catch (error) {
+    } catch {
       throw new Error(
         `Expected color to be of form "<colorName>: [<colorValues>], but right hand side is not a valid json.`,
       );

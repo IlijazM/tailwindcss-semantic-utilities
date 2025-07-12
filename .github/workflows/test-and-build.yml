@@ -28,6 +28,14 @@ jobs:
         run: npm ci
         working-directory: ./tailwindcss-semantic-colors
 
+      - name: Run typecheck
+        run: npm run typecheck
+        working-directory: ./tailwindcss-semantic-colors
+
+      - name: Run lint
+        run: npm run link
+        working-directory: ./tailwindcss-semantic-colors
+
       - name: Run tests
         run: npm run test
         working-directory: ./tailwindcss-semantic-colors
@@ -35,4 +43,3 @@ jobs:
       - name: Run build
         run: npm run build
         working-directory: ./tailwindcss-semantic-colors
-

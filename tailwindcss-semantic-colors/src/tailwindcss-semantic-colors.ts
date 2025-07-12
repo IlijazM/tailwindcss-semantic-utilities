@@ -1,18 +1,20 @@
 import { generateColors } from '@src/generate-colors.ts';
 import { Options } from '@src/options.ts';
 
-export type TailwindCssTheme = (path: string, defaultValue?: any) => any;
-
 export const BASE_COLORS = ['base', 'surface', 'content'];
 
 export class TailwindCssSemanticColorPlugin {
   private readonly options: Options;
 
-  constructor(options: unknown, private theme: TailwindCssTheme) {
+  constructor(options: unknown) {
     this.options = new Options(options);
   }
 
   colors() {
-    return generateColors(this.options.semanticColors, this.options.surfaceColors, this.options.contentColors);
+    return generateColors({
+      semanticColorMapping: this.options.semanticColors,
+      surfaceColorMapping: this.options.surfaceColors,
+      contentColorMapping: this.options.contentColors,
+    });
   }
 }

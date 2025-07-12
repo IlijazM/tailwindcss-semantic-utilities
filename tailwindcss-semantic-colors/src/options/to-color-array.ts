@@ -71,7 +71,7 @@ export function toColorArray(variableName: string): string[] {
   if (PREFIX_REGEX.test(variableName) === false) {
     // single variable case
 
-    return TAILWIND_COLORS_STEPS.map((_) => variableName);
+    return TAILWIND_COLORS_STEPS.map(() => variableName);
   }
 
   // multi variable case
