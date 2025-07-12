@@ -33,7 +33,7 @@ jobs:
         working-directory: ./tailwindcss-semantic-colors
 
       - name: Run lint
-        run: npm run link
+        run: npm run lint
         working-directory: ./tailwindcss-semantic-colors
 
       - name: Run tests
