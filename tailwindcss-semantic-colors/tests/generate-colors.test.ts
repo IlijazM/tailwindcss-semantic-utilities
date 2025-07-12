@@ -59,13 +59,37 @@ describe('generateSurfaceColors', () => {
     ],
   };
 
-  const contentColorMapping = {};
+  const contentColorMapping = {
+    content: [
+      'var(--color-neutral-50)',
+      'var(--color-neutral-100)',
+      'var(--color-neutral-200)',
+      'var(--color-neutral-300)',
+      'var(--color-neutral-400)',
+      'var(--color-neutral-500)',
+      'var(--color-neutral-600)',
+      'var(--color-neutral-700)',
+      'var(--color-neutral-800)',
+      'var(--color-neutral-900)',
+      'var(--color-neutral-950)',
+    ],
+  };
 
   const params = {
     semanticColorMapping,
     surfaceColorMapping,
     contentColorMapping,
   };
+
+  it('should return empty object if no mappings are provided', () => {
+    const result = generateColors({
+      semanticColorMapping: {},
+      surfaceColorMapping: {},
+      contentColorMapping: {},
+    });
+
+    expect(Object.keys(result).length).toBe(0);
+  });
 
   it('should generate utility colors', () => {
     const result = generateColors(params);
@@ -128,13 +152,20 @@ describe('generateSurfaceColors', () => {
     expect(numberOfColors).toBe(10);
   });
 
-  it('should return empty object if no mappings are provided', () => {
-    const result = generateColors({
-      semanticColorMapping: {},
-      surfaceColorMapping: {},
-      contentColorMapping: {},
-    });
+  it('should generate content colors', () => {
+    const result = generateColors(params);
 
-    expect(Object.keys(result).length).toBe(0);
+    expect(result['content']).toBe('var(--color-content-900)');
+    expect(result['content-muted']).toBe('var(--color-content-800)');
+    expect(result['content-emphasis']).toBe('var(--color-black)');
+  });
+
+  it('should generate 3 content colors', () => {
+    const result = generateColors(params);
+
+    const numberOfColors = Object.keys(result).filter((colorName) =>
+      /^content(-muted|-emphasis)?$/.test(colorName),
+    ).length;
+    expect(numberOfColors).toBe(3);
   });
 });

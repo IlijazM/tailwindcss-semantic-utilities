@@ -27,6 +27,7 @@ export function generateColors(generateColorParams: GenerateColorsParams): Color
     ...generateUtilityColors(generateColorParams),
     ...generateSemanticColors(generateColorParams),
     ...generateSurfaceColors(generateColorParams),
+    ...generateContentColors(generateColorParams),
   };
 }
 
@@ -42,16 +43,16 @@ export function generateColors(generateColorParams: GenerateColorsParams): Color
  * are not intended to be used like the existing utility colors provided by tailwind.
  * Rather, they are necessary in order to generate e.g. surface colors.
  *
- * Utility colors are all colors with the following format: `--color-<colorName>-<utilityColorSteps>`.
+ * Utility colors are all colors with the following format: `--color-<colorName>-<utilityColorStep>`.
  * E.g. `--color-primary-500`, `--color-secondary-200`, `color-tertiary-800`, etc..
  *
  * `colorName` includes all colors included in all color types meaning: semantic colors, surface colors, and content
  * colors.
  *
- * `utilityColorSteps` range from 50 to 950 like in regular tailwind colors.
+ * `utilityColorStep` range from 50 to 950 like in regular tailwind colors.
  *
  * @example
- * Given the color mapping `primary` and `secondary` the result would look like this:
+ * Given the color mappings `primary` and `secondary` the result would look like this:
  *
  * ```json
  * {
@@ -71,7 +72,7 @@ export function generateColors(generateColorParams: GenerateColorsParams): Color
  * @see BASE_COLORS
  * @see UTILITY_COLOR_STEPS
  * @param generateColorParams the color mappings of semantic, surface, and content colors.
- * @returns the generated colors.
+ * @returns the generated utility colors.
  */
 function generateUtilityColors({
   semanticColorMapping,
@@ -111,10 +112,10 @@ function generateUtilityColors({
  * `semanticColorName` includes all semantic colors included in `semanticColorMapping`.
  * These are e.g. `primary`, `secondary`, `info`, etc.
  *
- * `semanticColorSteps` are defined in the constant variable `SEMANTIC_COLOR_STEPS`.
+ * `semanticColorStep` are defined in the constant variable `SEMANTIC_COLOR_STEPS`.
  *
  * @example
- * Given the color mapping `primary` and `secondary` the result would look like this:
+ * Given the semantic color mapping `primary` and `secondary` the result would look like this:
  *
  * ```json
  * {
@@ -129,7 +130,7 @@ function generateUtilityColors({
  *
  * @see SEMANTIC_COLOR_STEPS
  * @param generateColorParams the color mappings of semantic, surface, and content colors.
- * @returns the generated colors.
+ * @returns the generated semantic colors.
  */
 function generateSemanticColors({ semanticColorMapping }: GenerateColorsParams): Colors {
   const SEMANTIC_COLOR_STEPS = { '': 600, '-light': 500, '-dark': 700 };
@@ -160,12 +161,12 @@ function generateSemanticColors({ semanticColorMapping }: GenerateColorsParams):
  * Additionally `colorName` also includes all surface colors included in `surfaceColorMapping`.
  * These are e.g. `surface`, `container`, etc.
  *
- * `surfaceSteps` differ from semantic colors and surface colors.
- * `surfaceSteps` for semantic colors are defined in the variable `SURFACE_STEPS`.
- * `surfaceSteps` for surface colors are defined in the variable `SURFACE_STEPS_EXTRA`.
+ * `surfaceStep` differ from semantic colors and surface colors.
+ * `surfaceStep` for semantic colors are defined in the variable `SURFACE_STEPS`.
+ * `surfaceStep` for surface colors are defined in the variable `SURFACE_STEPS_EXTRA`.
  *
  * @example
- * Given the color mapping `primary` and `secondary` the result would look like this:
+ * Given the semantic and surface color mappings `surface`, `primary`, and `secondary` the result would look like this:
  *
  * ```json
  * {
@@ -186,7 +187,7 @@ function generateSemanticColors({ semanticColorMapping }: GenerateColorsParams):
  * @see SURFACE_STEPS
  * @see SURFACE_STEPS_EXTRA
  * @param generateColorParams the color mappings of semantic, surface, and content colors.
- * @returns the generated colors.
+ * @returns the generated surface colors.
  */
 function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: GenerateColorsParams): Colors {
   const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
@@ -196,7 +197,6 @@ function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: Ge
 
   const result: Colors = {};
 
-  // Colors include the inputted colors and the surface color.
   const semanticColors = Object.keys(semanticColorMapping);
 
   // Generate cross product between semantic colors and color steps.
@@ -212,6 +212,53 @@ function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: Ge
   for (const color of surfaceColors) {
     for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
       const value = typeof targetStep === 'string' ? targetStep : `var(--color-${color}-${targetStep})`;
+      result[`${color}${sourceStep}`] = value;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Generates all content colors.
+ *
+ * Content colors are intended to be used for text.
+ * Text comes in three different emphasis-levels: muted, default, and emphasis.
+ *
+ * Content colors are all colors with the following format `--<contentColorName>-<contentStep>.
+ *
+ * `contentColorName` includes all content colors included in `contentColorMapping`.
+ * These are e.g. `content`.
+ *
+ * `contentStep` are defined in the constant variable `CONTENT_STEPS`.
+ *
+ * @example
+ * Given the content color mapping `content` the result would look like this:
+ *
+ * ```json
+ * {
+ *   "content": "var(--color-content-900)",
+ *   "content-muted": "var(--color-content-800)",
+ *   "content-emphasis": "var(--color-black)",
+ * }
+ * ```
+ *
+ * @see CONTENT_STEPS
+ * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @returns the generated content colors.
+ */
+function generateContentColors({ contentColorMapping }: GenerateColorsParams): Colors {
+  const CONTENT_STEPS = { '': 900, '-muted': 800, '-emphasis': 'black' };
+
+  const result: Colors = {};
+
+  const colors = Object.keys(contentColorMapping);
+
+  // Generate cross product between semantic colors and color steps.
+  for (const color of colors) {
+    for (const [sourceStep, targetStep] of Object.entries(CONTENT_STEPS)) {
+      const value =
+        typeof targetStep === 'string' ? `var(--color-${targetStep})` : `var(--color-${color}-${targetStep})`;
       result[`${color}${sourceStep}`] = value;
     }
   }
