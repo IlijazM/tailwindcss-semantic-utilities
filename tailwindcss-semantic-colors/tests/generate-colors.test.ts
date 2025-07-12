@@ -68,7 +68,7 @@ describe('generateSurfaceColors', () => {
   };
 
   it('should generate utility colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
 
     // Test utility colors for semanticColorMapping
     expect(result['primary-50']).toBe('var(--color-primary-50)');
@@ -80,14 +80,14 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 22 utility colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
 
     const numberOfColors = Object.keys(result).filter((colorName) => /^(primary|secondary)-\d+/.test(colorName)).length;
     expect(numberOfColors).toBe(22);
   });
 
   it('should generate semantic surface colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
     expect(result['surface-primary']).toBe('var(--color-primary-100)');
     expect(result['surface-primary-light']).toBe('var(--color-primary-50)');
     expect(result['surface-primary-dark']).toBe('var(--color-primary-200)');
@@ -97,7 +97,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 6 semantic surface colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
       /^surface-(primary|secondary).*/.test(colorName),
@@ -106,7 +106,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate surface colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
     expect(result['surface']).toBe('var(--color-surface-100)');
     expect(result['surface-light']).toBe('var(--color-surface-50)');
     expect(result['surface-dark']).toBe('var(--color-surface-200)');
@@ -120,7 +120,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 10 surface colors', () => {
-    const result = generateColors(semanticColorMapping, surfaceColorMapping, contentColorMapping);
+    const result = generateColors(params);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
       /^(surface|container)(-light(est)?|-dark(est)?)?$/.test(colorName),
@@ -129,7 +129,11 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should return empty object if no mappings are provided', () => {
-    const result = generateColors({}, {}, {});
+    const result = generateColors({
+      semanticColorMapping: {},
+      surfaceColorMapping: {},
+      contentColorMapping: {},
+    });
 
     expect(Object.keys(result).length).toBe(0);
   });
