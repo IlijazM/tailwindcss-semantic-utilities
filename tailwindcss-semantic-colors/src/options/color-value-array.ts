@@ -124,7 +124,7 @@ function normalizeQuotes(input: string): string {
   if (wrongQuotesCount > 22 && /^\[\s*['`´]/.test(input) && /['`´]\s*\]$/.test(input)) {
     // Replace only quotes that are directly wrapping array items, not those inside the string
     // Handles multiple items in the array: ['item1', 'item2', ...]
-    const normalized = input.replace(/(['`´])([^"'`´[],]*?)\1/g, (match, quote, content) => {
+    const normalized = input.replace(/(['`´])([^"'`´[\],]*?)\1/g, (match, quote, content) => {
       if (quote !== '"') {
         repairWarning(
           'Quotations other than double quotes detected in color value array. Normalizing to double quotes.',
@@ -136,7 +136,7 @@ function normalizeQuotes(input: string): string {
   }
 
   // Otherwise, replace any non-double quotes wrapping array items
-  const normalized = input.replace(/(["'`´])([^"'`´[],]*?)\1/g, (match, quote, content) => {
+  const normalized = input.replace(/(["'`´])([^"'`´[\],]*?)\1/g, (match, quote, content) => {
     if (quote !== '"') {
       repairWarning('Quotations other than double quotes detected in color value array. Normalizing to double quotes.');
     }
