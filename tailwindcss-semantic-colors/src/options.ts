@@ -117,30 +117,4 @@ export class Options {
       throw new Error(`Expected color to be of form "<colorName>: <colorValue>", but right hand side is empty.`);
     }
   }
-
-  private static isColorValueArray(colorValue: string): boolean {
-    return colorValue.startsWith('[') && colorValue.endsWith(']');
-  }
-
-  private static colorArrayParsingAndValidation(colorValue: string): string[] {
-    const json = Options.colorArrayParsing(colorValue);
-
-    if (!(json instanceof Array)) {
-      throw new Error(
-        `Expected color to be of form "<colorName>: [<colorValues>], but right hand side is not a valid json.`,
-      );
-    }
-
-    return json;
-  }
-
-  private static colorArrayParsing(colorValue: string): any {
-    try {
-      return JSON.parse(colorValue);
-    } catch {
-      throw new Error(
-        `Expected color to be of form "<colorName>: [<colorValues>], but right hand side is not a valid json.`,
-      );
-    }
-  }
 }
