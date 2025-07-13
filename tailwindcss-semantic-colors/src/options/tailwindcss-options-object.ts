@@ -1,3 +1,5 @@
+import { attemptToParseColorValueArray } from './color-value-array.ts';
+
 // Polyfill
 const structuredClone = (v: any): Record<string, any> => JSON.parse(JSON.stringify(v));
 
@@ -141,34 +143,66 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
     const result = structuredClone(defaultConfig) as Record<string, any>;
 
     for (const key in options) {
-      const defaultValue = defaultConfig[key];
-      const override = options[key];
-
-      if (
-        defaultValue &&
-        typeof defaultValue === 'object' &&
-        !Array.isArray(defaultValue) &&
-        (Array.isArray(override) || typeof override === 'string')
-      ) {
-        const mergedField: Record<string, any> = {};
-
-        for (const item of typeof override === 'string' ? [override] : override) {
-          if (typeof item !== 'string') continue;
-
-          const [rawKey, rawValue] = item.split(':').map((part) => part.trim());
-
-          // Ensure rawKey is a non-empty string
-          if (rawKey && typeof rawKey === 'string' && rawKey in defaultValue) {
-            mergedField[rawKey] = rawValue || defaultValue[rawKey];
-          }
-        }
-
-        result[key] = mergedField;
-      } else {
-        result[key] = override;
-      }
+      result[key] = this.evaluateValue(defaultConfig[key], options[key]);
     }
 
     return result as OptionsType;
+  }
+
+  private evaluateValue(defaultValue: any, overrideValue: any): any {
+    if (!defaultValue) {
+      return overrideValue;
+    }
+
+    if (!(typeof defaultValue === 'object')) {
+      return overrideValue;
+    }
+
+    if (typeof overrideValue === 'object' && !Array.isArray(overrideValue)) {
+      return overrideValue;
+    }
+
+    if (Array.isArray(defaultValue)) {
+      if (Array.isArray(overrideValue)) {
+        return overrideValue;
+      }
+
+      if (typeof overrideValue === 'string') {
+        return [overrideValue];
+      }
+
+      throw new Error(`Unexpected type of overrideValue '${typeof overrideValue}'.`);
+    }
+
+    if (!Array.isArray(defaultValue)) {
+      if (typeof overrideValue === 'string') {
+        overrideValue = [overrideValue];
+      }
+
+      const mergedField: Record<string, any> = {};
+
+      for (const item of overrideValue) {
+        if (typeof item !== 'string') continue;
+
+        const [rawKey, rawValue] = item.split(':').map((part) => part.trim());
+
+        if (rawKey && typeof rawKey === 'string') {
+          let parsedValue = defaultValue[rawKey];
+
+          if (rawValue) {
+            const colorValueArray = attemptToParseColorValueArray(rawValue);
+            if (colorValueArray !== false) {
+              parsedValue = colorValueArray;
+            } else {
+              parsedValue = rawValue;
+            }
+          }
+
+          mergedField[rawKey] = parsedValue;
+        }
+      }
+
+      return mergedField;
+    }
   }
 }
