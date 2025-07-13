@@ -1,3 +1,6 @@
+// Polyfill
+const structuredClone = (v: any): Record<string, any> => JSON.parse(JSON.stringify(v));
+
 export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
   private options: OptionsType;
 
