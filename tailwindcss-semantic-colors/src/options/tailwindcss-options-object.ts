@@ -2,8 +2,8 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
   private options: OptionsType;
 
   constructor(options: unknown, defaultOptions: OptionsType) {
-    if (typeof options === 'object' && options !== null) {
-      this.options = { ...defaultOptions, ...options };
+    if (options && typeof options === 'object') {
+      this.options = this.merge(defaultOptions, options);
     } else {
       this.options = defaultOptions;
     }
@@ -80,5 +80,92 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
     }
 
     return result;
+  }
+
+  /**
+   * Merges `options` into `defaultConfig`.
+   *
+   * This method uses `defaultConfig` as the base and overrides its fields with corresponding entries from `options`.
+   * The `options` object has no guarantee to use correct keys and values since it is user input,
+   * so it is not assumed to conform to any schema.
+   *
+   * The structure and types defined in `defaultConfig` serve as a reference for interpreting `options`.
+   * For example, if a field in `defaultConfig` is an object,
+   * the corresponding field in `options` must also be an object.
+   *
+   * Due to limitations of the Tailwind CSS plugin API (when using the `@plugin` directive in the CSS file),
+   * plugin configuration must use arrays. Deeply nested objects are not allowed.
+   * To support this, this function implements a conversion mechanism:
+   * if the `defaultConfig` expects an object but `options` provides an array, each array item
+   * is interpreted as a key to include from the default. If the item includes a colon (`:`), the value after
+   * the colon is used as the new value for the key.
+   *
+   * If a key is specified in the array, all other keys from the default for that field are excluded.
+   *
+   * @example Excluding keys from the default config:
+   *
+   * ```ts
+   * const defaultConfig = {
+   *    colors: { primary: "indigo", secondary: "pink" }
+   * };
+   *
+   * const options = {
+   *    colors: ["primary"]
+   * };
+   *
+   * this.merge(defaultConfig, options); // returns { colors: { primary: "indigo" } }
+   * ```
+   *
+   * @example Overriding a default value:
+   *
+   * ```ts
+   * const defaultConfig = {
+   *    colors: { primary: "indigo", secondary: "pink" }
+   * };
+   *
+   * const options = {
+   *    colors: ["primary:amber"]
+   * };
+   *
+   * this.merge(defaultConfig, options); // returns { colors: { primary: "amber" } }
+   * ```
+   *
+   * @param defaultConfig The default configuration used as the base and schema for merging.
+   * @param options A user-defined object with potential overrides, not guaranteed to follow the expected schema.
+   * @returns A merged configuration object that combines `defaultConfig` with the values from `options`.
+   */
+  private merge(defaultConfig: OptionsType, options: Record<string, any>): OptionsType {
+    const result = structuredClone(defaultConfig) as Record<string, any>;
+
+    for (const key in options) {
+      const defaultValue = defaultConfig[key];
+      const override = options[key];
+
+      if (
+        defaultValue &&
+        typeof defaultValue === 'object' &&
+        !Array.isArray(defaultValue) &&
+        (Array.isArray(override) || typeof override === 'string')
+      ) {
+        const mergedField: Record<string, any> = {};
+
+        for (const item of typeof override === 'string' ? [override] : override) {
+          if (typeof item !== 'string') continue;
+
+          const [rawKey, rawValue] = item.split(':').map((part) => part.trim());
+
+          // Ensure rawKey is a non-empty string
+          if (rawKey && typeof rawKey === 'string' && rawKey in defaultValue) {
+            mergedField[rawKey] = rawValue || defaultValue[rawKey];
+          }
+        }
+
+        result[key] = mergedField;
+      } else {
+        result[key] = override;
+      }
+    }
+
+    return result as OptionsType;
   }
 }
