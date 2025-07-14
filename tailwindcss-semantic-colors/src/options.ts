@@ -5,7 +5,7 @@ export interface TailwindCssSemanticColorsOptionsType {
   semanticColors: Record<string, string[]>;
   surfaceColors: Record<string, string[]>;
   contentColors: Record<string, string[]>;
-  surfaceColorSteps: Record<string, string>;
+  surfaceColorSteps: Record<string, any>;
 }
 
 const DEFAULT_COLOR = toColorArray('var(--color-neutral-*)');
@@ -31,10 +31,10 @@ const DEFAULT_CONTENT_COLORS: Record<string, string[]> = {
   content: DEFAULT_COLOR,
 };
 
-const DEFAULT_SURFACE_STEPS: Record<string, string> = {
-  '': '100',
-  '-light': '50',
-  '-dark': '200',
+const DEFAULT_SURFACE_STEPS: Record<string, any> = {
+  '': 100,
+  '-light': 50,
+  '-dark': 200,
 };
 
 export const DEFAULT_OPTIONS: TailwindCssSemanticColorsOptionsType = {

@@ -174,7 +174,7 @@ function generateSemanticColors(options: TailwindCssSemanticColorsOptions): Colo
  * @returns the generated surface colors.
  */
 function generateSurfaceColors(options: TailwindCssSemanticColorsOptions): Colors {
-  const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
+  const SURFACE_STEPS = options.get('surfaceColorSteps');
 
   // extend the surface steps for the surface colors.
   const SURFACE_STEPS_EXTRA = { ...SURFACE_STEPS, '-lightest': 'white', '-darkest': 300 };
