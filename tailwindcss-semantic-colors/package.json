@@ -6,7 +6,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "test": "jest",
-    "build": "node --experimental-transform-types build.ts"
+    "build": "node --experimental-transform-types build.ts",
+    "dev": "npm run build -- --watch"
   },
   "main": "dist/index.js",
   "type": "module",
