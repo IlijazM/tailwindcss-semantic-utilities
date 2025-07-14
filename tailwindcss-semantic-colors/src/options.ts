@@ -1,10 +1,11 @@
-import { toColorArray } from '@/src/options/to-color-array.ts';
+import { toColorArray } from '@src/options/to-color-array.ts';
 import { TailwindcssOptionsObject } from './options/tailwindcss-options-object.ts';
 
 export interface TailwindCssSemanticColorsOptionsType {
   semanticColors: Record<string, string[]>;
   surfaceColors: Record<string, string[]>;
   contentColors: Record<string, string[]>;
+  surfaceColorSteps: Record<string, string>;
 }
 
 const DEFAULT_COLOR = toColorArray('var(--color-neutral-*)');
@@ -30,10 +31,17 @@ const DEFAULT_CONTENT_COLORS: Record<string, string[]> = {
   content: DEFAULT_COLOR,
 };
 
+const DEFAULT_SURFACE_STEPS: Record<string, string> = {
+  '': '100',
+  '-light': '50',
+  '-dark': '200',
+};
+
 export const DEFAULT_OPTIONS: TailwindCssSemanticColorsOptionsType = {
   semanticColors: DEFAULT_SEMANTIC_COLORS,
   surfaceColors: DEFAULT_SURFACE_COLORS,
   contentColors: DEFAULT_CONTENT_COLORS,
+  surfaceColorSteps: DEFAULT_SURFACE_STEPS,
 };
 
 export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsOptionsType> {

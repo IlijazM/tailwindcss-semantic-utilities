@@ -1,33 +1,21 @@
 import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
+import { TailwindCssSemanticColorsOptions } from './options.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
 /**
- * Holds all the color types as a parameter interface:
- *
- * * semantic colors
- * * surface colors
- * * content colors
- */
-interface GenerateColorsParams {
-  semanticColorMapping: Record<string, string[]>;
-  surfaceColorMapping: Record<string, string[]>;
-  contentColorMapping: Record<string, string[]>;
-}
-
-/**
  * Generates all colors.
  *
- * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @param options a reference to the options object.
  * @returns the generated colors.
  */
-export function generateColors(generateColorParams: GenerateColorsParams): Colors {
+export function generateColors(options: TailwindCssSemanticColorsOptions): Colors {
   return {
-    ...generateUtilityColors(generateColorParams),
-    ...generateSemanticColors(generateColorParams),
-    ...generateSurfaceColors(generateColorParams),
-    ...generateContentColors(generateColorParams),
+    ...generateUtilityColors(options),
+    ...generateSemanticColors(options),
+    ...generateSurfaceColors(options),
+    ...generateContentColors(options),
   };
 }
 
@@ -71,21 +59,17 @@ export function generateColors(generateColorParams: GenerateColorsParams): Color
  *
  * @see BASE_COLORS
  * @see UTILITY_COLOR_STEPS
- * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @param options a reference to the options object.
  * @returns the generated utility colors.
  */
-function generateUtilityColors({
-  semanticColorMapping,
-  surfaceColorMapping,
-  contentColorMapping,
-}: GenerateColorsParams): Colors {
+function generateUtilityColors(options: TailwindCssSemanticColorsOptions): Colors {
   // Colors steps like the colors steps defined by tailwindcss.
   const UTILITY_COLOR_STEPS = TAILWIND_COLORS_STEPS;
 
   const colors = {
-    ...semanticColorMapping,
-    ...surfaceColorMapping,
-    ...contentColorMapping,
+    ...options.get('semanticColors'),
+    ...options.get('surfaceColors'),
+    ...options.get('contentColors'),
   };
 
   const result: Colors = {};
@@ -129,15 +113,15 @@ function generateUtilityColors({
  * ```
  *
  * @see SEMANTIC_COLOR_STEPS
- * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @param options a reference to the options object.
  * @returns the generated semantic colors.
  */
-function generateSemanticColors({ semanticColorMapping }: GenerateColorsParams): Colors {
+function generateSemanticColors(options: TailwindCssSemanticColorsOptions): Colors {
   const SEMANTIC_COLOR_STEPS = { '': 600, '-light': 500, '-dark': 700 };
 
   const result: Colors = {};
 
-  const colors = Object.keys(semanticColorMapping);
+  const colors = Object.keys(options.get('semanticColors'));
 
   // Generate cross product between colors and color steps.
   for (const color of colors) {
@@ -186,10 +170,10 @@ function generateSemanticColors({ semanticColorMapping }: GenerateColorsParams):
  *
  * @see SURFACE_STEPS
  * @see SURFACE_STEPS_EXTRA
- * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @param options a reference to the options object.
  * @returns the generated surface colors.
  */
-function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: GenerateColorsParams): Colors {
+function generateSurfaceColors(options: TailwindCssSemanticColorsOptions): Colors {
   const SURFACE_STEPS = { '': 100, '-light': 50, '-dark': 200 };
 
   // extend the surface steps for the surface colors.
@@ -197,7 +181,7 @@ function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: Ge
 
   const result: Colors = {};
 
-  const semanticColors = Object.keys(semanticColorMapping);
+  const semanticColors = Object.keys(options.get('semanticColors'));
 
   // Generate cross product between semantic colors and color steps.
   for (const color of semanticColors) {
@@ -206,7 +190,7 @@ function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: Ge
     }
   }
 
-  const surfaceColors = Object.keys(surfaceColorMapping);
+  const surfaceColors = Object.keys(options.get('surfaceColors'));
 
   // Generate cross product between surface colors and color steps.
   for (const color of surfaceColors) {
@@ -244,15 +228,15 @@ function generateSurfaceColors({ semanticColorMapping, surfaceColorMapping }: Ge
  * ```
  *
  * @see CONTENT_STEPS
- * @param generateColorParams the color mappings of semantic, surface, and content colors.
+ * @param options a reference to the options object.
  * @returns the generated content colors.
  */
-function generateContentColors({ contentColorMapping }: GenerateColorsParams): Colors {
+function generateContentColors(options: TailwindCssSemanticColorsOptions): Colors {
   const CONTENT_STEPS = { '': 900, '-muted': 800, '-emphasis': 'black' };
 
   const result: Colors = {};
 
-  const colors = Object.keys(contentColorMapping);
+  const colors = Object.keys(options.get('contentColors'));
 
   // Generate cross product between semantic colors and color steps.
   for (const color of colors) {

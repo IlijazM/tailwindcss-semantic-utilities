@@ -11,10 +11,6 @@ export class TailwindCssSemanticColorPlugin {
   }
 
   colors() {
-    return generateColors({
-      semanticColorMapping: this.options.get('semanticColors'),
-      surfaceColorMapping: this.options.get('surfaceColors'),
-      contentColorMapping: this.options.get('contentColors'),
-    });
+    return generateColors(this.options);
   }
 }

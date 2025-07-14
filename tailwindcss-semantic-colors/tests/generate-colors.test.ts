@@ -1,7 +1,8 @@
 import { generateColors } from '@src/generate-colors.ts';
+import { TailwindCssSemanticColorsOptions } from '../src/options.ts';
 
 describe('generateSurfaceColors', () => {
-  const semanticColorMapping = {
+  const semanticColors = {
     primary: [
       'var(--color-primary-50)',
       'var(--color-primary-100)',
@@ -30,7 +31,7 @@ describe('generateSurfaceColors', () => {
     ],
   };
 
-  const surfaceColorMapping = {
+  const surfaceColors = {
     surface: [
       'var(--color-surface-50)',
       'var(--color-surface-100)',
@@ -59,7 +60,7 @@ describe('generateSurfaceColors', () => {
     ],
   };
 
-  const contentColorMapping = {
+  const contentColors = {
     content: [
       'var(--color-neutral-50)',
       'var(--color-neutral-100)',
@@ -75,24 +76,26 @@ describe('generateSurfaceColors', () => {
     ],
   };
 
-  const params = {
-    semanticColorMapping,
-    surfaceColorMapping,
-    contentColorMapping,
-  };
+  const options = new TailwindCssSemanticColorsOptions({
+    semanticColors,
+    surfaceColors,
+    contentColors,
+  });
 
   it('should return empty object if no mappings are provided', () => {
-    const result = generateColors({
-      semanticColorMapping: {},
-      surfaceColorMapping: {},
-      contentColorMapping: {},
-    });
+    const result = generateColors(
+      new TailwindCssSemanticColorsOptions({
+        semanticColors: {},
+        surfaceColors: {},
+        contentColors: {},
+      }),
+    );
 
     expect(Object.keys(result).length).toBe(0);
   });
 
   it('should generate utility colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     // Test utility colors for semanticColorMapping
     expect(result['primary-50']).toBe('var(--color-primary-50)');
@@ -104,14 +107,14 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 22 utility colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) => /^(primary|secondary)-\d+/.test(colorName)).length;
     expect(numberOfColors).toBe(22);
   });
 
   it('should generate semantic surface colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
     expect(result['surface-primary']).toBe('var(--color-primary-100)');
     expect(result['surface-primary-light']).toBe('var(--color-primary-50)');
     expect(result['surface-primary-dark']).toBe('var(--color-primary-200)');
@@ -121,7 +124,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 6 semantic surface colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
       /^surface-(primary|secondary).*/.test(colorName),
@@ -130,7 +133,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate surface colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
     expect(result['surface']).toBe('var(--color-surface-100)');
     expect(result['surface-light']).toBe('var(--color-surface-50)');
     expect(result['surface-dark']).toBe('var(--color-surface-200)');
@@ -144,7 +147,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 10 surface colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
       /^(surface|container)(-light(est)?|-dark(est)?)?$/.test(colorName),
@@ -153,7 +156,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate content colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     expect(result['content']).toBe('var(--color-content-900)');
     expect(result['content-muted']).toBe('var(--color-content-800)');
@@ -161,7 +164,7 @@ describe('generateSurfaceColors', () => {
   });
 
   it('should generate 3 content colors', () => {
-    const result = generateColors(params);
+    const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
       /^content(-muted|-emphasis)?$/.test(colorName),
