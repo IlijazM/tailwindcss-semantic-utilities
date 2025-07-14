@@ -1,8 +1,11 @@
 import { attemptToParseColorValueArray } from './color-value-array.ts';
 
 // Polyfill
-const structuredClone = (v: any): Record<string, any> => JSON.parse(JSON.stringify(v));
+const structuredClone = <T>(v: T): T => JSON.parse(JSON.stringify(v));
 
+/**
+ * A typed object wrapper for the options object provided by TailwindCss.
+ */
 export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
   private options: OptionsType;
 
@@ -12,6 +15,10 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
     } else {
       this.options = defaultOptions;
     }
+  }
+
+  get<K extends keyof OptionsType>(key: K): OptionsType[K] extends object ? OptionsType[K] : Record<string, unknown> {
+    return this.options[key];
   }
 
   /**
@@ -56,17 +63,17 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
    * @param key The key under which the desired value and any nested overrides are stored.
    * @returns An object that merges the value at `key` with all nested dot notation entries beginning with `${key}.`.
    */
-  get<K extends keyof OptionsType>(key: K): OptionsType[K] extends object ? OptionsType[K] : Record<string, unknown> {
-    const result = {} as OptionsType[K] extends object ? OptionsType[K] : Record<string, unknown>;
+  collect<K extends keyof OptionsType>(options: any, key: K): any {
+    const result = {};
 
     // Direct access
-    const directObject = this.options[key];
+    const directObject = options[key];
     if (typeof directObject === 'object' && directObject !== null) {
       Object.assign(result, directObject);
     }
 
     // Indirect access (dot notation)
-    for (const optionKey in this.options) {
+    for (const optionKey in options) {
       if (optionKey.startsWith(`${String(key)}.`)) {
         const path = optionKey.slice(String(key).length + 1).split('.');
         let current = result as Record<string, unknown>;
@@ -80,7 +87,7 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
         }
 
         const lastSegment = path[path.length - 1] ?? '';
-        current[lastSegment] = this.options[optionKey];
+        current[lastSegment] = options[optionKey];
       }
     }
 
@@ -139,14 +146,43 @@ export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
    * @param options A user-defined object with potential overrides, not guaranteed to follow the expected schema.
    * @returns A merged configuration object that combines `defaultConfig` with the values from `options`.
    */
-  private merge(defaultConfig: OptionsType, options: Record<string, any>): OptionsType {
-    const result = structuredClone(defaultConfig) as Record<string, any>;
+  private merge<K extends keyof OptionsType>(defaultConfig: OptionsType, options: Record<string, any>): OptionsType {
+    const mergedOptions = structuredClone(defaultConfig);
 
-    for (const key in options) {
-      result[key] = this.evaluateValue(defaultConfig[key], options[key]);
+    options = this.cleanUpOptionsObject(options);
+
+    // We need to start with the smallest keys so that the keys with the dot notation get added afterwards.
+    const optionKeys = Object.keys(options).sort((a, b) => a.length - b.length) as K[];
+
+    for (const key of optionKeys) {
+      if (key in defaultConfig) {
+        mergedOptions[key] = this.evaluateValue(defaultConfig[key], options[key as string]);
+      } else {
+        const path = key.toString().split('.');
+
+        let currentPartialOfMergedOptions: any = mergedOptions;
+
+        for (let i = 0; i < path.length - 1; i++) {
+          currentPartialOfMergedOptions = currentPartialOfMergedOptions[path[i]!];
+        }
+        currentPartialOfMergedOptions[path[path.length - 1]!] = this.evaluateValue(
+          currentPartialOfMergedOptions[path[path.length - 1]!],
+          options[key as string],
+        );
+      }
     }
 
-    return result as OptionsType;
+    return mergedOptions;
+  }
+
+  private cleanUpOptionsObject(options: Record<string, any>): Record<string, any> {
+    // This is because tailwind css passes option keys in quotations which is not desired.
+
+    options = Object.fromEntries(
+      Object.entries(options).map(([key, value]) => [key.replace(/^"/, '').replace(/"$/, ''), value]),
+    );
+
+    return options;
   }
 
   private evaluateValue(defaultValue: any, overrideValue: any): any {
