@@ -1,4 +1,4 @@
-import { generateColors } from '@src/generate-colors.ts';
+import { generateColors } from '@src/colors/generate-colors.ts';
 import { TailwindCssSemanticColorsOptions } from '../src/options.ts';
 
 describe('generateSurfaceColors', () => {

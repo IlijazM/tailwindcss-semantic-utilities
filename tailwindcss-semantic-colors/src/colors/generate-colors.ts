@@ -1,5 +1,5 @@
 import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
-import { TailwindCssSemanticColorsOptions } from './options.ts';
+import { TailwindCssSemanticColorsOptions } from '../options.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
@@ -63,8 +63,42 @@ export function generateColors(options: TailwindCssSemanticColorsOptions): Color
  * @returns the generated utility colors.
  */
 function generateUtilityColors(options: TailwindCssSemanticColorsOptions): Colors {
+  const result: Colors = {};
+
   // Colors steps like the colors steps defined by tailwindcss.
   const UTILITY_COLOR_STEPS = TAILWIND_COLORS_STEPS;
+
+  const themes = options.get('themes');
+
+  let themeOverridesExists = false;
+
+  for (const theme of themes) {
+    const themeOverrides = options.get('themeOverrides')[theme];
+    if (!themeOverrides) {
+      continue;
+    }
+    if ('semanticColors' in themeOverrides || 'surfaceColors' in themeOverrides || 'contentColors' in themeOverrides) {
+      themeOverridesExists = true;
+    }
+  }
+
+  if (themeOverridesExists) {
+    for (const theme of themes) {
+      const colors = {
+        ...(options.get('themeOverrides')[theme]?.semanticColors ?? options.get('semanticColors')),
+        ...(options.get('themeOverrides')[theme]?.surfaceColors ?? options.get('surfaceColors')),
+        ...(options.get('themeOverrides')[theme]?.contentColors ?? options.get('contentColors')),
+      };
+
+      // Generate cross product between colors and color steps.
+      for (const [color, mapping] of Object.entries(colors)) {
+        for (const step of UTILITY_COLOR_STEPS) {
+          // Cannot be undefined because color is a key of semanticColorMapping.
+          result[`${color}-${step}-theme-${theme}`] = mapping[TAILWIND_COLORS_STEPS.indexOf(step)]!;
+        }
+      }
+    }
+  }
 
   const colors = {
     ...options.get('semanticColors'),
@@ -72,13 +106,16 @@ function generateUtilityColors(options: TailwindCssSemanticColorsOptions): Color
     ...options.get('contentColors'),
   };
 
-  const result: Colors = {};
-
   // Generate cross product between colors and color steps.
   for (const [color, mapping] of Object.entries(colors)) {
     for (const step of UTILITY_COLOR_STEPS) {
-      // Cannot be undefined because color is a key of semanticColorMapping.
-      result[`${color}-${step}`] = mapping[TAILWIND_COLORS_STEPS.indexOf(step)]!;
+      if (themeOverridesExists) {
+        // Cannot be undefined because color is a key of semanticColorMapping.
+        result[`${color}-${step}`] = `var(--colors-${color}-${step}-theme-${options.get('defaultTheme')})`;
+      } else {
+        // Cannot be undefined because color is a key of semanticColorMapping.
+        result[`${color}-${step}`] = mapping[TAILWIND_COLORS_STEPS.indexOf(step)]!;
+      }
     }
   }
 
