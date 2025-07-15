@@ -95,15 +95,12 @@ export class GenerateUtilityColors {
     this.options = options;
   }
 
+  /**
+   * Generates all colors.
+   *
+   * @returns all colors.
+   */
   generate(): Colors {
-    // this.result = {};
-
-    // for (const colorType of ALL_COLOR_TYPES) {
-    //   this.generateFromColorType(colorType);
-    // }
-
-    // return this.result;
-
     return Object.assign({}, ...ALL_COLOR_TYPES.map((colorType) => this.generateFromColorType(colorType)));
   }
 
@@ -111,6 +108,12 @@ export class GenerateUtilityColors {
     return this.options.getThemeOverridesFor(['semanticColors', 'surfaceColors', 'contentColors']);
   }
 
+  /**
+   * Iterates over all colors in a color type and outputs the generated css rules.
+   *
+   * @param colorType the color type
+   * @returns the generated css rules.
+   */
   private generateFromColorType(colorType: COLOR_TYPES): Colors {
     const colors = this.options.get(colorType);
     return Object.assign(
