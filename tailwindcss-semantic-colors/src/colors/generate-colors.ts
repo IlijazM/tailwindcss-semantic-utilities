@@ -60,7 +60,7 @@ function generateSemanticColors(options: TailwindCssSemanticColorsOptions): Colo
   // Generate cross product between colors and color steps.
   for (const color of colors) {
     for (const [sourceStep, targetStep] of Object.entries(SEMANTIC_COLOR_STEPS)) {
-      result[`${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
+      result[`--color-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
     }
   }
 
@@ -120,7 +120,7 @@ function generateSurfaceColors(options: TailwindCssSemanticColorsOptions): Color
   // Generate cross product between semantic colors and color steps.
   for (const color of semanticColors) {
     for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS)) {
-      result[`surface-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
+      result[`--color-surface-${color}${sourceStep}`] = `var(--color-${color}-${targetStep})`;
     }
   }
 
@@ -130,7 +130,7 @@ function generateSurfaceColors(options: TailwindCssSemanticColorsOptions): Color
   for (const color of surfaceColors) {
     for (const [sourceStep, targetStep] of Object.entries(SURFACE_STEPS_EXTRA)) {
       const value = typeof targetStep === 'string' ? targetStep : `var(--color-${color}-${targetStep})`;
-      result[`${color}${sourceStep}`] = value;
+      result[`--color-${color}${sourceStep}`] = value;
     }
   }
 
@@ -177,7 +177,7 @@ function generateContentColors(options: TailwindCssSemanticColorsOptions): Color
     for (const [sourceStep, targetStep] of Object.entries(CONTENT_STEPS)) {
       const value =
         typeof targetStep === 'string' ? `var(--color-${targetStep})` : `var(--color-${color}-${targetStep})`;
-      result[`${color}${sourceStep}`] = value;
+      result[`--color-${color}${sourceStep}`] = value;
     }
   }
 

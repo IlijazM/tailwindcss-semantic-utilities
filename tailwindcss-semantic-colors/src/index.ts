@@ -11,7 +11,7 @@ const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
       const base: Record<string, string> = {};
 
       for (const [colorName, color] of Object.entries(parsedOptions.colors())) {
-        base[`--color-${colorName}`] = color;
+        base[colorName] = color;
       }
 
       addBase({

@@ -112,14 +112,14 @@ export class GenerateUtilityColors {
     return Object.assign(
       {},
       ...this.options.themes.map((theme) => ({
-        [`${color}-${step}-theme-${theme}`]:
+        [`--color-${color}-${step}-theme-${theme}`]:
           this.options.themeOverrides[theme]?.[colorType]?.[color]?.[stepIndex] ?? mapping[stepIndex]!,
       })),
-      { [`${color}-${step}`]: `var(--colors-${color}-${step}-theme-${this.options.get('defaultTheme')})` },
+      { [`--color-${color}-${step}`]: `var(--colors-${color}-${step}-theme-${this.options.get('defaultTheme')})` },
     );
   }
 
   private generateUnthemedColor(color: string, mapping: string[], step: number, stepIndex: number): Colors {
-    return { [`${color}-${step}`]: mapping[stepIndex]! };
+    return { [`--color-${color}-${step}`]: mapping[stepIndex]! };
   }
 }

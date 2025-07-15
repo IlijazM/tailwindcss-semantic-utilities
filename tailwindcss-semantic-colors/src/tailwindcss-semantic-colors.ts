@@ -13,4 +13,10 @@ export class TailwindCssSemanticColorPlugin {
   colors() {
     return generateColors(this.options);
   }
+
+  theme() {
+    return Object.fromEntries(
+      Object.entries(generateColors(this.options)).map(([name, value]) => [name.replace(/^--color-/, ''), value]),
+    );
+  }
 }

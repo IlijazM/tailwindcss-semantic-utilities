@@ -98,59 +98,61 @@ describe('generateSurfaceColors', () => {
     const result = generateColors(options);
 
     // Test utility colors for semanticColorMapping
-    expect(result['primary-50']).toBe('var(--color-primary-50)');
-    expect(result['primary-100']).toBe('var(--color-primary-100)');
-    expect(result['primary-950']).toBe('var(--color-primary-950)');
-    expect(result['secondary-50']).toBe('var(--color-secondary-50)');
-    expect(result['secondary-100']).toBe('var(--color-secondary-100)');
-    expect(result['secondary-950']).toBe('var(--color-secondary-950)');
+    expect(result['--color-primary-50']).toBe('var(--color-primary-50)');
+    expect(result['--color-primary-100']).toBe('var(--color-primary-100)');
+    expect(result['--color-primary-950']).toBe('var(--color-primary-950)');
+    expect(result['--color-secondary-50']).toBe('var(--color-secondary-50)');
+    expect(result['--color-secondary-100']).toBe('var(--color-secondary-100)');
+    expect(result['--color-secondary-950']).toBe('var(--color-secondary-950)');
   });
 
   it('should generate 22 utility colors', () => {
     const result = generateColors(options);
 
-    const numberOfColors = Object.keys(result).filter((colorName) => /^(primary|secondary)-\d+/.test(colorName)).length;
+    const numberOfColors = Object.keys(result).filter((colorName) =>
+      /^--color-(primary|secondary)-\d+/.test(colorName),
+    ).length;
     expect(numberOfColors).toBe(22);
   });
 
   it('should generate semantic surface colors', () => {
     const result = generateColors(options);
-    expect(result['surface-primary']).toBe('var(--color-primary-100)');
-    expect(result['surface-primary-light']).toBe('var(--color-primary-50)');
-    expect(result['surface-primary-dark']).toBe('var(--color-primary-200)');
-    expect(result['surface-secondary']).toBe('var(--color-secondary-100)');
-    expect(result['surface-secondary-light']).toBe('var(--color-secondary-50)');
-    expect(result['surface-secondary-dark']).toBe('var(--color-secondary-200)');
+    expect(result['--color-surface-primary']).toBe('var(--color-primary-100)');
+    expect(result['--color-surface-primary-light']).toBe('var(--color-primary-50)');
+    expect(result['--color-surface-primary-dark']).toBe('var(--color-primary-200)');
+    expect(result['--color-surface-secondary']).toBe('var(--color-secondary-100)');
+    expect(result['--color-surface-secondary-light']).toBe('var(--color-secondary-50)');
+    expect(result['--color-surface-secondary-dark']).toBe('var(--color-secondary-200)');
   });
 
   it('should generate 6 semantic surface colors', () => {
     const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
-      /^surface-(primary|secondary).*/.test(colorName),
+      /^--color-surface-(primary|secondary).*/.test(colorName),
     ).length;
     expect(numberOfColors).toBe(6);
   });
 
   it('should generate surface colors', () => {
     const result = generateColors(options);
-    expect(result['surface']).toBe('var(--color-surface-100)');
-    expect(result['surface-light']).toBe('var(--color-surface-50)');
-    expect(result['surface-dark']).toBe('var(--color-surface-200)');
-    expect(result['surface-lightest']).toBe('white');
-    expect(result['surface-darkest']).toBe('var(--color-surface-300)');
-    expect(result['container']).toBe('var(--color-container-100)');
-    expect(result['container-light']).toBe('var(--color-container-50)');
-    expect(result['container-dark']).toBe('var(--color-container-200)');
-    expect(result['container-lightest']).toBe('white');
-    expect(result['container-darkest']).toBe('var(--color-container-300)');
+    expect(result['--color-surface']).toBe('var(--color-surface-100)');
+    expect(result['--color-surface-light']).toBe('var(--color-surface-50)');
+    expect(result['--color-surface-dark']).toBe('var(--color-surface-200)');
+    expect(result['--color-surface-lightest']).toBe('white');
+    expect(result['--color-surface-darkest']).toBe('var(--color-surface-300)');
+    expect(result['--color-container']).toBe('var(--color-container-100)');
+    expect(result['--color-container-light']).toBe('var(--color-container-50)');
+    expect(result['--color-container-dark']).toBe('var(--color-container-200)');
+    expect(result['--color-container-lightest']).toBe('white');
+    expect(result['--color-container-darkest']).toBe('var(--color-container-300)');
   });
 
   it('should generate 10 surface colors', () => {
     const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
-      /^(surface|container)(-light(est)?|-dark(est)?)?$/.test(colorName),
+      /^--color-(surface|container)(-light(est)?|-dark(est)?)?$/.test(colorName),
     ).length;
     expect(numberOfColors).toBe(10);
   });
@@ -158,16 +160,16 @@ describe('generateSurfaceColors', () => {
   it('should generate content colors', () => {
     const result = generateColors(options);
 
-    expect(result['content']).toBe('var(--color-content-900)');
-    expect(result['content-muted']).toBe('var(--color-content-800)');
-    expect(result['content-emphasis']).toBe('var(--color-black)');
+    expect(result['--color-content']).toBe('var(--color-content-900)');
+    expect(result['--color-content-muted']).toBe('var(--color-content-800)');
+    expect(result['--color-content-emphasis']).toBe('var(--color-black)');
   });
 
   it('should generate 3 content colors', () => {
     const result = generateColors(options);
 
     const numberOfColors = Object.keys(result).filter((colorName) =>
-      /^content(-muted|-emphasis)?$/.test(colorName),
+      /^--color-content(-muted|-emphasis)?$/.test(colorName),
     ).length;
     expect(numberOfColors).toBe(3);
   });
