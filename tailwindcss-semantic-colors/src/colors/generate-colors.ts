@@ -1,5 +1,5 @@
 import { TailwindCssSemanticColorsOptions } from '../options.ts';
-import { generateUtilityColors } from './generate-utility-colors.ts';
+import { GenerateUtilityColors } from './generate-utility-colors.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
@@ -12,7 +12,7 @@ export type Colors = { [colorName: ColorValue]: ColorValue };
  */
 export function generateColors(options: TailwindCssSemanticColorsOptions): Colors {
   return {
-    ...generateUtilityColors(options),
+    ...new GenerateUtilityColors(options).generate(),
     ...generateSemanticColors(options),
     ...generateSurfaceColors(options),
     ...generateContentColors(options),

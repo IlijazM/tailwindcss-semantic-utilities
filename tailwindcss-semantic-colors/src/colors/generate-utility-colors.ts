@@ -1,5 +1,5 @@
 import { TAILWIND_COLORS_STEPS } from '../common.ts';
-import { ALL_COLOR_TYPES, TailwindCssSemanticColorsOptions } from '../options.ts';
+import { ALL_COLOR_TYPES, COLOR_TYPES, TailwindCssSemanticColorsOptions } from '../options.ts';
 import { Colors } from './generate-colors.ts';
 
 /**
@@ -45,34 +45,81 @@ import { Colors } from './generate-colors.ts';
  * @param options a reference to the options object.
  * @returns the generated utility colors.
  */
-export function generateUtilityColors(options: TailwindCssSemanticColorsOptions): Colors {
-  const result: Colors = {};
+export class GenerateUtilityColors {
+  private readonly UTILITY_COLOR_STEPS = TAILWIND_COLORS_STEPS;
 
-  // Colors steps like the colors steps defined by tailwindcss.
-  const UTILITY_COLOR_STEPS = TAILWIND_COLORS_STEPS;
+  private result: Colors = {};
+  private options: TailwindCssSemanticColorsOptions;
 
-  const themeOverrides = options.getThemeOverridesFor(['semanticColors', 'surfaceColors', 'contentColors']);
+  constructor(options: TailwindCssSemanticColorsOptions) {
+    this.options = options;
+  }
 
-  for (const colorType of ALL_COLOR_TYPES) {
-    const colors = options.get(colorType);
-    for (const [color, mapping] of Object.entries(colors)) {
-      for (const step of UTILITY_COLOR_STEPS) {
-        const stepIndex = TAILWIND_COLORS_STEPS.indexOf(step);
-        if (themeOverrides.includes(color)) {
-          for (const theme of options.themes) {
-            result[`${color}-${step}-theme-${theme}`] =
-              options.themeOverrides[theme]?.[colorType]?.[color]?.[stepIndex] ?? mapping[stepIndex]!;
-          }
-          // Cannot be undefined because color is a key of semanticColorMapping.
+  generate(): Colors {
+    // this.result = {};
 
-          result[`${color}-${step}`] = `var(--colors-${color}-${step}-theme-${options.get('defaultTheme')})`;
-        } else {
-          // Cannot be undefined because color is a key of semanticColorMapping.
-          result[`${color}-${step}`] = mapping[stepIndex]!;
-        }
-      }
+    // for (const colorType of ALL_COLOR_TYPES) {
+    //   this.generateFromColorType(colorType);
+    // }
+
+    // return this.result;
+
+    return Object.assign({}, ...ALL_COLOR_TYPES.map((colorType) => this.generateFromColorType(colorType)));
+  }
+
+  private get themeOverrides() {
+    return this.options.getThemeOverridesFor(['semanticColors', 'surfaceColors', 'contentColors']);
+  }
+
+  private generateFromColorType(colorType: COLOR_TYPES): Colors {
+    const colors = this.options.get(colorType);
+    return Object.assign(
+      {},
+      ...Object.entries(colors).map(([color, mapping]) => this.generateFromColor(colorType, color, mapping)),
+    );
+  }
+
+  private generateFromColor(colorType: COLOR_TYPES, color: string, mapping: string[]): Colors {
+    return Object.assign(
+      {},
+      ...this.UTILITY_COLOR_STEPS.map((step, stepIndex) =>
+        this.generateFromColorStep(colorType, color, mapping, step, stepIndex),
+      ),
+    );
+  }
+
+  private generateFromColorStep(
+    colorType: COLOR_TYPES,
+    color: string,
+    mapping: string[],
+    step: number,
+    stepIndex: number,
+  ): Colors {
+    if (this.themeOverrides.includes(color)) {
+      return this.generateThemeOverride(colorType, color, mapping, step, stepIndex);
+    } else {
+      return this.generateUnthemedColor(color, mapping, step, stepIndex);
     }
   }
 
-  return result;
+  private generateThemeOverride(
+    colorType: COLOR_TYPES,
+    color: string,
+    mapping: string[],
+    step: number,
+    stepIndex: number,
+  ): Colors {
+    return Object.assign(
+      {},
+      ...this.options.themes.map((theme) => ({
+        [`${color}-${step}-theme-${theme}`]:
+          this.options.themeOverrides[theme]?.[colorType]?.[color]?.[stepIndex] ?? mapping[stepIndex]!,
+      })),
+      { [`${color}-${step}`]: `var(--colors-${color}-${step}-theme-${this.options.get('defaultTheme')})` },
+    );
+  }
+
+  private generateUnthemedColor(color: string, mapping: string[], step: number, stepIndex: number): Colors {
+    return { [`${color}-${step}`]: mapping[stepIndex]! };
+  }
 }
