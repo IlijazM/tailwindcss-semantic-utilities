@@ -62,6 +62,7 @@ export type COLOR_TYPES = 'semanticColors' | 'surfaceColors' | 'contentColors';
 export const SEMANTIC_COLORS_KEY: COLOR_TYPES = 'semanticColors';
 export const SURFACE_COLORS_KEY: COLOR_TYPES = 'surfaceColors';
 export const CONTENT_COLORS_KEY: COLOR_TYPES = 'contentColors';
+export const ALL_COLOR_TYPES: COLOR_TYPES[] = [SEMANTIC_COLORS_KEY, SURFACE_COLORS_KEY, CONTENT_COLORS_KEY];
 
 export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsOptionsType> {
   constructor(options: any) {

@@ -1,5 +1,5 @@
 import { TAILWIND_COLORS_STEPS } from '../common.ts';
-import { TailwindCssSemanticColorsOptions } from '../options.ts';
+import { ALL_COLOR_TYPES, TailwindCssSemanticColorsOptions } from '../options.ts';
 import { Colors } from './generate-colors.ts';
 
 /**
@@ -53,25 +53,23 @@ export function generateUtilityColors(options: TailwindCssSemanticColorsOptions)
 
   const themeOverrides = options.getThemeOverridesFor(['semanticColors', 'surfaceColors', 'contentColors']);
 
-  const colors = {
-    ...options.get('semanticColors'),
-    ...options.get('surfaceColors'),
-    ...options.get('contentColors'),
-  };
+  for (const colorType of ALL_COLOR_TYPES) {
+    const colors = options.get(colorType);
+    for (const [color, mapping] of Object.entries(colors)) {
+      for (const step of UTILITY_COLOR_STEPS) {
+        const stepIndex = TAILWIND_COLORS_STEPS.indexOf(step);
+        if (themeOverrides.includes(color)) {
+          for (const theme of options.themes) {
+            result[`${color}-${step}-theme-${theme}`] =
+              options.themeOverrides[theme]?.[colorType]?.[color]?.[stepIndex] ?? mapping[stepIndex]!;
+          }
+          // Cannot be undefined because color is a key of semanticColorMapping.
 
-  // Generate cross product between colors and color steps.
-  for (const [color, mapping] of Object.entries(colors)) {
-    for (const step of UTILITY_COLOR_STEPS) {
-      if (themeOverrides.includes(color)) {
-        for (const theme of options.themes) {
-          result[`${color}-${step}-theme-${theme}`] = mapping[TAILWIND_COLORS_STEPS.indexOf(step)]!;
+          result[`${color}-${step}`] = `var(--colors-${color}-${step}-theme-${options.get('defaultTheme')})`;
+        } else {
+          // Cannot be undefined because color is a key of semanticColorMapping.
+          result[`${color}-${step}`] = mapping[stepIndex]!;
         }
-        // Cannot be undefined because color is a key of semanticColorMapping.
-
-        result[`${color}-${step}`] = `var(--colors-${color}-${step}-theme-${options.get('defaultTheme')})`;
-      } else {
-        // Cannot be undefined because color is a key of semanticColorMapping.
-        result[`${color}-${step}`] = mapping[TAILWIND_COLORS_STEPS.indexOf(step)]!;
       }
     }
   }
