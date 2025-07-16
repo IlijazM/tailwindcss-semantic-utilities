@@ -1,9 +1,6 @@
 @custom-variant dark (&:is(.dark *));
 
-@import './spacing.css';
 @import './colors.css';
-@import '../tailwindcss-wrapper/src/tailwindcss-wrapper.css';
-@import './section.css';
 @import './typography.css';
 @import './cover.css';
 @import './debug.css';
