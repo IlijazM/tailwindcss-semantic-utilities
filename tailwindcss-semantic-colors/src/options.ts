@@ -11,7 +11,7 @@ export interface TailwindCssSemanticColorsThemedOptionsType {
 export interface TailwindCssSemanticColorsOptionsType extends TailwindCssSemanticColorsThemedOptionsType {
   themes: string[];
   defaultTheme: string;
-  themeOverrides: Record<string, TailwindCssSemanticColorsThemedOptionsType>;
+  themeOverrides: Record<string, Partial<TailwindCssSemanticColorsThemedOptionsType>>;
 }
 
 const DEFAULT_THEMES: string[] = ['light', 'dark'];
@@ -105,14 +105,16 @@ export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<T
       if (Array.isArray(colorTypes)) {
         for (const colorType of colorTypes) {
           if (colorType in themeOverride) {
-            themeOverrides.push(...Object.keys(themeOverride[colorType]));
-            break;
+            if (colorType in themeOverride) {
+              themeOverrides.push(...Object.keys(themeOverride[colorType]!));
+            }
           }
         }
       } else {
         if (colorTypes in themeOverride) {
-          themeOverrides.push(...Object.keys(themeOverride[colorTypes]));
-          break;
+          if (colorTypes in themeOverride) {
+            themeOverrides.push(...Object.keys(themeOverride[colorTypes]!));
+          }
         }
       }
     }
