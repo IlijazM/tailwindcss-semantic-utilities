@@ -97,11 +97,16 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
     return UTILITY_COLOR_STEPS;
   }
 
-  protected generateCssColorVarname(colorVarname: string, step: UtilityColorStep): string {
+  protected generateCssColorVarname(_colorType: COLOR_TYPES, colorVarname: string, step: UtilityColorStep): string {
     return `--color-${colorVarname}-${step.rightSide}`;
   }
 
-  protected generateCssColorValue(colorValues: string[], step: UtilityColorStep): string {
+  protected generateCssColorValue(
+    _colorType: COLOR_TYPES,
+    _colorVarname: string,
+    colorValues: string[],
+    step: UtilityColorStep,
+  ): string {
     return colorValues[step.leftSide]!;
   }
 

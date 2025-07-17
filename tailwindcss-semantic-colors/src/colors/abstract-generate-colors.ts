@@ -69,7 +69,9 @@ export abstract class GenerateColors<CM extends ColorMapping> {
     } else {
       return Object.assign(
         {},
-        ...this.mapping.map((step) => this.generateUnthemedCssColorVariable(colorVarname, colorValues, step)),
+        ...this.mapping.map((step) =>
+          this.generateUnthemedCssColorVariable(colorType, colorVarname, colorValues, step),
+        ),
       );
     }
   }
@@ -96,7 +98,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
     return Object.assign(
       {},
       this.generateThemeOverridesOfCssColorVariable(colorType, colorVarname, colorValues, step),
-      this.generateThemedCssColorVariable(colorVarname, step),
+      this.generateThemedCssColorVariable(colorType, colorVarname, step),
     );
   }
 
@@ -142,9 +144,9 @@ export abstract class GenerateColors<CM extends ColorMapping> {
     return Object.assign(
       {},
       ...this.options.themes.map((theme) => ({
-        [`${GenerateColors.THEME_PREFIX}-${theme}${this.generateCssColorVarname(colorVarname, step)}`]:
+        [`${GenerateColors.THEME_PREFIX}-${theme}${this.generateCssColorVarname(colorType, colorVarname, step)}`]:
           this.generateThemedCssColorValue(colorType, colorVarname, colorValues, step, theme) ??
-          this.generateCssColorValue(colorValues, step),
+          this.generateCssColorValue(colorType, colorVarname, colorValues, step),
       })),
     );
   }
@@ -181,8 +183,8 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @param step the tailwindcss step value that is in between 90 and 950.
    * @returns the generated color variable.
    */
-  protected generateThemedCssColorVariable(colorVarname: string, step: CM): Colors {
-    const cssColorVarname = this.generateCssColorVarname(colorVarname, step);
+  protected generateThemedCssColorVariable(colorType: string, colorVarname: string, step: CM): Colors {
+    const cssColorVarname = this.generateCssColorVarname(colorType, colorVarname, step);
     return { [cssColorVarname]: `var({${GenerateColors.THEME_PREFIX}${cssColorVarname}})` };
   }
 
@@ -228,11 +230,28 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @param step the tailwindcss step value that is in between 90 and 950.
    * @returns the generated color.
    */
-  private generateUnthemedCssColorVariable(colorVarname: string, colorValues: string[], step: CM): Colors {
-    return { [this.generateCssColorVarname(colorVarname, step)]: this.generateCssColorValue(colorValues, step) };
+  private generateUnthemedCssColorVariable(
+    colorType: string,
+    colorVarname: string,
+    colorValues: string[],
+    step: CM,
+  ): Colors {
+    return {
+      [this.generateCssColorVarname(colorType, colorVarname, step)]: this.generateCssColorValue(
+        colorType,
+        colorVarname,
+        colorValues,
+        step,
+      ),
+    };
   }
 
-  protected abstract generateCssColorVarname(_colorVarname: string, _step: CM): string;
+  protected abstract generateCssColorVarname(_colorType: string, _colorVarname: string, _step: CM): string;
 
-  protected abstract generateCssColorValue(_colorValues: string[], _step: CM): string;
+  protected abstract generateCssColorValue(
+    _colorType: string,
+    _colorVarname: string,
+    _colorValues: string[],
+    _step: CM,
+  ): string;
 }

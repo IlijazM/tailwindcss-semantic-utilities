@@ -59,10 +59,10 @@ export const DEFAULT_OPTIONS: TailwindCssSemanticColorsOptionsType = {
 
 export type COLOR_TYPES = 'semanticColors' | 'surfaceColors' | 'contentColors';
 
-export const SEMANTIC_COLORS_KEY: COLOR_TYPES = 'semanticColors';
-export const SURFACE_COLORS_KEY: COLOR_TYPES = 'surfaceColors';
-export const CONTENT_COLORS_KEY: COLOR_TYPES = 'contentColors';
-export const ALL_COLOR_TYPES: COLOR_TYPES[] = [SEMANTIC_COLORS_KEY, SURFACE_COLORS_KEY, CONTENT_COLORS_KEY];
+export const COLOR_TYPE_SEMANTIC: COLOR_TYPES = 'semanticColors';
+export const COLOR_TYPE_SURFACE: COLOR_TYPES = 'surfaceColors';
+export const COLOR_TYPE_CONTENT: COLOR_TYPES = 'contentColors';
+export const ALL_COLOR_TYPES: COLOR_TYPES[] = [COLOR_TYPE_SEMANTIC, COLOR_TYPE_SURFACE, COLOR_TYPE_CONTENT];
 
 export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsOptionsType> {
   constructor(options: any) {
@@ -78,15 +78,15 @@ export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<T
   }
 
   get semanticColors() {
-    return this.get(SEMANTIC_COLORS_KEY);
+    return this.get(COLOR_TYPE_SEMANTIC);
   }
 
   get surfaceColors() {
-    return this.get(SURFACE_COLORS_KEY);
+    return this.get(COLOR_TYPE_SURFACE);
   }
 
   get contentColors() {
-    return this.get(CONTENT_COLORS_KEY);
+    return this.get(COLOR_TYPE_CONTENT);
   }
 
   get themeOverrides() {
