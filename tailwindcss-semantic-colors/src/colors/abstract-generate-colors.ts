@@ -1,4 +1,4 @@
-import { ALL_COLOR_TYPES, COLOR_TYPES, TailwindCssSemanticColorsOptions } from '@src/options.ts';
+import { ALL_COLOR_TYPES, ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
@@ -29,8 +29,10 @@ export abstract class GenerateColors<CM extends ColorMapping> {
   }
 
   private get themeOverrides() {
-    return this.options.getThemeOverridesFor(['semanticColors', 'surfaceColors', 'contentColors']);
+    return this.options.getThemeOverridesFor(this.colorTypes);
   }
+
+  protected abstract get colorTypes(): ColorType[];
 
   /**
    * Iterates over all colors in a color type and outputs the generated css rules.
@@ -38,7 +40,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @param colorType the color type
    * @returns the generated css rules.
    */
-  private generateFromColorType(colorType: COLOR_TYPES): Colors {
+  private generateFromColorType(colorType: ColorType): Colors {
     const colors = this.options.get(colorType);
     return Object.assign(
       {},
@@ -60,7 +62,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @param colorValues the values of the color variable in shades from 90 to 950.
    * @returns the generated css variables.
    */
-  private generateCssVariablesFromColor(colorType: COLOR_TYPES, colorVarname: string, colorValues: string[]): Colors {
+  private generateCssVariablesFromColor(colorType: ColorType, colorVarname: string, colorValues: string[]): Colors {
     if (this.themeOverrides.includes(colorVarname)) {
       return Object.assign(
         {},
@@ -81,8 +83,8 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    *
    * This method should only be called if there is a
    *
-   * @see GenerateUtilityColors#generateThemeOverridesOfCssColorVariable
-   * @see GenerateUtilityColors#generateThemedCssColorVariable
+   * @see GenerateColors#generateThemeOverridesOfCssColorVariable
+   * @see GenerateColors#generateThemedCssColorVariable
    * @param colorType the type of the color.
    * @param colorVarname the name of the css color variable.
    * @param colorValues the values of the color variable in shades from 90 to 950.
@@ -90,7 +92,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @returns the generated theme and color variables.
    */
   private generateThemeCssColorVariables(
-    colorType: COLOR_TYPES,
+    colorType: ColorType,
     colorVarname: string,
     colorValues: string[],
     step: CM,
@@ -136,7 +138,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @returns the generated theme variables.
    */
   protected generateThemeOverridesOfCssColorVariable(
-    colorType: COLOR_TYPES,
+    colorType: ColorType,
     colorVarname: string,
     colorValues: string[],
     step: CM,
@@ -152,7 +154,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
   }
 
   protected abstract generateThemedCssColorValue(
-    _colorType: COLOR_TYPES,
+    _colorType: ColorType,
     _colorVarname: string,
     _colorValues: string[],
     _step: CM,

@@ -1,4 +1,4 @@
-import { COLOR_TYPES } from '../options.ts';
+import { ALL_COLOR_TYPES, ColorType } from '../options.ts';
 import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
 
 interface UtilityColorStepType extends ColorMapping {
@@ -97,12 +97,16 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
     return UTILITY_COLOR_STEPS;
   }
 
-  protected generateCssColorVarname(_colorType: COLOR_TYPES, colorVarname: string, step: UtilityColorStep): string {
+  protected get colorTypes(): ColorType[] {
+    return ALL_COLOR_TYPES;
+  }
+
+  protected generateCssColorVarname(_colorType: ColorType, colorVarname: string, step: UtilityColorStep): string {
     return `--color-${colorVarname}-${step.rightSide}`;
   }
 
   protected generateCssColorValue(
-    _colorType: COLOR_TYPES,
+    _colorType: ColorType,
     _colorVarname: string,
     colorValues: string[],
     step: UtilityColorStep,
@@ -111,7 +115,7 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
   }
 
   protected generateThemedCssColorValue(
-    colorType: COLOR_TYPES,
+    colorType: ColorType,
     colorVarname: string,
     colorValues: string[],
     step: UtilityColorStep,

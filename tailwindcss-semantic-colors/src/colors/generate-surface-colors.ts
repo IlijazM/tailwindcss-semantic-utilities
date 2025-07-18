@@ -1,4 +1,4 @@
-import { COLOR_TYPE_SURFACE, COLOR_TYPES } from '../options.ts';
+import { COLOR_TYPE_SURFACE, ColorType } from '../options.ts';
 import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
 
 interface SurfaceColorMappings extends ColorMapping {
@@ -14,11 +14,11 @@ export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> 
     }));
   }
 
-  protected get colorTypes(): COLOR_TYPES[] {
+  protected get colorTypes(): ColorType[] {
     return ['semanticColors', 'surfaceColors'];
   }
 
-  protected generateCssColorVarname(colorType: COLOR_TYPES, colorVarname: string, step: SurfaceColorMappings): string {
+  protected generateCssColorVarname(colorType: ColorType, colorVarname: string, step: SurfaceColorMappings): string {
     if (colorType === COLOR_TYPE_SURFACE) {
       return `--color-${colorVarname}${step.leftSide}`;
     } else {
@@ -27,7 +27,7 @@ export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> 
   }
 
   protected generateCssColorValue(
-    _colorType: COLOR_TYPES,
+    _colorType: ColorType,
     colorVarname: string,
     _colorValues: string[],
     step: SurfaceColorMappings,
@@ -36,7 +36,7 @@ export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> 
   }
 
   protected generateThemedCssColorValue(
-    _colorType: COLOR_TYPES,
+    _colorType: ColorType,
     _colorVarname: string,
     _colorValues: string[],
     _step: SurfaceColorMappings,

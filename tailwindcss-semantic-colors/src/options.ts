@@ -57,12 +57,12 @@ export const DEFAULT_OPTIONS: TailwindCssSemanticColorsOptionsType = {
   themeOverrides: {},
 };
 
-export type COLOR_TYPES = 'semanticColors' | 'surfaceColors' | 'contentColors';
+export type ColorType = 'semanticColors' | 'surfaceColors' | 'contentColors';
 
-export const COLOR_TYPE_SEMANTIC: COLOR_TYPES = 'semanticColors';
-export const COLOR_TYPE_SURFACE: COLOR_TYPES = 'surfaceColors';
-export const COLOR_TYPE_CONTENT: COLOR_TYPES = 'contentColors';
-export const ALL_COLOR_TYPES: COLOR_TYPES[] = [COLOR_TYPE_SEMANTIC, COLOR_TYPE_SURFACE, COLOR_TYPE_CONTENT];
+export const COLOR_TYPE_SEMANTIC: ColorType = 'semanticColors';
+export const COLOR_TYPE_SURFACE: ColorType = 'surfaceColors';
+export const COLOR_TYPE_CONTENT: ColorType = 'contentColors';
+export const ALL_COLOR_TYPES: ColorType[] = [COLOR_TYPE_SEMANTIC, COLOR_TYPE_SURFACE, COLOR_TYPE_CONTENT];
 
 export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsOptionsType> {
   constructor(options: any) {
@@ -93,7 +93,7 @@ export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<T
     return this.get('themeOverrides');
   }
 
-  getThemeOverridesFor(colorTypes: COLOR_TYPES | COLOR_TYPES[]): string[] {
+  getThemeOverridesFor(colorTypes: ColorType | ColorType[]): string[] {
     let themeOverrides: string[] = [];
 
     for (const theme of this.themes) {
