@@ -25,7 +25,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    * @returns all colors.
    */
   generate(): Colors {
-    return Object.assign({}, ...ALL_COLOR_TYPES.map((colorType) => this.generateFromColorType(colorType)));
+    return Object.assign({}, ...this.colorTypes.map((colorType) => this.generateFromColorType(colorType)));
   }
 
   private get themeOverrides() {
