@@ -1,4 +1,4 @@
-import { ALL_COLOR_TYPES, ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
+import { ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
