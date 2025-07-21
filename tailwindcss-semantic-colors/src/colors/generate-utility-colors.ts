@@ -1,9 +1,9 @@
 import { ALL_COLOR_TYPES, ColorType } from '../options.ts';
-import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
+import { ColorVariantGenerator, ColorGenerator } from './color-generator.ts';
 
-interface UtilityColorStepType extends ColorMapping {
-  leftSide: number;
-  rightSide: number;
+interface UtilityColorStepType extends ColorVariantGenerator {
+  variant: number;
+  mapping: number;
 }
 
 /**
@@ -24,17 +24,17 @@ type UtilityColorStep = UtilityColorStepType &
     | { leftSide: 10; rightSide: 950 }
   );
 
-const TAILWINDCSS_STEP_50: UtilityColorStep = { leftSide: 0, rightSide: 50 };
-const TAILWINDCSS_STEP_100: UtilityColorStep = { leftSide: 1, rightSide: 100 };
-const TAILWINDCSS_STEP_200: UtilityColorStep = { leftSide: 2, rightSide: 200 };
-const TAILWINDCSS_STEP_300: UtilityColorStep = { leftSide: 3, rightSide: 300 };
-const TAILWINDCSS_STEP_400: UtilityColorStep = { leftSide: 4, rightSide: 400 };
-const TAILWINDCSS_STEP_500: UtilityColorStep = { leftSide: 5, rightSide: 500 };
-const TAILWINDCSS_STEP_600: UtilityColorStep = { leftSide: 6, rightSide: 600 };
-const TAILWINDCSS_STEP_700: UtilityColorStep = { leftSide: 7, rightSide: 700 };
-const TAILWINDCSS_STEP_800: UtilityColorStep = { leftSide: 8, rightSide: 800 };
-const TAILWINDCSS_STEP_900: UtilityColorStep = { leftSide: 9, rightSide: 900 };
-const TAILWINDCSS_STEP_950: UtilityColorStep = { leftSide: 10, rightSide: 950 };
+const TAILWINDCSS_STEP_50: UtilityColorStep = { variant: 0, mapping: 50 };
+const TAILWINDCSS_STEP_100: UtilityColorStep = { variant: 1, mapping: 100 };
+const TAILWINDCSS_STEP_200: UtilityColorStep = { variant: 2, mapping: 200 };
+const TAILWINDCSS_STEP_300: UtilityColorStep = { variant: 3, mapping: 300 };
+const TAILWINDCSS_STEP_400: UtilityColorStep = { variant: 4, mapping: 400 };
+const TAILWINDCSS_STEP_500: UtilityColorStep = { variant: 5, mapping: 500 };
+const TAILWINDCSS_STEP_600: UtilityColorStep = { variant: 6, mapping: 600 };
+const TAILWINDCSS_STEP_700: UtilityColorStep = { variant: 7, mapping: 700 };
+const TAILWINDCSS_STEP_800: UtilityColorStep = { variant: 8, mapping: 800 };
+const TAILWINDCSS_STEP_900: UtilityColorStep = { variant: 9, mapping: 900 };
+const TAILWINDCSS_STEP_950: UtilityColorStep = { variant: 10, mapping: 950 };
 
 const UTILITY_COLOR_STEPS: UtilityColorStep[] = [
   TAILWINDCSS_STEP_50,
@@ -92,8 +92,8 @@ const UTILITY_COLOR_STEPS: UtilityColorStep[] = [
  * @param options a reference to the options object.
  * @returns the generated utility colors.
  */
-export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
-  protected get mapping() {
+export class GenerateUtilityColors extends ColorGenerator<UtilityColorStep> {
+  protected get colorVariants() {
     return UTILITY_COLOR_STEPS;
   }
 
@@ -102,7 +102,7 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
   }
 
   protected generateCssColorVarname(_colorType: ColorType, colorVarname: string, step: UtilityColorStep): string {
-    return `--color-${colorVarname}-${step.rightSide}`;
+    return `--color-${colorVarname}-${step.mapping}`;
   }
 
   protected generateCssColorValue(
@@ -111,7 +111,7 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
     colorValues: string[],
     step: UtilityColorStep,
   ): string {
-    return colorValues[step.leftSide]!;
+    return colorValues[step.variant]!;
   }
 
   protected generateThemedCssColorValue(
@@ -121,6 +121,6 @@ export class GenerateUtilityColors extends GenerateColors<UtilityColorStep> {
     step: UtilityColorStep,
     theme: string,
   ): string | undefined {
-    return this.options.themeOverrides[theme]?.[colorType]?.[colorVarname]?.[step.rightSide];
+    return this.options.themeOverrides[theme]?.[colorType]?.[colorVarname]?.[step.mapping];
   }
 }

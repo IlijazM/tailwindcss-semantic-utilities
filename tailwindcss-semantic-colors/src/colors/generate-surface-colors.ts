@@ -1,13 +1,13 @@
 import { COLOR_TYPE_SURFACE, ColorType } from '../options.ts';
-import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
+import { ColorVariantGenerator, ColorGenerator } from './color-generator.ts';
 
-interface SurfaceColorMappings extends ColorMapping {
-  leftSide: string;
-  rightSide: string;
+interface SurfaceColorMappings extends ColorVariantGenerator {
+  variant: string;
+  mapping: string;
 }
 
-export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> {
-  protected get mapping() {
+export class GenerateSurfaceColors extends ColorGenerator<SurfaceColorMappings> {
+  protected get colorVariants() {
     return Object.entries(this.options.get('surfaceColorSteps')).map(([leftSide, rightSide]) => ({
       leftSide,
       rightSide,
@@ -20,9 +20,9 @@ export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> 
 
   protected generateCssColorVarname(colorType: ColorType, colorVarname: string, step: SurfaceColorMappings): string {
     if (colorType === COLOR_TYPE_SURFACE) {
-      return `--color-${colorVarname}${step.leftSide}`;
+      return `--color-${colorVarname}${step.variant}`;
     } else {
-      return `--color-surface-${colorVarname}${step.leftSide}`;
+      return `--color-surface-${colorVarname}${step.variant}`;
     }
   }
 
@@ -32,7 +32,7 @@ export class GenerateSurfaceColors extends GenerateColors<SurfaceColorMappings> 
     _colorValues: string[],
     step: SurfaceColorMappings,
   ): string {
-    return `var(--color-${colorVarname}-${step.rightSide})`;
+    return `var(--color-${colorVarname}-${step.mapping})`;
   }
 
   protected generateThemedCssColorValue(

@@ -3,36 +3,55 @@ import { ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
-export interface ColorMapping {
-  leftSide: string | number;
-  rightSide: string | number;
-}
-
-export abstract class GenerateColors<CM extends ColorMapping> {
+/**
+ * An abstract class for generating a cross product of colors and color variants while respecting theme overrides.
+ *
+ * ## Color variants
+ *
+ * Color variants are a list of variants that map to a specific color. As an example,
+ * let's assume the variants "default", "muted", and "emphasis" for text colors and their respected mappings:
+ *
+ * ```
+ * default  -> color-content-900
+ * muted    -> color-content-800
+ * emphasis -> color-black
+ * ```
+ *
+ * ## Theme overrides
+ */
+export abstract class ColorGenerator {
   static readonly THEME_PREFIX = `--theme`;
 
-  protected options: TailwindCssSemanticColorsOptions;
-
-  constructor(options: TailwindCssSemanticColorsOptions) {
-    this.options = options;
+  /**
+   * A readonly reference to the options object.
+   */
+  protected get options() {
+    return this._options;
   }
 
-  protected abstract get mapping(): CM[];
+  constructor(private _options: TailwindCssSemanticColorsOptions) {}
 
   /**
-   * Generates all colors.
+   * Entrypoint for generating all colors.
+   *
+   * Iterates over all color type and generates the respected color for that type.
    *
    * @returns all colors.
    */
-  generate(): Colors {
+  public generate(): Colors {
     return Object.assign({}, ...this.colorTypes.map((colorType) => this.generateFromColorType(colorType)));
   }
 
-  private get themeOverrides() {
-    return this.options.getThemeOverridesFor(this.colorTypes);
-  }
-
+  /**
+   * @see ColorType
+   * @returns all color types.
+   */
   protected abstract get colorTypes(): ColorType[];
+
+  /**
+   * @returns a list of all color variants.
+   */
+  protected abstract get colorVariants(): string[];
 
   /**
    * Iterates over all colors in a color type and outputs the generated css rules.
@@ -44,37 +63,42 @@ export abstract class GenerateColors<CM extends ColorMapping> {
     const colors = this.options.get(colorType);
     return Object.assign(
       {},
-      ...Object.entries(colors).map(([colorVarname, colorValues]) =>
-        this.generateCssVariablesFromColor(colorType, colorVarname, colorValues),
-      ),
+      ...Object.entries(colors).map(([colorVarname, _]) => this.generateCssVariablesFromColor(colorType, colorVarname)),
     );
+  }
+
+  private get themeOverrides() {
+    return this.options.getThemeOverridesFor(this.colorTypes);
   }
 
   /**
    * Generates css variables from the inputted colorVarname and colorValues.
    *
-   * Decides if theme variables must be generated based on if there are themeOverrides for the given color.
-   *
-   * Also iterates over the tailwindcss color steps which range from 90 to 950.
+   * Iterates over all color variants and delegates the generation for the css variable.
    *
    * @param colorType the type of the color.
    * @param colorVarname the name of the css color variable.
-   * @param colorValues the values of the color variable in shades from 90 to 950.
    * @returns the generated css variables.
    */
-  private generateCssVariablesFromColor(colorType: ColorType, colorVarname: string, colorValues: string[]): Colors {
+  private generateCssVariablesFromColor(colorType: ColorType, colorVarname: string): Colors {
+    return Object.assign(
+      {},
+      ...this.colorVariants.map((colorVariant) =>
+        this.generateCssVariablesFromColorAndColorVariant(colorType, colorVarname, colorVariant),
+      ),
+    );
+  }
+
+  private generateCssVariablesFromColorAndColorVariant(
+    colorType: ColorType,
+    colorVarname: string,
+    colorVariant: string,
+  ) {
+    // TODO: check for color variant in theme overrides too
     if (this.themeOverrides.includes(colorVarname)) {
-      return Object.assign(
-        {},
-        ...this.mapping.map((step) => this.generateThemeCssColorVariables(colorType, colorVarname, colorValues, step)),
-      );
+      return Object.assign({}, this.generateThemeCssColorVariables(colorType, colorVarname, colorVariant));
     } else {
-      return Object.assign(
-        {},
-        ...this.mapping.map((step) =>
-          this.generateUnthemedCssColorVariable(colorType, colorVarname, colorValues, step),
-        ),
-      );
+      return Object.assign({}, this.generateUnthemedCssColorVariable(colorType, colorVarname, colorVariant));
     }
   }
 
@@ -83,23 +107,17 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    *
    * This method should only be called if there is a
    *
-   * @see GenerateColors#generateThemeOverridesOfCssColorVariable
-   * @see GenerateColors#generateThemedCssColorVariable
+   * @see ColorGenerator#generateThemeOverridesOfCssColorVariable
+   * @see ColorGenerator#generateThemedCssColorVariable
    * @param colorType the type of the color.
    * @param colorVarname the name of the css color variable.
-   * @param colorValues the values of the color variable in shades from 90 to 950.
    * @param step the tailwindcss step value that is in between 90 and 950.
    * @returns the generated theme and color variables.
    */
-  private generateThemeCssColorVariables(
-    colorType: ColorType,
-    colorVarname: string,
-    colorValues: string[],
-    step: CM,
-  ): Colors {
+  private generateThemeCssColorVariables(colorType: ColorType, colorVarname: string, step: CM): Colors {
     return Object.assign(
       {},
-      this.generateThemeOverridesOfCssColorVariable(colorType, colorVarname, colorValues, step),
+      this.generateThemeOverridesOfCssColorVariable(colorType, colorVarname, step),
       this.generateThemedCssColorVariable(colorType, colorVarname, step),
     );
   }
@@ -133,21 +151,15 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    *
    * @param colorType the type of the color.
    * @param colorVarname the name of the css color variable.
-   * @param colorValues the values of the color variable in shades from 90 to 950.
    * @param step the tailwindcss step value that is in between 90 and 950.
    * @returns the generated theme variables.
    */
-  protected generateThemeOverridesOfCssColorVariable(
-    colorType: ColorType,
-    colorVarname: string,
-    colorValues: string[],
-    step: CM,
-  ): Colors {
+  protected generateThemeOverridesOfCssColorVariable(colorType: ColorType, colorVarname: string, step: CM): Colors {
     return Object.assign(
       {},
       ...this.options.themes.map((theme) => ({
-        [`${GenerateColors.THEME_PREFIX}-${theme}${this.generateCssColorVarname(colorType, colorVarname, step)}`]:
-          this.generateThemedCssColorValue(colorType, colorVarname, colorValues, step, theme) ??
+        [`${ColorGenerator.THEME_PREFIX}-${theme}${this.generateCssColorVarname(colorType, colorVarname, step)}`]:
+          this.generateThemedCssColorValue(colorType, colorVarname, step, theme) ??
           this.generateCssColorValue(colorType, colorVarname, colorValues, step),
       })),
     );
@@ -156,7 +168,6 @@ export abstract class GenerateColors<CM extends ColorMapping> {
   protected abstract generateThemedCssColorValue(
     _colorType: ColorType,
     _colorVarname: string,
-    _colorValues: string[],
     _step: CM,
     _theme: string,
   ): string | undefined;
@@ -187,7 +198,7 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    */
   protected generateThemedCssColorVariable(colorType: string, colorVarname: string, step: CM): Colors {
     const cssColorVarname = this.generateCssColorVarname(colorType, colorVarname, step);
-    return { [cssColorVarname]: `var({${GenerateColors.THEME_PREFIX}${cssColorVarname}})` };
+    return { [cssColorVarname]: `var({${ColorGenerator.THEME_PREFIX}${cssColorVarname}})` };
   }
 
   /**
@@ -228,32 +239,40 @@ export abstract class GenerateColors<CM extends ColorMapping> {
    *
    * @see GenerateUtilityColors#generateThemedCssColorVariable
    * @param colorVarname the name of the css color variable.
-   * @param colorValues the values of the color variable in shades from 90 to 950.
-   * @param step the tailwindcss step value that is in between 90 and 950.
+   * @param colorVariant the tailwindcss step value that is in between 90 and 950.
    * @returns the generated color.
    */
-  private generateUnthemedCssColorVariable(
-    colorType: string,
-    colorVarname: string,
-    colorValues: string[],
-    step: CM,
-  ): Colors {
+  private generateUnthemedCssColorVariable(colorType: string, colorVarname: string, colorVariant: string): Colors {
     return {
-      [this.generateCssColorVarname(colorType, colorVarname, step)]: this.generateCssColorValue(
+      [this.generateCssColorVarname({ colorType, colorVarname, colorVariant })]: this.generateCssColorValue({
         colorType,
         colorVarname,
-        colorValues,
-        step,
-      ),
+        colorVariant,
+      }),
     };
   }
 
-  protected abstract generateCssColorVarname(_colorType: string, _colorVarname: string, _step: CM): string;
+  /**
+   * Generates a css color varname given the color type, color varname, and color variant.
+   *
+   * @param _arg0 contains the color type, color varname, and color variant.
+   * @returns the generated css color varname.
+   */
+  protected abstract generateCssColorVarname(_arg0: {
+    colorType: string;
+    colorVarname: string;
+    colorVariant: string;
+  }): string;
 
-  protected abstract generateCssColorValue(
-    _colorType: string,
-    _colorVarname: string,
-    _colorValues: string[],
-    _step: CM,
-  ): string;
+  /**
+   * Generates a css color value given the color type, color varname, and color variant.
+   *
+   * @param _arg0 contains the color type, color varname, and color variant.
+   * @returns the generated css color value.
+   */
+  protected abstract generateCssColorValue(_arg0: {
+    colorType: string;
+    colorVarname: string;
+    colorVariant: string;
+  }): string;
 }

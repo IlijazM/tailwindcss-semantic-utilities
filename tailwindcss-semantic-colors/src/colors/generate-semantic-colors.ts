@@ -1,17 +1,17 @@
 import { COLOR_TYPE_SEMANTIC, ColorType } from '../options.ts';
-import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
+import { ColorVariantGenerator, ColorGenerator } from './color-generator.ts';
 
-interface SemanticColorSteps extends ColorMapping {
-  leftSide: string;
-  rightSide: number;
+interface SemanticColorSteps extends ColorVariantGenerator {
+  variant: string;
+  mapping: number;
 }
 
-export class GenerateSemanticColors extends GenerateColors<SemanticColorSteps> {
-  protected get mapping(): SemanticColorSteps[] {
+export class GenerateSemanticColors extends ColorGenerator<SemanticColorSteps> {
+  protected get colorVariants(): SemanticColorSteps[] {
     return [
-      { leftSide: '', rightSide: 600 },
-      { leftSide: '-light', rightSide: 500 },
-      { leftSide: '-dark', rightSide: 700 },
+      { variant: '', mapping: 600 },
+      { variant: '-light', mapping: 500 },
+      { variant: '-dark', mapping: 700 },
     ];
   }
 
@@ -20,7 +20,7 @@ export class GenerateSemanticColors extends GenerateColors<SemanticColorSteps> {
   }
 
   protected generateCssColorVarname(_colorType: ColorType, colorVarname: string, step: SemanticColorSteps): string {
-    return `--color-${colorVarname}-${step.leftSide}`;
+    return `--color-${colorVarname}-${step.variant}`;
   }
 
   protected generateCssColorValue(
@@ -29,7 +29,7 @@ export class GenerateSemanticColors extends GenerateColors<SemanticColorSteps> {
     _colorValues: string[],
     step: SemanticColorSteps,
   ): string {
-    return `var(--color-${colorVarname}-${step.rightSide})`;
+    return `var(--color-${colorVarname}-${step.mapping})`;
   }
 
   protected generateThemedCssColorValue(
@@ -39,6 +39,6 @@ export class GenerateSemanticColors extends GenerateColors<SemanticColorSteps> {
     step: SemanticColorSteps,
     theme: string,
   ): string | undefined {
-    return this.options.themeOverrides[theme]?.[colorType]?.[colorVarname]?.[step.rightSide];
+    return this.options.themeOverrides[theme]?.[colorType]?.[colorVarname]?.[step.mapping];
   }
 }

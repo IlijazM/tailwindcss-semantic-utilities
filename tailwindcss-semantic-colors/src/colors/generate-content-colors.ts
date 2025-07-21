@@ -1,17 +1,17 @@
 import { COLOR_TYPE_CONTENT, ColorType } from '../options.ts';
-import { ColorMapping, GenerateColors } from './abstract-generate-colors.ts';
+import { ColorVariantGenerator, ColorGenerator } from './color-generator.ts';
 
-interface ContentColorMapping extends ColorMapping {
-  leftSide: string;
-  rightSide: string | number;
+interface ContentColorMapping extends ColorVariantGenerator {
+  variant: string;
+  mapping: string | number;
 }
 
-export class GenerateContentColors extends GenerateColors<ContentColorMapping> {
-  protected get mapping(): ContentColorMapping[] {
+export class GenerateContentColors extends ColorGenerator<ContentColorMapping> {
+  protected get colorVariants(): ContentColorMapping[] {
     return [
-      { leftSide: '', rightSide: 900 },
-      { leftSide: '-muted', rightSide: 800 },
-      { leftSide: '-emphasis', rightSide: 'var(--color-black)' },
+      { variant: '', mapping: 900 },
+      { variant: '-muted', mapping: 800 },
+      { variant: '-emphasis', mapping: 'var(--color-black)' },
     ];
   }
 
@@ -20,7 +20,7 @@ export class GenerateContentColors extends GenerateColors<ContentColorMapping> {
   }
 
   protected generateCssColorVarname(_colorType: ColorType, colorVarname: string, step: ContentColorMapping): string {
-    return `--color-${colorVarname}${step.leftSide}`;
+    return `--color-${colorVarname}${step.variant}`;
   }
 
   protected generateCssColorValue(
@@ -29,10 +29,10 @@ export class GenerateContentColors extends GenerateColors<ContentColorMapping> {
     _colorValues: string[],
     step: ContentColorMapping,
   ): string {
-    if (typeof step.rightSide === 'string') {
-      return step.rightSide;
+    if (typeof step.mapping === 'string') {
+      return step.mapping;
     } else {
-      return `var(--color-${colorVarname}-${step.rightSide})`;
+      return `var(--color-${colorVarname}-${step.mapping})`;
     }
   }
 
