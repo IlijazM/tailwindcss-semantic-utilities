@@ -1,10 +1,10 @@
-import { ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
+import { ALL_COLOR_TYPES, ColorType, TailwindCssSemanticColorsOptions } from '@src/options.ts';
 
 export type ColorValue = string;
 export type Colors = { [colorName: ColorValue]: ColorValue };
 
 /**
- * An abstract class for generating a cross product of colors and color variants while respecting theme overrides.
+ * An abstract class for generating a cross product of colors and color variants with respect to theme overrides.
  *
  * ## Color variants
  *
@@ -34,7 +34,7 @@ export abstract class ColorGenerator {
   /**
    * Entrypoint for generating all colors.
    *
-   * Iterates over all color type and generates the respected color for that type.
+   * Iterates over all color types and generates the respected color for that type.
    *
    * @returns all colors.
    */
@@ -43,10 +43,17 @@ export abstract class ColorGenerator {
   }
 
   /**
+   * A getter for all color types that should be respected.
+   *
+   * Override this method to change the respected color types.
+   * Else, all color types are getting respected.
+   *
    * @see ColorType
    * @returns all color types.
    */
-  protected abstract get colorTypes(): ColorType[];
+  protected get colorTypes(): ColorType[] {
+    return ALL_COLOR_TYPES;
+  }
 
   /**
    * @returns a list of all color variants.
@@ -67,14 +74,21 @@ export abstract class ColorGenerator {
     );
   }
 
-  private get themeOverrides() {
-    return this.options.getThemeOverridesFor(this.colorTypes);
+  /**
+   * Checks if there are theme overrides for the given color type, color varname, and color variant.
+   *
+   * @param _colorType the color type
+   * @param _colorVarname the color varname
+   * @param _colorVariant the color variant
+   * @returns true, if there are theme overrides.
+   */
+  private hasThemeOverride(_colorType: ColorType, _colorVarname: string, _colorVariant: string): boolean {
+    // TODO: implement.
+    return false;
   }
 
   /**
-   * Generates css variables from the inputted colorVarname and colorValues.
-   *
-   * Iterates over all color variants and delegates the generation for the css variable.
+   * Iterates over all color variants and generates the outputs the generated css rules.
    *
    * @param colorType the type of the color.
    * @param colorVarname the name of the css color variable.
@@ -89,13 +103,21 @@ export abstract class ColorGenerator {
     );
   }
 
+  /**
+   * Checks if the combination of color type, color varname, and color variant has theme overrides
+   * and delegates the generation of the css rules to the appropriate method.
+   *
+   * @param _colorType the color type
+   * @param _colorVarname the color varname
+   * @param _colorVariant the color variant
+   * @returns the generated css variables.
+   */
   private generateCssVariablesFromColorAndColorVariant(
     colorType: ColorType,
     colorVarname: string,
     colorVariant: string,
   ) {
-    // TODO: check for color variant in theme overrides too
-    if (this.themeOverrides.includes(colorVarname)) {
+    if (this.hasThemeOverride(colorType, colorVarname, colorVariant)) {
       return Object.assign({}, this.generateThemeCssColorVariables(colorType, colorVarname, colorVariant));
     } else {
       return Object.assign({}, this.generateUnthemedCssColorVariable(colorType, colorVarname, colorVariant));

@@ -1,12 +1,7 @@
 import { COLOR_TYPE_CONTENT, ColorType } from '../options.ts';
-import { ColorVariantGenerator, ColorGenerator } from './color-generator.ts';
+import { ColorGenerator } from './color-generator.ts';
 
-interface ContentColorMapping extends ColorVariantGenerator {
-  variant: string;
-  mapping: string | number;
-}
-
-export class GenerateContentColors extends ColorGenerator<ContentColorMapping> {
+export class GenerateContentColors extends ColorGenerator {
   protected get colorVariants(): ContentColorMapping[] {
     return [
       { variant: '', mapping: 900 },
