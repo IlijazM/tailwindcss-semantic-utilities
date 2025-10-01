@@ -7,7 +7,7 @@ const structuredClone = <T>(v: T): T => JSON.parse(JSON.stringify(v));
  * A typed object wrapper for the options object provided by TailwindCss.
  */
 export class TailwindcssOptionsObject<OptionsType extends Record<string, any>> {
-  private options: OptionsType;
+  private readonly options: OptionsType;
 
   constructor(options: unknown, defaultOptions: OptionsType) {
     if (options && typeof options === 'object') {

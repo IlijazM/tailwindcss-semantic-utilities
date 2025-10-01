@@ -6,11 +6,11 @@ import { TailwindCssSemanticColorPlugin } from '@src/tailwindcss-semantic-colors
 const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
   (options) => {
     return ({ addBase }) => {
-      const parsedOptions = new TailwindCssSemanticColorPlugin(options);
+      const plugin = new TailwindCssSemanticColorPlugin(options);
 
       const base: Record<string, string> = {};
 
-      for (const [colorName, color] of Object.entries(parsedOptions.colors())) {
+      for (const [colorName, color] of Object.entries(plugin.colors())) {
         base[colorName] = color;
       }
 
@@ -21,12 +21,12 @@ const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
   },
 
   (options) => {
-    const parsedOptions = new TailwindCssSemanticColorPlugin(options);
+    const plugin = new TailwindCssSemanticColorPlugin(options);
 
     return {
       theme: {
         extend: {
-          colors: parsedOptions.colors(),
+          colors: plugin.colors(),
         },
       },
     };
