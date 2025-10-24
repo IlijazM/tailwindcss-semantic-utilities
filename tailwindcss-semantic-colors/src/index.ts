@@ -8,14 +8,8 @@ const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
     return ({ addBase }) => {
       const plugin = new TailwindCssSemanticColorPlugin(options);
 
-      const base: Record<string, string> = {};
-
-      for (const [colorName, color] of Object.entries(plugin.colors())) {
-        base[colorName] = color;
-      }
-
       addBase({
-        ':root': base,
+        ':root': plugin.colors.cssDeclarations,
       });
     };
   },
@@ -26,7 +20,7 @@ const tailwindcssSemanticColorsPlugin: PluginCreator = plugin.withOptions(
     return {
       theme: {
         extend: {
-          colors: plugin.colors(),
+          colors: plugin.colors.themeExtension,
         },
       },
     };

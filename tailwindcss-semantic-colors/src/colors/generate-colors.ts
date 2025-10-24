@@ -1,5 +1,5 @@
 import { TailwindCssSemanticColorsOptions } from '../tailwindcss-semantic-colors-options.ts';
-import { Color } from '@src/colors/color-type.ts';
+import { Colors } from '@src/colors/colors.ts';
 import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
 
 /**
@@ -8,8 +8,8 @@ import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
  * @param options a reference to the options object.
  * @returns the generated colors.
  */
-export function generateColors(options: TailwindCssSemanticColorsOptions): Color[] {
-  const colors: Color[] = [];
+export function generateColors(options: TailwindCssSemanticColorsOptions): Colors {
+  const colors = new Colors();
 
   const colorEntries = Object.entries(options.get('semanticColors'));
   for (const [semanticColorName, colorValues] of colorEntries) {
@@ -22,7 +22,11 @@ export function generateColors(options: TailwindCssSemanticColorsOptions): Color
     // TAILWIND_COLORS_SHADES.length === colorValues.length
     for (let i = 0; i < TAILWIND_COLORS_SHADES.length; i++) {
       const tailwindShade = TAILWIND_COLORS_SHADES[i]!;
-      colors.push(new Color(semanticColorName, tailwindShade, colorValues[i]!));
+      colors.addColor({
+        name: semanticColorName,
+        shade: tailwindShade,
+        value: colorValues[i]!,
+      });
     }
   }
 
