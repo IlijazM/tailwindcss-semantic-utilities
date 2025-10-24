@@ -1,4 +1,4 @@
-import { TAILWIND_COLORS_STEPS } from '@src/common.ts';
+import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
 
 /**
  * Matches the following prefixes:
@@ -63,20 +63,21 @@ const SUFFIX_REGEX = /-?\*\)?$|\)$/;
  * ]
  * ```
  *
- * @see TAILWIND_COLORS_STEPS
+ * @see TAILWIND_COLORS_SHADES
  * @param variableName the name of the variable to transform into a color step array
  * @returns the color step array
  */
 export function toColorArray(variableName: string): string[] {
   if (PREFIX_REGEX.test(variableName) === false) {
     // single variable case
-
-    return TAILWIND_COLORS_STEPS.map(() => variableName);
+    // example: "white" -> ["white", "white", ..., "white"]
+    return TAILWIND_COLORS_SHADES.map(() => variableName);
   }
 
   // multi variable case
+  // example: "var(--color-indigo-*)" -> ["var(--color-indigo-50)", "var(--color-indigo-100)", ..., "var(--color-indigo-950)"]
 
-  const normalizedVariableName = variableName.replace(PREFIX_REGEX, '').replace(SUFFIX_REGEX, '');
-
-  return TAILWIND_COLORS_STEPS.map((steps) => `var(--color-${normalizedVariableName}-${steps})`);
+  // Strip the prefix and suffix from the variable name and leave only the variable name
+  const strippedVariableName = variableName.replace(PREFIX_REGEX, '').replace(SUFFIX_REGEX, '');
+  return TAILWIND_COLORS_SHADES.map((steps) => `var(--color-${strippedVariableName}-${steps})`);
 }

@@ -15,6 +15,9 @@ const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
   success: toColorArray('var(--color-green-*)'),
   warning: toColorArray('var(--color-amber-*)'),
   danger: toColorArray('var(--color-red-*)'),
+  surface: toColorArray('var(--color-gray-*)'),
+  container: toColorArray('var(--color-slate-*)'),
+  content: toColorArray('var(--color-neutral-*)')
 };
 
 const DEFAULT_OPTIONS: TailwindCssSemanticColorsThemedOptionsType = {

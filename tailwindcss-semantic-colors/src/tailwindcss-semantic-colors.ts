@@ -1,5 +1,5 @@
 import { generateColors } from '@/src/colors/generate-colors.ts';
-import { TailwindCssSemanticColorsOptions } from './options.ts';
+import { TailwindCssSemanticColorsOptions } from './tailwindcss-semantic-colors-options.ts';
 
 export class TailwindCssSemanticColorPlugin {
   private readonly options: TailwindCssSemanticColorsOptions;
