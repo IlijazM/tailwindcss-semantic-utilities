@@ -1,6 +1,6 @@
 import { TailwindCssSemanticColorsOptions } from '../tailwindcss-semantic-colors-options.ts';
 import { Colors } from '@src/colors/colors.ts';
-import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
+import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 
 /**
  * Generates all colors.

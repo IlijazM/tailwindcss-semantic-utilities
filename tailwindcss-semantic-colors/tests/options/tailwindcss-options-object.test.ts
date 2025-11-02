@@ -13,7 +13,7 @@ const defaultOptions: MyOptions = {
   colors: { primary: '--colors-indigo-*', secondary: '--colors-pink-*', tertiary: '--colors-lime-*' },
 };
 
-describe('TailwindcssOptionsObject#get', () => {
+describe('tailwindcss-options-object', () => {
   it('returns default options if options are undefined.', () => {
     const instance = new TailwindcssOptionsObject<MyOptions>(undefined, defaultOptions);
 

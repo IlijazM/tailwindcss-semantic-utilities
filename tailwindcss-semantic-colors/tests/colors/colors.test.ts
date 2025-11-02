@@ -1,8 +1,8 @@
 import { TailwindCssSemanticColorsOptions } from '@src/tailwindcss-semantic-colors-options.ts';
 import { type Color, Colors } from '@src/colors/colors.ts';
 
-describe('generateSurfaceColors', () => {
-  it('Length is correct', () => {
+describe('colors', () => {
+  it('should have the correct length', () => {
     const colors = new Colors();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });
@@ -13,7 +13,7 @@ describe('generateSurfaceColors', () => {
     expect(colors.colors.length).toBe(4);
   });
 
-  it('Generates correct css declarations', () => {
+  it('should generate css declarations correctly', () => {
     const colors = new Colors();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });
@@ -31,7 +31,7 @@ describe('generateSurfaceColors', () => {
     expect(colors.cssDeclarations).toEqual(expectedDeclarations);
   });
 
-  it('Generates correct theme extension', () => {
+  it('should generate theme extension correctly', () => {
     const colors = new Colors();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });

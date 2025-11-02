@@ -5,7 +5,7 @@ export interface TailwindCssSemanticColorsThemedOptionsType {
   semanticColors: Record<string, string[]>;
 }
 
-const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
+export const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
   brand: toColorArray('var(--color-blue-*)'),
   primary: toColorArray('var(--color-indigo-*)'),
   secondary: toColorArray('var(--color-pink-*)'),
@@ -17,12 +17,12 @@ const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
   danger: toColorArray('var(--color-red-*)'),
   surface: toColorArray('var(--color-gray-*)'),
   container: toColorArray('var(--color-slate-*)'),
-  content: toColorArray('var(--color-neutral-*)')
+  content: toColorArray('var(--color-neutral-*)'),
 };
 
 const DEFAULT_OPTIONS: TailwindCssSemanticColorsThemedOptionsType = {
   semanticColors: DEFAULT_SEMANTIC_COLORS,
-}
+};
 
 export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsThemedOptionsType> {
   constructor(options: any) {

@@ -2,7 +2,7 @@
 
 import { attemptToParseColorValueArray } from '@src/options/color-value-array.ts';
 
-describe('attemptToParseColorValueArray', () => {
+describe('color-value-array', () => {
   const expectedResult = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
   const validColorArray = JSON.stringify(expectedResult);
 

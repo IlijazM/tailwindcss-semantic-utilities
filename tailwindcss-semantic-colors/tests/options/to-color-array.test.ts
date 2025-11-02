@@ -3,9 +3,9 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { toColorArray } from '@src/options/to-color-array.ts';
-import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
+import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 
-describe('toColorArray', () => {
+describe('to-color-array', () => {
   it('returns single variable repeated for each step when input has no color-* prefix', () => {
     const result = toColorArray('white');
 

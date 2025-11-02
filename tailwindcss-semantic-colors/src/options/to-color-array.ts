@@ -1,4 +1,4 @@
-import { TAILWIND_COLORS_SHADES } from '@src/common.ts';
+import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 
 /**
  * Matches the following prefixes:

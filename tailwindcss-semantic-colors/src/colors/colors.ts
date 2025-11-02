@@ -1,4 +1,4 @@
-import { TailwindColorShade } from '@src/common.ts';
+import { TailwindColorShade } from '@src/tailwindcss-color-shades.ts';
 
 export interface Color {
   name: string;

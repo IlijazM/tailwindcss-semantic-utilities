@@ -2,7 +2,7 @@ import { generateColors } from '@src/colors/generate-colors.ts';
 import { TailwindCssSemanticColorsOptions } from '@src/tailwindcss-semantic-colors-options.ts';
 import type { Color } from '@src/colors/colors.ts';
 
-describe('generateSurfaceColors', () => {
+describe('generate-colors', () => {
   const semanticColors = {
     primary: ['var(--color-indigo-50)', 'var(--color-indigo-100)'],
     secondary: ['var(--color-pink-50)', 'var(--color-pink-100)'],
