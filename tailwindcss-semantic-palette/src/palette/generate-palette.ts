@@ -1,4 +1,4 @@
-import { TailwindcssSemanticPaletteOptions } from '../tailwindcss-semantic-palette-options.ts';
+import { TailwindcssSemanticPaletteOptions } from '../options/tailwindcss-semantic-palette-options.ts';
 import { Palette } from '@src/palette/palette.ts';
 import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 

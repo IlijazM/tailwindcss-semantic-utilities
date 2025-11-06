@@ -1,5 +1,8 @@
 @import 'tailwindcss';
-@plugin '../dist/index.js';
+@plugin '../dist/index.js' {
+    semantic-palette: "*", primary, secondary, brand;
+    semantic-palette--brand: "--var(--color-blue-*)";
+}
 
 @custom-variant dark (&:is(.dark *));
 

@@ -1,7 +1,7 @@
 import {
   DEFAULT_SEMANTIC_PALETTE,
   TailwindcssSemanticPaletteOptions,
-} from '@src/tailwindcss-semantic-palette-options.ts';
+} from '@src/options/tailwindcss-semantic-palette-options.ts';
 
 describe('tailwindcss-semantic-palette-options.test', () => {
   it('should set default options correctly', () => {
