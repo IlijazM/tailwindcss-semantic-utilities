@@ -1,9 +1,9 @@
-import { TailwindCssSemanticColorsOptions } from '@src/tailwindcss-semantic-colors-options.ts';
-import { type Color, Colors } from '@src/colors/colors.ts';
+import { TailwindcssSemanticPaletteOptions } from '@src/tailwindcss-semantic-palette-options.ts';
+import { type Color, Palette } from '@src/palette/palette.ts';
 
 describe('colors', () => {
   it('should have the correct length', () => {
-    const colors = new Colors();
+    const colors = new Palette();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });
     colors.addColor({ name: 'primary', shade: 100, value: 'var(--color-primary-100)' });
@@ -14,7 +14,7 @@ describe('colors', () => {
   });
 
   it('should generate css declarations correctly', () => {
-    const colors = new Colors();
+    const colors = new Palette();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });
     colors.addColor({ name: 'primary', shade: 100, value: 'var(--color-primary-100)' });
@@ -32,7 +32,7 @@ describe('colors', () => {
   });
 
   it('should generate theme extension correctly', () => {
-    const colors = new Colors();
+    const colors = new Palette();
 
     colors.addColor({ name: 'primary', shade: 50, value: 'var(--color-primary-50)' });
     colors.addColor({ name: 'primary', shade: 100, value: 'var(--color-primary-100)' });

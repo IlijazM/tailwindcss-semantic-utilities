@@ -1,6 +1,6 @@
-import { generateColors } from '@src/colors/generate-colors.ts';
-import { TailwindCssSemanticColorsOptions } from '@src/tailwindcss-semantic-colors-options.ts';
-import type { Color } from '@src/colors/colors.ts';
+import { generatePalette } from '@src/palette/generate-palette.ts';
+import { TailwindcssSemanticPaletteOptions } from '@src/tailwindcss-semantic-palette-options.ts';
+import type { Color } from '@src/palette/palette.ts';
 
 describe('generate-palette', () => {
   const semanticColors = {
@@ -58,14 +58,14 @@ describe('generate-palette', () => {
     { name: 'secondary', shade: 950, value: 'var(--color-secondary-950)' },
   ];
 
-  const options = new TailwindCssSemanticColorsOptions({
+  const options = new TailwindcssSemanticPaletteOptions({
     semanticColors,
   });
 
   it('should return empty object if no sematic palette are provided', () => {
-    const result = generateColors(
-      new TailwindCssSemanticColorsOptions({
-        semanticColors: {},
+    const result = generatePalette(
+      new TailwindcssSemanticPaletteOptions({
+        semanticPalette: {},
       }),
     );
 
@@ -73,7 +73,7 @@ describe('generate-palette', () => {
   });
 
   it('should generate all semantic palette', () => {
-    const result = generateColors(options);
+    const result = generatePalette(options);
 
     for (const expectedColor of expectedColors) {
       expect(result.colors.find((r) => r.name === expectedColor.name && r.shade === expectedColor.shade)).toBeTruthy();

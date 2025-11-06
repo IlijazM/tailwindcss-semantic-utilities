@@ -1,6 +1,6 @@
-# TailwindCSS Semantic Colors
+# TailwindCSS Semantic Palette
 
-TailwindCSS Semantic Colors is a plugin for Tailwind CSS v4 that abstracts colors into semantic colors, allowing you to reference colors by their intended meaning (such as `primary`, `success`, or `warning`) instead of specific color values.
+TailwindCSS Semantic Palette is a plugin for Tailwind CSS v4 that abstracts colors into semantic colors, allowing you to reference colors by their intended meaning (such as `primary`, `success`, or `warning`) instead of specific color values.
 
 ## Reason
 
@@ -20,11 +20,11 @@ These color classes are also vague. They do not communicate the intended purpose
 
 ### 🚀 Proposed Solution
 
-TailwindCSS Semantic Colors introduces semantic color tokens (such as `primary`, `success`, `warning`) that map to specific color values. The plugin is highly configurable, allowing you to define your own semantic tokens and extend beyond the basics.
+TailwindCSS Semantic Palette introduces semantic color tokens (such as `primary`, `success`, `warning`) that map to specific color values. The plugin is highly configurable, allowing you to define your own semantic tokens and extend beyond the basics.
 
 In addition to core colors, it also provides respective surface colors (like `surface-primary`, `surface-success`, `surface-warning`) for backgrounds and containers, enabling even richer semantic meaning and consistency throughout your UI. By referencing colors semantically, you can easily update color schemes, maintain consistency, and communicate design intent more clearly.
 
-**❌ Without Tailwind CSS Semantic Colors:**
+**❌ Without Tailwind CSS Semantic Palette:**
 
 ```html
 <div class="bg-green-100">
@@ -33,7 +33,7 @@ In addition to core colors, it also provides respective surface colors (like `su
 </div>
 ```
 
-**✅ With Tailwind CSS Semantic Colors plugin:**
+**✅ With Tailwind CSS Semantic Palette plugin:**
 
 ```html
 <div class="bg-success-primary">

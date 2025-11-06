@@ -1,11 +1,11 @@
 import { toColorArray } from '@src/options/to-color-array.ts';
 import { TailwindcssOptionsObject } from './options/tailwindcss-options-object.ts';
 
-export interface TailwindCssSemanticColorsThemedOptionsType {
-  semanticColors: Record<string, string[]>;
+export interface TailwindCssSemanticPaletteThemedOptionsType {
+  semanticPalette: Record<string, string[]>;
 }
 
-export const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
+export const DEFAULT_SEMANTIC_PALETTE: Record<string, string[]> = {
   brand: toColorArray('var(--color-blue-*)'),
   primary: toColorArray('var(--color-indigo-*)'),
   secondary: toColorArray('var(--color-pink-*)'),
@@ -20,11 +20,11 @@ export const DEFAULT_SEMANTIC_COLORS: Record<string, string[]> = {
   content: toColorArray('var(--color-neutral-*)'),
 };
 
-const DEFAULT_OPTIONS: TailwindCssSemanticColorsThemedOptionsType = {
-  semanticColors: DEFAULT_SEMANTIC_COLORS,
+const DEFAULT_OPTIONS: TailwindCssSemanticPaletteThemedOptionsType = {
+  semanticPalette: DEFAULT_SEMANTIC_PALETTE,
 };
 
-export class TailwindCssSemanticColorsOptions extends TailwindcssOptionsObject<TailwindCssSemanticColorsThemedOptionsType> {
+export class TailwindcssSemanticPaletteOptions extends TailwindcssOptionsObject<TailwindCssSemanticPaletteThemedOptionsType> {
   constructor(options: any) {
     super(options, DEFAULT_OPTIONS);
   }

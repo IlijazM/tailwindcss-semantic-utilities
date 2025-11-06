@@ -1,5 +1,5 @@
 {
-  "name": "@ilijazm/tailwindcss-semantic-colors",
+  "name": "@ilijazm/tailwindcss-semantic-palette",
   "version": "0.1.1",
   "description": "TailwindCSS Semantic Colors is a plugin for Tailwind CSS v4 that abstracts colors into semantic colors, allowing you to reference colors by their intended meaning (such as `primary`, `success`, or `warning`) instead of specific color values.",
   "scripts": {
@@ -37,7 +37,7 @@
   "repository": {
     "type": "git",
     "url": "git+git@github.com:IlijazM/tailwindcss-semantic-utilities.git",
-    "directory": "tailwindcss-semantic-colors"
+    "directory": "tailwindcss-semantic-palette"
   },
   "dependencies": {
     "tailwindcss": "^4.1.11"

@@ -10,7 +10,7 @@ export interface Color {
  * Holds a collection of palette and provides methods to generate
  * CSS variable declarations and Tailwind CSS theme extensions.
  */
-export class Colors {
+export class Palette {
   /**
    * Constructs CSS variable declarations for all palette.
    *

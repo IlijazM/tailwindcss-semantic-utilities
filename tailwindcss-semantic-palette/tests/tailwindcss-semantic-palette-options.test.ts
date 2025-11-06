@@ -1,10 +1,13 @@
-import { DEFAULT_SEMANTIC_COLORS, TailwindCssSemanticColorsOptions } from '@src/tailwindcss-semantic-colors-options.ts';
+import {
+  DEFAULT_SEMANTIC_PALETTE,
+  TailwindcssSemanticPaletteOptions,
+} from '@src/tailwindcss-semantic-palette-options.ts';
 
 describe('tailwindcss-semantic-palette-options.test', () => {
   it('should set default options correctly', () => {
-    const options = new TailwindCssSemanticColorsOptions(undefined);
+    const options = new TailwindcssSemanticPaletteOptions(undefined);
 
-    expect(options.get('semanticColors')).toEqual(DEFAULT_SEMANTIC_COLORS);
+    expect(options.get('semanticPalette')).toEqual(DEFAULT_SEMANTIC_PALETTE);
   });
 
   it('should override default options correctly', () => {
@@ -13,11 +16,11 @@ describe('tailwindcss-semantic-palette-options.test', () => {
       secondary: ['var(--color-yellow-50)', 'var(--color-yellow-100)'],
     };
 
-    const options = new TailwindCssSemanticColorsOptions({
-      semanticColors: customSemanticColors,
+    const options = new TailwindcssSemanticPaletteOptions({
+      semanticPalette: customSemanticColors,
     });
 
-    expect(options.get('semanticColors')).toEqual(customSemanticColors);
+    expect(options.get('semanticPalette')).toEqual(customSemanticColors);
   });
 
   // Test doesnt currently work
@@ -27,11 +30,11 @@ describe('tailwindcss-semantic-palette-options.test', () => {
   //     secondary: 'var(--color-custom-yellow-*)',
   //   };
   //
-  //   const options = new TailwindCssSemanticColorsOptions({
+  //   const options = new TailwindcssSemanticPaletteOptions({
   //     semanticColors,
   //   });
   //
-  //   expect(options.get('semanticColors')).toEqual({
+  //   expect(options.get('semanticPalette')).toEqual({
   //     primary: [
   //       'var(--color-custom-blue-50)',
   //       'var(--color-custom-blue-100)',
