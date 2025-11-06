@@ -78,7 +78,7 @@ This yields the following result:
 ## Installation
 
 ```bash
-npm install @ilijazm/tailwindcss-semantic-colors
+npm install @ilijazm/tailwindcss-semantic-palette
 ```
 
 ```diff

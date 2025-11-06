@@ -10,7 +10,7 @@ type MyOptions = {
 };
 
 const defaultOptions: MyOptions = {
-  colors: { primary: '--colors-indigo-*', secondary: '--colors-pink-*', tertiary: '--colors-lime-*' },
+  colors: { primary: '--palette-indigo-*', secondary: '--palette-pink-*', tertiary: '--palette-lime-*' },
 };
 
 describe('tailwindcss-options-object', () => {
@@ -122,22 +122,22 @@ describe('TailwindcssOptionsObject#merge', () => {
 
   it('excludes all default options when overriding object', () => {
     const tailwindcssOptionsObject = new TailwindcssOptionsObject<MyOptions>(
-      { colors: { primary: '--colors-amber-*' } },
+      { colors: { primary: '--palette-amber-*' } },
       defaultOptions,
     );
-    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--colors-amber-*' });
+    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--palette-amber-*' });
   });
 
   it('only preserves selected objects when overriding object with an array', () => {
     const tailwindcssOptionsObject = new TailwindcssOptionsObject<MyOptions>({ colors: ['primary'] }, defaultOptions);
-    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--colors-indigo-*' });
+    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--palette-indigo-*' });
   });
 
   it('overrides values with colon syntax', () => {
     const tailwindcssOptionsObject = new TailwindcssOptionsObject<MyOptions>(
-      { colors: 'primary: --colors-amber-*' },
+      { colors: 'primary: --palette-amber-*' },
       defaultOptions,
     );
-    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--colors-amber-*' });
+    expect(tailwindcssOptionsObject['options'].colors).toEqual({ primary: '--palette-amber-*' });
   });
 });

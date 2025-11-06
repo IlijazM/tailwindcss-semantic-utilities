@@ -20,7 +20,7 @@ const PREFIX_REGEX = /^((var\()?--)?(color-)/;
 const SUFFIX_REGEX = /-?\*\)?$|\)$/;
 
 /**
- * Transforms a color variable from a name to an array containing all tailwind colors steps from 90 to 950.
+ * Transforms a color variable from a name to an array containing all tailwind palette steps from 90 to 950.
  *
  * If a simple name is inputted this name will be wrapped into an array eleven times.
  *
@@ -68,7 +68,7 @@ const SUFFIX_REGEX = /-?\*\)?$|\)$/;
  * @returns the color step array
  */
 export function toColorArray(variableName: string): string[] {
-  if (PREFIX_REGEX.test(variableName) === false) {
+  if (!PREFIX_REGEX.test(variableName)) {
     // single variable case
     // example: "white" -> ["white", "white", ..., "white"]
     return TAILWIND_COLORS_SHADES.map(() => variableName);

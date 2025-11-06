@@ -7,12 +7,12 @@ export interface Color {
 }
 
 /**
- * Holds a collection of colors and provides methods to generate
+ * Holds a collection of palette and provides methods to generate
  * CSS variable declarations and Tailwind CSS theme extensions.
  */
 export class Colors {
   /**
-   * Constructs CSS variable declarations for all colors.
+   * Constructs CSS variable declarations for all palette.
    *
    * Used for generating :root CSS variables in Tailwind CSS.
    *
@@ -26,7 +26,7 @@ export class Colors {
    *
    * ```typescript
    * addBase({
-   *   ':root': colors.cssDeclarations,
+   *   ':root': palette.cssDeclarations,
    * });
    * ```
    *
@@ -37,9 +37,9 @@ export class Colors {
   }
 
   /**
-   * Constructs a nested theme object for all colors.
+   * Constructs a nested theme object for all palette.
    *
-   * Used for extending Tailwind CSS theme colors.
+   * Used for extending Tailwind CSS theme palette.
    *
    * Example output:
    *
@@ -64,7 +64,7 @@ export class Colors {
    * return {
    *  theme: {
    *    extend: {
-   *      colors: colors.themeExtension,
+   *      palette: palette.themeExtension,
    *    },
    *  },
    * };
@@ -93,7 +93,7 @@ export class Colors {
    * Example usage:
    *
    * ```typescript
-   * colors.addColor({ name: 'primary', shade: '500', value: 'var(--color-indigo-500)' });
+   * palette.addColor({ name: 'primary', shade: '500', value: 'var(--color-indigo-500)' });
    * ```
    *
    * @param color {Color} The color to add.

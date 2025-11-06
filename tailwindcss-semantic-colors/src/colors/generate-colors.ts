@@ -3,10 +3,10 @@ import { Colors } from '@src/colors/colors.ts';
 import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 
 /**
- * Generates all colors.
+ * Generates all palette.
  *
  * @param options a reference to the options object.
- * @returns the generated colors.
+ * @returns the generated palette.
  */
 export function generateColors(options: TailwindCssSemanticColorsOptions): Colors {
   const colors = new Colors();

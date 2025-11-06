@@ -6,7 +6,7 @@ export class TailwindCssSemanticColorPlugin {
   private readonly options: TailwindCssSemanticColorsOptions;
 
   /**
-   * Cached colors instance.
+   * Cached palette instance.
    *
    * @private
    */

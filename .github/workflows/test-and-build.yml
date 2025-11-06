@@ -26,20 +26,20 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./tailwindcss-semantic-colors
+        working-directory: ./tailwindcss-semantic-palette
 
       - name: Run typecheck
         run: npm run typecheck
-        working-directory: ./tailwindcss-semantic-colors
+        working-directory: ./tailwindcss-semantic-palette
 
       - name: Run lint
         run: npm run lint
-        working-directory: ./tailwindcss-semantic-colors
+        working-directory: ./tailwindcss-semantic-palette
 
       - name: Run tests
         run: npm run test
-        working-directory: ./tailwindcss-semantic-colors
+        working-directory: ./tailwindcss-semantic-palette
 
       - name: Run build
         run: npm run build
-        working-directory: ./tailwindcss-semantic-colors
+        working-directory: ./tailwindcss-semantic-palette
