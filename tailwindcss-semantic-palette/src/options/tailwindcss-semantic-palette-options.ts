@@ -56,7 +56,7 @@
  * }
  * ```
  *
- * ## Custom color
+ * ## Custom colors
  *
  * A user may define his custom colors. This is useful if there is a specific use case where a color should get assigned
  * a semantic meaning for example the user defined an ui that includes a kanban board. That kanban board should use a
@@ -75,14 +75,25 @@
  * }
  * ```
  *
+ * ## Customize colors
+ *
+ * A user may select, add, and customize colors
+ *
  */
 
 import { toColorArray } from '@src/options/to-color-array.ts';
-import { TailwindcssOptionsObject } from '@src/options/tailwindcss-options-object.ts';
+import {
+  INVALID_SEMANTIC_PALETTE_TYPE,
+  INVALID_TAILWINDCSS_OPTIONS_TYPE,
+} from '@src/options/tailwindcss-semantic-palette-options-errors.ts';
+
+type PaletteOptionsType = Record<string, string[]>;
 
 export interface TailwindCssSemanticPaletteThemedOptionsType {
-  semanticPalette: Record<string, string[]>;
+  semanticPalette: PaletteOptionsType;
 }
+
+export const DEFAULT_SEMANTIC_PALETTE_COLOR_SHADES = toColorArray('var(--color-neutral-*)');
 
 export const DEFAULT_SEMANTIC_PALETTE: Record<string, string[]> = {
   brand: toColorArray('var(--color-blue-*)'),
@@ -103,34 +114,138 @@ const DEFAULT_OPTIONS: TailwindCssSemanticPaletteThemedOptionsType = {
   semanticPalette: DEFAULT_SEMANTIC_PALETTE,
 };
 
-export class TailwindcssSemanticPaletteOptions extends TailwindcssOptionsObject<TailwindCssSemanticPaletteThemedOptionsType> {
-  constructor(options: any) {
-    super(options, DEFAULT_OPTIONS);
+export class TailwindcssSemanticPaletteOptions implements TailwindCssSemanticPaletteThemedOptionsType {
+  readonly semanticPalette: PaletteOptionsType;
+
+  constructor(options: unknown) {
+    this.semanticPalette = this.applyOptions(options);
+  }
+
+  private applyOptions(options: unknown): PaletteOptionsType {
+    if (options == null) {
+      return DEFAULT_SEMANTIC_PALETTE;
+    }
+
+    if (typeof options !== 'object') {
+      throw INVALID_TAILWINDCSS_OPTIONS_TYPE;
+    }
+
+    return this.applyAllSemanticPaletteOptions(options);
+  }
+
+  private applyAllSemanticPaletteOptions(options: any): PaletteOptionsType {
+    let semanticPalette: PaletteOptionsType = {};
+
+    semanticPalette = this.applySemanticPaletteOption(options);
+    semanticPalette = this.applySemanticPaletteCustomColorsOption(semanticPalette, options);
+
+    return semanticPalette;
+  }
+
+  private applySemanticPaletteOption(options: any): PaletteOptionsType {
+    // If no semantic palette option is provided, return the default semantic palette.
+    if (!('semantic-palette' in options)) {
+      return DEFAULT_SEMANTIC_PALETTE;
+    }
+
+    const semanticPaletteOption = options['semantic-palette'];
+
+    // This case happens when there is only on color provided in the .css file. In this case the string should just be
+    // treated as an array with one element.
+    //
+    // For example:
+    //
+    // ```css
+    // @import 'tailwindcss';
+    // @plugin '@IlijazM/tailwindcss-semantic-palette' {
+    //   semantic-palette: primary;
+    // }
+    // ```
+    if (typeof semanticPaletteOption === 'string') {
+      return this.mergeSemanticPaletteOptions([semanticPaletteOption]);
+    }
+
+    // This is a special case where the user provides a number instead of a string. This can happen when the user
+    // provides a number color name without quotes in the .css file. I'm not sure why someone would do that, but just in
+    // case. In this case the number should be treated as an array with the number as string as the only element.
+    //
+    // For example:
+    //
+    // ```css
+    // @import 'tailwindcss';
+    // @plugin '@IlijazM/tailwindcss-semantic-palette' {
+    //   semantic-palette: 100;
+    // }
+    // ```
+    if (typeof semanticPaletteOption === 'number') {
+      return this.mergeSemanticPaletteOptions([semanticPaletteOption.toString()]);
+    }
+
+    // This case happens when there is a list of colors provided in the .css file.
+    //
+    // For example:
+    //
+    // ```css
+    // @import 'tailwindcss';
+    // @plugin '@IlijazM/tailwindcss-semantic-palette' {
+    //   semantic-palette: primary, brand;
+    // }
+    // ```
+    if (Array.isArray(semanticPaletteOption)) {
+      return this.mergeSemanticPaletteOptions(semanticPaletteOption);
+    }
+
+    // If the semantic palette option is not a string, number, or array, throw an error. I'm not sure how this would
+    // happen, but just in case.
+    throw INVALID_SEMANTIC_PALETTE_TYPE;
+  }
+
+  private mergeSemanticPaletteOptions(semanticPaletteOption: string[]): PaletteOptionsType {
+    const semanticPalette: PaletteOptionsType = {};
+
+    for (const colorName of semanticPaletteOption) {
+      if (colorName === '*') {
+        Object.assign(semanticPalette, DEFAULT_SEMANTIC_PALETTE);
+      } else if (colorName in DEFAULT_SEMANTIC_PALETTE) {
+        semanticPalette[colorName] = DEFAULT_SEMANTIC_PALETTE[colorName]!;
+      } else {
+        semanticPalette[colorName] = DEFAULT_SEMANTIC_PALETTE_COLOR_SHADES;
+      }
+    }
+
+    return semanticPalette;
+  }
+
+  private applySemanticPaletteCustomColorsOption(
+    semanticPalette: PaletteOptionsType,
+    options: any,
+  ): PaletteOptionsType {
+    const customColorKeys: string[] = this.getAllCustomColorNames(options);
+
+    for (const customColorKey of customColorKeys) {
+      if (!(customColorKey in semanticPalette)) {
+        // Potentially warn the user that they defined a custom color that is not in the semantic palette.
+        continue;
+      }
+
+      semanticPalette[customColorKey] = options['semantic-palette--' + customColorKey];
+    }
+
+    return semanticPalette;
+  }
+
+  private getAllCustomColorNames(options: any): string[] {
+    const customColorKeys: string[] = [];
+
+    for (const [potentialCustomColorKey] of Object.entries(options)) {
+      if (!potentialCustomColorKey.startsWith('semantic-palette--')) {
+        continue;
+      }
+
+      const customColorKey = potentialCustomColorKey.replace(/^semantic-palette--/, '');
+      customColorKeys.push(customColorKey);
+    }
+
+    return customColorKeys;
   }
 }
-//
-// export class TailwindcssSemanticPaletteOptions implements TailwindCssSemanticPaletteThemedOptionsType {
-//   readonly semanticPalette: PaletteOptionsType;
-//
-//   get() {
-//     return {};
-//   }
-//
-//   constructor(options: any) {
-//     this.semanticPalette = this.applyOptions(options);
-//   }
-//
-//   private applyOptions(options: any): PaletteOptionsType {
-//     if (options == null) {
-//       return DEFAULT_SEMANTIC_PALETTE;
-//     }
-//
-//     if (typeof options === 'object') {
-//       const mergedOptions: PaletteOptionsType = { ...DEFAULT_SEMANTIC_PALETTE };
-//     }
-//
-//     return {};
-//   }
-//
-//   mergeOptions(options: any) {}
-// }
