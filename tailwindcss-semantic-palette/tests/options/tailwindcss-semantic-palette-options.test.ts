@@ -223,14 +223,13 @@ describe('tailwindcss-semantic-palette-options.test', () => {
   });
 
   it('should fail if there is not exactly 11 or 1 color in the array', () => {
-    const semanticPalette = {
-      'semantic-palette': ['invalid-palette'],
-      'semantic-palette--invalid-palette': ['#111', '#222', '#333'],
-    };
-
-    const options = new TailwindcssSemanticPaletteOptions({ semanticPalette });
-
-    expect(options.semanticPalette).toThrow(INVALID_AMOUNT_OF_COLORS_ERROR);
+    expect(
+      () =>
+        new TailwindcssSemanticPaletteOptions({
+          'semantic-palette': ['invalid-palette'],
+          'semantic-palette--invalid-palette': ['#111', '#222', '#333'],
+        }),
+    ).toThrow(INVALID_AMOUNT_OF_COLORS_ERROR);
   });
 
   it('should resolve wildcard syntax correctly', () => {

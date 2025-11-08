@@ -83,6 +83,8 @@
 
 import { toColorArray } from '@src/options/to-color-array.ts';
 import {
+  INVALID_AMOUNT_OF_COLORS_ERROR,
+  INVALID_CUSTOM_SEMANTIC_COLOR_TYPE,
   INVALID_SEMANTIC_PALETTE_TYPE,
   INVALID_TAILWINDCSS_OPTIONS_TYPE,
 } from '@src/options/tailwindcss-semantic-palette-options-errors.ts';
@@ -228,10 +230,30 @@ export class TailwindcssSemanticPaletteOptions implements TailwindCssSemanticPal
         continue;
       }
 
-      semanticPalette[customColorKey] = options['semantic-palette--' + customColorKey];
+      const option = this.getCustomSemanticPalette(options, customColorKey);
+
+      if (option.length === 1) {
+        semanticPalette[customColorKey] = toColorArray(option[0]!);
+      } else if (option.length === 11) {
+        semanticPalette[customColorKey] = option;
+      } else {
+        throw INVALID_AMOUNT_OF_COLORS_ERROR;
+      }
     }
 
     return semanticPalette;
+  }
+
+  private getCustomSemanticPalette(options: any, colorName: string): string[] {
+    const option = options['semantic-palette--' + colorName];
+
+    if (typeof option === 'string') {
+      return [option];
+    } else if (Array.isArray(option)) {
+      return option;
+    } else {
+      throw INVALID_CUSTOM_SEMANTIC_COLOR_TYPE;
+    }
   }
 
   private getAllCustomColorNames(options: any): string[] {

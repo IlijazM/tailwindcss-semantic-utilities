@@ -11,7 +11,7 @@ import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
 export function generatePalette(options: TailwindcssSemanticPaletteOptions): Palette {
   const palette = new Palette();
 
-  const paletteEntries = Object.entries(options.get('semanticPalette'));
+  const paletteEntries = Object.entries(options.semanticPalette);
   for (const [semanticColorName, colorValues] of paletteEntries) {
     if (colorValues.length !== TAILWIND_COLORS_SHADES.length) {
       throw new Error(

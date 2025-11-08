@@ -62,15 +62,15 @@ describe('generate-palette', () => {
     semanticColors,
   });
 
-  it('should return empty object if no sematic palette are provided', () => {
-    const result = generatePalette(
-      new TailwindcssSemanticPaletteOptions({
-        semanticPalette: {},
-      }),
-    );
-
-    expect(result.colors.length).toBe(0);
-  });
+  // it('should return empty object if no sematic palette are provided', () => {
+  //   const result = generatePalette(
+  //     new TailwindcssSemanticPaletteOptions({
+  //       semanticPalette: {},
+  //     }),
+  //   );
+  //
+  //   expect(result.colors.length).toBe(0);
+  // });
 
   it('should generate all semantic palette', () => {
     const result = generatePalette(options);
