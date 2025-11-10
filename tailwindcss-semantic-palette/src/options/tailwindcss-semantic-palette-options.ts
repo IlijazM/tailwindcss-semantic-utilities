@@ -112,10 +112,6 @@ export const DEFAULT_SEMANTIC_PALETTE: Record<string, string[]> = {
   content: toColorArray('var(--color-neutral-*)'),
 };
 
-const DEFAULT_OPTIONS: TailwindCssSemanticPaletteThemedOptionsType = {
-  semanticPalette: DEFAULT_SEMANTIC_PALETTE,
-};
-
 export class TailwindcssSemanticPaletteOptions implements TailwindCssSemanticPaletteThemedOptionsType {
   readonly semanticPalette: PaletteOptionsType;
 
