@@ -7,11 +7,22 @@ that extends the default color palette with colors with semantic meaning.
 This allows the user to reference colors by their intended meaning such as `primary`, `success`, or `warning`
 instead of specific color values such as `indigo`, `green`, or `yellow`.
 
+## Installation
+
+```bash
+npm install @ilijazm/tailwindcss-semantic-palette
+```
+
+```diff
+@import "tailwindcss";
++ @plugin "@ilijazm/tailwindcss-semantic-palette";
+```
+
 ## Features
 
 ### Default palette extension
 
-By default the plugin adds the following colors to the TailwindCSS palette:
+By default, the plugin adds the following colors to the TailwindCSS palette:
 
 * `brand`
 * `primary`
@@ -26,89 +37,102 @@ By default the plugin adds the following colors to the TailwindCSS palette:
 * `container`
 * `content`
 
-![Default color tokens](docs/default_color_tokens.png)
-
-## Reason
-
-### ⚠️ Problem Statement
-
-Managing colors in large projects using raw color values or utility classes can lead to inconsistency, confusion, and difficulty in maintaining a unified design system. Developers often struggle to remember which color should be used for specific UI elements, resulting in accidental mismatches and increased cognitive load.
-
-### 📦 Conventional Method
-
-Traditionally, Tailwind CSS projects use direct color classes (e.g., `bg-blue-500`, `text-red-600`) throughout the codebase. This approach tightly couples design decisions to specific color values, making it hard to update or refactor colors globally. It also lacks semantic meaning, so the intent behind a color choice is not clear.
-
-### 🔧 Maintainability Issues
-
-When design requirements change, updating colors across a large codebase is tedious and error-prone. Directly using raw color values (such as `bg-blue-500` or `text-green-600`) means every instance must be manually updated, increasing the risk of missing spots and introducing inconsistencies. Over time, different developers may choose slightly different shades for similar UI elements, leading to a fragmented and inconsistent visual experience.
-
-These color classes are also vague. They do not communicate the intended purpose or meaning behind their usage. For example, `bg-blue-500` might represent a primary action in one place and an informational message in another, making it difficult to enforce a unified design language. As a result, maintaining a consistent brand identity and user experience becomes challenging, especially as the project grows and more contributors are involved.
-
-### 🚀 Proposed Solution
-
-TailwindCSS Semantic Palette introduces semantic color tokens (such as `primary`, `success`, `warning`) that map to specific color values. The plugin is highly configurable, allowing you to define your own semantic tokens and extend beyond the basics.
-
-In addition to core colors, it also provides respective surface colors (like `surface-primary`, `surface-success`, `surface-warning`) for backgrounds and containers, enabling even richer semantic meaning and consistency throughout your UI. By referencing colors semantically, you can easily update color schemes, maintain consistency, and communicate design intent more clearly.
-
-**❌ Without Tailwind CSS Semantic Palette:**
-
-```html
-<div class="bg-green-100">
-  {{ container_code }}
-  <span class="text-green-600">Success!</span>
-</div>
-```
-
-**✅ With Tailwind CSS Semantic Palette plugin:**
-
-```html
-<div class="bg-success-primary">
-  {{ container_code }}
-  <span class="text-success-600">Success!</span>
-</div>
-```
-
-This abstraction improves maintainability, scalability, and clarity in your Tailwind CSS projects.
-
 ## Customization
 
+### Select a subset of colors
+
+To select only a subset of colors to add to the palette one can use the `semantic-colors` option.
+For example
+
 ```css
-@plugin "@ilijazm/tailwindcss-semantic-colors" {
-  semantic-colors: 'primary: --color-sky-*', 'secondary: --color-orange-*', 'info', 'success', 'warning', 'danger';
-  surface-colors: 'surface: slate';
+@import 'tailwindcss';
+
+/* Only extend the palette with the default colors for 'primary' and 'brand'. */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette: primary, brand;
 }
 ```
 
-This yields the following result:
+### Customize a color
 
-![Custom Options](docs/custom_options.png)
+```css
+@import 'tailwindcss';
 
-## Installation
-
-```bash
-npm install @ilijazm/tailwindcss-semantic-palette
+/* Extends the palette with all the default colors but set a custom primary color */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette--primary: "var(--colors-cyan-*)";
+}
 ```
 
-```diff
-@import "tailwindcss";
-+ @plugin "@ilijazm/tailwindcss-semantic-colors";
+```css
+@import 'tailwindcss';
+
+/* Extends the palette with all the default colors but set a custom brand color */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette--brand: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+}
 ```
 
-## Development
+### Select a subset of colors and customize colors
 
-1. Clone the repository.
-1. Go into the directory `tailwindcss-semantic-colors/`.
+```css
+@import 'tailwindcss';
 
+/* Only extend the palette with 'primary', 'brand', and 'warning' and customize the colors 'primary' and 'brand'. */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette: primary, brand, warning;
+    semantic-palette--brand: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+}
 ```
-.
-└── 📁 tailwindcss-semantic-colors/
-    ├── 📁 example/
-    └── 📁 src/
+
+### Use custom colors exclusively
+
+```css
+@import 'tailwindcss';
+
+/* Only extend the palette with the custom colors 'to-do', 'in-progress', and 'done' */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette: to-do, in-progress, done;
+    semantic-palette--to-do: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+    semantic-palette--in-progress: "var(--color-sky-*)";
+    semantic-palette--done: "hsl(260, 13%, 95%)", "hsl(262, 11%, 86%)", "hsl(260, 10%, 77%)", "hsl(260, 11%, 68%)", "hsl(261, 11%, 59%)", "hsl(261, 11%, 50%)", "hsl(261, 11%, 41%)", "hsl(263, 11%, 32%)", "hsl(263, 11%, 23%)", "hsl(263, 11%, 14%)", "hsl(260, 13%, 5%)"
+}
 ```
+
+### Add custom colors to a selected subset of colors
+
+```css
+@import 'tailwindcss';
+
+/* Extend the palette with colors for 'success' and 'error'
+   as well as the custom colors 'to-do', 'in-progress', and 'done' */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette: success, error, to-do, in-progress, done;
+    semantic-palette--to-do: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+    semantic-palette--in-progress: "var(--color-sky-*)";
+    semantic-palette--done: "hsl(260, 13%, 95%)", "hsl(262, 11%, 86%)", "hsl(260, 10%, 77%)", "hsl(260, 11%, 68%)", "hsl(261, 11%, 59%)", "hsl(261, 11%, 50%)", "hsl(261, 11%, 41%)", "hsl(263, 11%, 32%)", "hsl(263, 11%, 23%)", "hsl(263, 11%, 14%)", "hsl(260, 13%, 5%)"
+}
+```
+
+### Add custom colors to all default colors
+
+```css
+@import 'tailwindcss';
+
+/* Extends the palette with all the default colors
+   as well as the custom colors 'to-do', 'in-progress', and 'done' */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette: "*", to-do, in-progress, done;
+    semantic-palette--to-do: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+    semantic-palette--in-progress: "var(--color-sky-*)";
+    semantic-palette--done: "hsl(260, 13%, 95%)", "hsl(262, 11%, 86%)", "hsl(260, 10%, 77%)", "hsl(260, 11%, 68%)", "hsl(261, 11%, 59%)", "hsl(261, 11%, 50%)", "hsl(261, 11%, 41%)", "hsl(263, 11%, 32%)", "hsl(263, 11%, 23%)", "hsl(263, 11%, 14%)", "hsl(260, 13%, 5%)"
+}
+```
+
 
 ### Build project
 
-1. Install dependencies with npm `install`
+1. Install dependencies with `npm install`
 1. Run `npm run build`
 1. Result is in the `dist/` directory
 
@@ -118,13 +142,6 @@ npm install @ilijazm/tailwindcss-semantic-palette
 1. Install dependencies with npm `install`
 1. Run development build with `npm run dev`
 1. Check the example via `http://localhost:5173/`
-
-## Roadmap
-
-Future work includes:
-
-- automatic dark mode
-- text colors
 
 ## Contributions
 
