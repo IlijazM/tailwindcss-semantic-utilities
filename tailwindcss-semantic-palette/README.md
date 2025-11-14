@@ -1,6 +1,32 @@
 # TailwindCSS Semantic Palette
 
-TailwindCSS Semantic Palette is a plugin for Tailwind CSS v4 that abstracts colors into semantic colors, allowing you to reference colors by their intended meaning (such as `primary`, `success`, or `warning`) instead of specific color values.
+![Introduction](docs/images/readme_introduction.png)
+
+TailwindCSS Semantic Palette is a highly extendable plugin for Tailwind CSS
+that extends the default color palette with colors with semantic meaning.
+This allows the user to reference colors by their intended meaning such as `primary`, `success`, or `warning`
+instead of specific color values such as `indigo`, `green`, or `yellow`.
+
+## Features
+
+### Default palette extension
+
+By default the plugin adds the following colors to the TailwindCSS palette:
+
+* `brand`
+* `primary`
+* `secondary`
+* `tertiary`
+* `accent`
+* `info`
+* `success`
+* `warning`
+* `danger`
+* `surface`
+* `container`
+* `content`
+
+![Default color tokens](docs/default_color_tokens.png)
 
 ## Reason
 
@@ -43,24 +69,6 @@ In addition to core colors, it also provides respective surface colors (like `su
 ```
 
 This abstraction improves maintainability, scalability, and clarity in your Tailwind CSS projects.
-
-## Features
-
-### Default color tokens
-
-![Default color tokens](docs/default_color_tokens.png)
-
-### Default semantic colors
-
-![Default semantic colors](docs/default_semantic_colors.png)
-
-### Default surface colors
-
-![Default surface colors](docs/default_surface_colors.png)
-
-### Default semantic surface colors
-
-![Default semantic surface colors](docs/default_semantic_surface_colors.png)
 
 ## Customization
 
