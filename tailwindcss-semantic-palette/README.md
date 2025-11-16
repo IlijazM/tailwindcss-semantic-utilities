@@ -114,6 +114,13 @@ This yields the following result:
 
 ![Customize primary](docs/images/customize_primary.png)
 
+Alternatively, a user can define an array of colors to specify the exact colors.
+This array must contain exactly 11 items since TailwindCSS has 11 shades for each color
+(50, 100, 200, ..., 800, 900, 950).
+
+For example, a user wants to set the exact `brand` color.
+
+The following code demonstrates how the user is able to set the color `brand` to its exact color:
 
 ```css
 @import 'tailwindcss';
@@ -124,7 +131,13 @@ This yields the following result:
 }
 ```
 
+This yields the following result:
+
+![Customize palette](docs/images/customize_brand.png)
+
 ### Select a subset of colors and customize colors
+
+To select a subset of colors while customizing the colors
 
 ```css
 @import 'tailwindcss';

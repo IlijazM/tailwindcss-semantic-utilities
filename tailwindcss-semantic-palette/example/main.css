@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @plugin '../dist/index.js' {
-    semantic-palette--primary: "var(--color-rose-*)";
+    semantic-palette--brand: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
 }
 
 .card {
