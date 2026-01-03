@@ -13,12 +13,12 @@ instead of specific color values such as `indigo`, `green`, or `yellow`.
 1. [Installation](#1-installation)
 2. [Features](#2-features)
 3. [Customization](#3-customization)
+4. [Contributions](#4-contributions)
+5. [Further information](#5-further-information)
 
 ## 1. Installation
 
 To install the TailwindCSS Semantic Palette follow the following steps:
-
-![Installation Guide](docs/images/installation.png)
 
 1. Install the TailwindCSS Semantic Palette dependency:
 
@@ -33,14 +33,11 @@ npm install @ilijazm/tailwindcss-semantic-palette
 + @plugin "@ilijazm/tailwindcss-semantic-palette";
 ```
 
-
 ## 2. Features
 
 ### Default palette extension
 
 By default, the plugin adds the following colors to the TailwindCSS palette:
-
-![Default colors](docs/images/default_colors.png)
 
 * `surface`
 * `container`
@@ -54,6 +51,38 @@ By default, the plugin adds the following colors to the TailwindCSS palette:
 * `success`
 * `warning`
 * `danger`
+
+![Default colors](docs/images/default_colors.png)
+
+### Automatic shade generation
+
+Color shades can be automatically generated.
+That means that one color is enough to generate the full tailwindcss shades from 50 to 950.
+
+This example demonstrates how the user can customize the `brand`-color to a automatically generated shade
+based on the color `#2fd077`:
+
+```css
+@import 'tailwindcss';
+
+/* The color shades from 50 to 950 are automatically generated */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette--brand: "#2fd077";
+}
+```
+
+This is _roughtly_ equivalent to the following configuration:
+
+```css
+@import 'tailwindcss';
+
+/* The color shades from 50 to 950 are automatically generated */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette--brand: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+}
+```
+
+For more information on that read the section [Customize a color](#customize-a-color).
 
 ## 3. Customization
 
@@ -114,9 +143,11 @@ This yields the following result:
 
 ![Customize primary](docs/images/customize_primary.png)
 
-Alternatively, a user can define an array of colors to specify the exact colors.
+Alternatively, one can either define an array of colors to specify the exact colors
+or specify a single color and generate the shades automatically.
+
 This array must contain exactly 11 items since TailwindCSS has 11 shades for each color
-(50, 100, 200, ..., 800, 900, 950).
+`(50, 100, 200, ..., 800, 900, 950)`.
 
 For example, a user wants to set the exact `brand` color.
 
@@ -135,21 +166,51 @@ This yields the following result:
 
 ![Customize palette](docs/images/customize_brand.png)
 
-### Select a subset of colors and customize colors
-
-To select a subset of colors while customizing the colors
+Alternatively, one can specify a single color and let the shades get generated automatically
+like in the following example:
 
 ```css
 @import 'tailwindcss';
 
-/* Only extend the palette with 'primary', 'brand', and 'warning' and customize the colors 'primary' and 'brand'. */
+/* Extends the palette with all the default colors but set a custom brand color */
+@plugin '@IlijazM/tailwindcss-semantic-palette' {
+    semantic-palette--brand: "#2fd077";
+}
+```
+
+### Select a subset of colors and customize colors
+
+To select a subset of colors while customizing the colors one can use the `semantic-palette` option
+whiles also using the `semantic-palette--<color_name>` options.
+
+Selecting a subset of colors whiles customizing colors is useful to control, limit, and customize the set of colors
+that gets added to the project.
+For example, a user only needs to add the colors `primary` and `brand` to the palette
+whiles also setting a custom `brand`-color.
+
+The following code demonstrates how the user is able to select a subset of colors
+whiles also customizing the `brand`-color:
+
+```css
+@import 'tailwindcss';
+
+/* Only extend the palette with 'primary', 'brand', and 'warning' and customize the color 'brand'. */
 @plugin '@IlijazM/tailwindcss-semantic-palette' {
     semantic-palette: primary, brand, warning;
-    semantic-palette--brand: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+    semantic-palette--brand: "#2fd077";
 }
 ```
 
 ### Use custom colors exclusively
+
+The select custom colors exclusively one can use the `semantic-palette` option and set custom color names
+that later get specified using the `semantic-palette--<color_name>` options.
+
+Using custom colors exclusively is useful if the project requires very specific colors
+while not needing the default colors provided by the plugin.
+For example one could develop a kanban-board that requires shades for the colors `to-do`, `in-progress`, and `done`.
+
+The following code demonstrated how the user is able to use custom colors exclusively:
 
 ```css
 @import 'tailwindcss';
@@ -157,7 +218,7 @@ To select a subset of colors while customizing the colors
 /* Only extend the palette with the custom colors 'to-do', 'in-progress', and 'done' */
 @plugin '@IlijazM/tailwindcss-semantic-palette' {
     semantic-palette: to-do, in-progress, done;
-    semantic-palette--to-do: "#ecfbf3", "#c6f2da", "#a0eac1", "#7be1a9", "#55d990", "#2fd077", "#26aa62", "#1e844c", "#155f36", "#0d3921", "#04130b";
+    semantic-palette--to-do: "#2fd077";
     semantic-palette--in-progress: "var(--color-sky-*)";
     semantic-palette--done: "hsl(260, 13%, 95%)", "hsl(262, 11%, 86%)", "hsl(260, 10%, 77%)", "hsl(260, 11%, 68%)", "hsl(261, 11%, 59%)", "hsl(261, 11%, 50%)", "hsl(261, 11%, 41%)", "hsl(263, 11%, 32%)", "hsl(263, 11%, 23%)", "hsl(263, 11%, 14%)", "hsl(260, 13%, 5%)"
 }
@@ -193,6 +254,10 @@ To select a subset of colors while customizing the colors
 }
 ```
 
+## 4. Contributions
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ### Build project
 
 1. Install dependencies with `npm install`
@@ -206,10 +271,16 @@ To select a subset of colors while customizing the colors
 1. Run development build with `npm run dev`
 1. Check the example via `http://localhost:5173/`
 
-## Contributions
+## 5. Further information
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Dependencies
 
-## License
+```
+.
+├── 📦 culori
+└── 📦 tailwindcss
+```
+
+### License
 
 [MIT](../LICENSE)

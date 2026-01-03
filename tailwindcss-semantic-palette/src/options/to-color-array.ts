@@ -1,4 +1,5 @@
 import { TAILWIND_COLORS_SHADES } from '@src/tailwindcss-color-shades.ts';
+import { generateColorShades } from '@src/color-shades-generator/generate-color-shades.ts';
 
 /**
  * Matches the following prefixes:
@@ -22,7 +23,8 @@ const SUFFIX_REGEX = /-?\*\)?$|\)$/;
 /**
  * Transforms a color variable from a name to an array containing all tailwind palette steps from 90 to 950.
  *
- * If a simple name is inputted this name will be wrapped into an array eleven times.
+ * If a simple name is inputted this name will be wrapped the tailwind shades will be generated based on that color.
+ * @see generate-color-shades.ts for more information about the generation of colors.
  *
  * If used with one of the following prefixes:
  *
@@ -39,27 +41,27 @@ const SUFFIX_REGEX = /-?\*\)?$|\)$/;
  * * "-*)"
  * * "-*"
  *
- * @example The input `white` yields an array with the value `white` present eleven times.
+ * @example The input `white` yields an array with the different shades of gray.
  *
  * ```json
- * ["white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white"]
+ * ["#f8f8f8", "#eeeeee", "#dedede", "#c4c4c4", "#a4a4a4", "#808080", "#636363", "#484848", "#2e2e2e", "#1b1b1b", "#070707"]
  * ```
  *
  * @example The input `var(--color-indigo-*) yields the following result
  *
  * ```
  * [
- *   "var(--color-indigo-50",
- *   "var(--color-indigo-100",
- *   "var(--color-indigo-200",
- *   "var(--color-indigo-300",
- *   "var(--color-indigo-400",
- *   "var(--color-indigo-500",
- *   "var(--color-indigo-600",
- *   "var(--color-indigo-700",
- *   "var(--color-indigo-800",
- *   "var(--color-indigo-900",
- *   "var(--color-indigo-950"
+ *   "var(--color-indigo-50)",
+ *   "var(--color-indigo-100)",
+ *   "var(--color-indigo-200)",
+ *   "var(--color-indigo-300)",
+ *   "var(--color-indigo-400)",
+ *   "var(--color-indigo-500)",
+ *   "var(--color-indigo-600)",
+ *   "var(--color-indigo-700)",
+ *   "var(--color-indigo-800)",
+ *   "var(--color-indigo-900)",
+ *   "var(--color-indigo-950)"
  * ]
  * ```
  *
@@ -70,8 +72,7 @@ const SUFFIX_REGEX = /-?\*\)?$|\)$/;
 export function toColorArray(variableName: string): string[] {
   if (!PREFIX_REGEX.test(variableName)) {
     // single variable case
-    // example: "white" -> ["white", "white", ..., "white"]
-    return TAILWIND_COLORS_SHADES.map(() => variableName);
+    return generateColorShades(variableName);
   }
 
   // multi variable case
