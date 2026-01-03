@@ -30,10 +30,10 @@ export class Palette {
    * });
    * ```
    *
-   * @return {string[]} Array of CSS variable declarations.
+   * @return {Record<string, string>} Object of CSS variable declarations.
    */
-  get cssDeclarations(): string[] {
-    return this.colors.map((color) => `--color-${color.name}-${color.shade}: ${color.value};`);
+  get cssDeclarations(): Record<string, string> {
+    return Object.fromEntries(this.colors.map((color) => [`--color-${color.name}-${color.shade}`, color.value]));
   }
 
   /**
