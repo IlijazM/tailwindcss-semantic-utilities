@@ -1,37 +1,26 @@
-import { parse, formatHex, converter } from "culori";
-import { TAILWIND_LIGHTNESS } from '@src/color-shades-generator/tailwind-lightness.ts';
+import { oklch, formatCss, parse, interpolate, formatHex } from 'culori';
 
-const toOklch = converter("oklch");
+const SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
 
-export function generateColorShades(
-  inputColor: string
-): string[] {
-  const base = toOklch(parse(inputColor));
-  if (!base) {
-    throw new Error("Invalid color input");
-  }
+/**
+ * Generates Tailwind-style shades from a base color.
+ * Base color becomes 500.
+ */
+export function generateColorShades(base: string): string[] {
+  const baseColor = oklch(parse(base));
+  if (!baseColor) throw new Error(`Invalid color to generate shades: ${base}`);
 
-  const { h, c } = base;
+  const light = { ...baseColor, l: Math.min(0.98, baseColor.l + 0.35) };
+  const dark = { ...baseColor, l: Math.max(0.08, baseColor.l - 0.45) };
 
-  const result: string[] = [];
+  const scale = interpolate([light, baseColor, dark], 'oklch');
 
-  let i = 0;
-  for (const [step, l] of Object.entries(TAILWIND_LIGHTNESS)) {
-    const lightness = Number(l);
+  return SHADES.map((_, i) => {
+    const t = i / (SHADES.length - 1);
+    return formatCss(scale(t));
+  });
+}
 
-    // reduce chroma at extremes
-    const chroma =
-      step === "50" || step === "950"
-        ? c * 0.3
-        : c;
-
-    result[i++] = formatHex({
-      mode: "oklch",
-      l: lightness,
-      c: chroma,
-      h,
-    });
-  }
-
-  return result;
+export function toHexColor(color: string): string {
+  return formatHex(parse(color)) ?? '#000';
 }
