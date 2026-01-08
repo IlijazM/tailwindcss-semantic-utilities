@@ -79,7 +79,7 @@ export class Palette {
       if (!(color.name in theme)) {
         theme[color.name] = {};
       }
-      theme[color.name]![color.shade] = color.value;
+      theme[color.name]![color.shade] = `var(--color-${color.name}-${color.shade})`;
     }
 
     return theme;

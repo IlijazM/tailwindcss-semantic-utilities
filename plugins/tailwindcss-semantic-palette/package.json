@@ -1,6 +1,6 @@
 {
   "name": "@ilijazm/tailwindcss-semantic-palette",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "TailwindCSS Semantic Palette is a highly extendable plugin for Tailwind CSS that extends the default color palette with colors with semantic meaning.",
   "scripts": {
     "typecheck": "tsc --noEmit",
