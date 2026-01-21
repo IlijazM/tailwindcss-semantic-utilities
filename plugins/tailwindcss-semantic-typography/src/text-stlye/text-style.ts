@@ -1,10 +1,10 @@
-import { TextStyleType } from '@src/text-stlye/text-style-type.ts';
+import {ITextStyleType, TextStyleType} from '@src/text-stlye/text-style-type.ts';
 
 export class TextStyle {
   private textStyle: TextStyleType;
 
-  constructor(textStyle: TextStyleType) {
-    this.textStyle = textStyle;
+  constructor(textStyle: ITextStyleType) {
+    this.textStyle = new TextStyleType(textStyle);
   }
 
   get object() {
