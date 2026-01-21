@@ -1,15 +1,12 @@
 import { TextStyle } from '@src/text-stlye/text-style.ts';
+import {stringsToTextStyle} from "@src/text-stlye/strings-to-text-style.ts";
 
 export class TailwindCssSemanticTypographyPlugin {
   public get cssDeclarations() {
     return {
       ...new TextStyle({
         className: 'text-display-1',
-        fontSize: 'text-7xl',
-        lineHeight: 'leading-32',
-        letterSpacing: 'tracking-tighter',
-        fontWeight: 'font-normal',
-        color: 'var(--color-content-emphasis, var(--color-black))',
+        ...stringsToTextStyle("text-7xl; leading-32; tracking-tighter; font-normal; color-[var(--color-content-emphasis, var(--color-black))]")
       }).object,
       ...new TextStyle({
         className: 'text-display-2',
