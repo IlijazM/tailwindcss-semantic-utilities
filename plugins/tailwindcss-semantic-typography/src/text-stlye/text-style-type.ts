@@ -1,7 +1,7 @@
 export interface TextStyleType {
   className: string;
 
-  fontSize:
+  fontSize?:
     | string
     | 'text-xs'
     | 'text-sm'
@@ -16,9 +16,9 @@ export interface TextStyleType {
     | 'text-7xl'
     | 'text-8xl';
 
-  lineHeight: string;
+  lineHeight?: string;
 
-  letterSpacing:
+  letterSpacing?:
     | string
     | 'tracking-tighter'
     | 'tracking-tight'
@@ -27,7 +27,7 @@ export interface TextStyleType {
     | 'tracking-wider'
     | 'tracking-widest';
 
-  fontWeight:
+  fontWeight?:
     | string
     | 'font-thin'
     | 'font-extralight'
@@ -39,5 +39,11 @@ export interface TextStyleType {
     | 'font-extrabold'
     | 'font-black';
 
-  color: string | 'text-content-text-muted' | 'text-content-text' | 'text-content-text-emphasis';
+  color?: string | 'text-content-text-muted' | 'text-content-text' | 'text-content-text-emphasis';
+
+  textTransform?: string | 'uppercase' | 'lowercase' | 'capitalize' | 'none';
+
+  fontStyle?: string | 'italic' | 'normal';
+
+  fontFamily?: string | 'sans' | 'sans-serif' | 'mono';
 }
