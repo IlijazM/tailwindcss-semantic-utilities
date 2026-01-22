@@ -1,10 +1,14 @@
-import {ITextStyleType, TextStyleType} from '@src/text-stlye/text-style-type.ts';
+import {TextStyleType} from '@src/text-stlye/text-style-type.ts';
+import {stringsToTextStyle} from "@src/text-stlye/strings-to-text-style.ts";
 
 export class TextStyle {
   private textStyle: TextStyleType;
 
-  constructor(textStyle: ITextStyleType) {
-    this.textStyle = new TextStyleType(textStyle);
+  constructor({className, style}: {className: string, style: string | string[]}) {
+    this.textStyle = new TextStyleType({
+      className,
+      ...stringsToTextStyle(style),
+    });
   }
 
   get object() {

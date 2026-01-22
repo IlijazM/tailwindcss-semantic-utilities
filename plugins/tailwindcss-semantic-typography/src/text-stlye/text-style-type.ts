@@ -112,6 +112,10 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get fontFamily(): string {
+    if (this.textStyle.fontFamily?.startsWith("font-")) {
+      const fontFamily = this.textStyle.fontFamily?.replace(/^font-/, "");
+      return `theme(fontFamily.${fontFamily})`;
+    }
     return this.textStyle.fontFamily ?? 'theme(fontFamily.sans)';
   }
 

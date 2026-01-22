@@ -9,7 +9,7 @@ export function stringsToTextStyle(strings: string[] | string): Partial<ITextSty
 
     let result: Partial<ITextStyleType> = {};
 
-    for (const [name, extractor] of Object.entries(extractors)) {
+    for (const extractor of Object.values(extractors)) {
         for (const string of strings) {
             result = {...result, ...extractor(string)};
         }
@@ -66,7 +66,6 @@ function extractRuleBuilder({ruleName, tailwindPrefix, tailwindRegex, negativeTa
                 .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) // escape
                 .join("|");
             const ruleRegex = new RegExp(`^(${ruleNamePattern}):?\\s*`);
-            console.log("ruleRegex", ruleRegex);
             const rule = input.replace(ruleRegex, "");
             return {[ruleName]: rule}
         }
