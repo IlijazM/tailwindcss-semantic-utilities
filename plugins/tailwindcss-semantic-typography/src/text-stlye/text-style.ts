@@ -14,7 +14,7 @@ export class TextStyle {
   get object() {
     return {
       // allow both input with and without leading dot.
-      ["." + this.textStyle.className.replace(/^\./, "")]: {
+      [".text-" + this.textStyle.className.replace(/^\./, "")]: {
         fontSize: this.textStyle.fontSize,
         lineHeight: this.textStyle.lineHeight,
         letterSpacing: this.textStyle.letterSpacing,
@@ -23,6 +23,34 @@ export class TextStyle {
         textTransform: this.textStyle.textTransform,
         fontStyle: this.textStyle.fontStyle,
         fontFamily: this.textStyle.fontFamily ?? "var(--font-sans-serif)",
+      },
+    };
+  }
+
+  get cssRoot() {
+    return {
+      [`--text-style-${this.textStyle.className}-font-size`]: this.textStyle.fontSize,
+      [`--text-style-${this.textStyle.className}-line-height`]: this.textStyle.lineHeight,
+      [`--text-style-${this.textStyle.className}-letter-spacing`]: this.textStyle.letterSpacing,
+      [`--text-style-${this.textStyle.className}-font-weight`]: this.textStyle.fontWeight,
+      [`--text-style-${this.textStyle.className}-color`]: this.textStyle.color,
+      [`--text-style-${this.textStyle.className}-text-transform`]: this.textStyle.textTransform,
+      [`--text-style-${this.textStyle.className}-font-style`]: this.textStyle.fontStyle,
+      [`--text-style-${this.textStyle.className}-font-family`]: this.textStyle.fontFamily,
+    }
+  }
+
+  get cssDeclarations() {
+    return {
+      [".text-" + this.textStyle.className]: {
+        fontSize: `var(--text-style-${this.textStyle.className}-font-size)`,
+        lineHeight: `var(--text-style-${this.textStyle.className}-line-height)`,
+        letterSpacing: `var(--text-style-${this.textStyle.className}-letter-spacing)`,
+        fontWeight: `var(--text-style-${this.textStyle.className}-font-weight)`,
+        color: `var(--text-style-${this.textStyle.className}-color)`,
+        textTransform: `var(--text-style-${this.textStyle.className}-text-transform)`,
+        fontStyle: `var(--text-style-${this.textStyle.className}-font-style)`,
+        fontFamily: `var(--text-style-${this.textStyle.className}-font-family)`,
       },
     };
   }

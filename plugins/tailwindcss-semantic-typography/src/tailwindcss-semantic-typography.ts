@@ -2,16 +2,35 @@ import {TextStyle} from '@src/text-stlye/text-style.ts';
 import {TailwindcssSemanticTypographyOptions} from "@src/options/tailwindcss-semantic-typography-options.ts";
 
 export class TailwindCssSemanticTypographyPlugin {
-    public get cssDeclarations() {
-        return Object.fromEntries(
-            Object.entries(this.options.semanticTypography).flatMap(([name, style]) => (Object.entries({
-                ...new TextStyle({className: "text-" + name, style}).object
-            })))
-        );
+    public get utilities() {
+        return {
+            ...Object.fromEntries(
+                Object.entries(this.options.semanticTypography).flatMap(([className, style]) => (Object.entries({
+                    ...new TextStyle({className, style}).cssDeclarations,
+                })))
+            ),
+        };
+    }
+
+    public get base() {
+        console.log(Object.entries(this.options.semanticTypography));
+        return {
+            ":root": Object.fromEntries(
+                Object.entries(this.options.semanticTypography).flatMap(([className, style]) => (Object.entries({
+                    ...new TextStyle({className, style}).cssRoot,
+                })))
+            )
+        };
     }
 
     public get themeExtension() {
-        return {};
+        return {
+            // textStyle: Object.fromEntries(
+            //     Object.entries(this.options.semanticTypography).flatMap(([className, style]) => (Object.entries({
+            //         ...new TextStyle({className, style}).cssRoot,
+            //     })))
+            // )
+        };
     }
 
     private readonly options: TailwindcssSemanticTypographyOptions;
