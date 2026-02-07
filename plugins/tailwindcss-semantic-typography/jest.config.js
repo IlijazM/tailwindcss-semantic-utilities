@@ -9,6 +9,7 @@ export default {
   },
   moduleNameMapper: {
     '^@src/(.*)$': '<rootDir>/src/$1',
+    '^@/(.*)$': '<rootDir>/$1',
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '\\.d\\.ts$'],
 };

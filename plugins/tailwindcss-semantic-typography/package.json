@@ -52,6 +52,7 @@
     "esbuild": "^0.25.6",
     "eslint": "^9.31.0",
     "jest": "^30.0.4",
+    "playwright": "^1.58.2",
     "ts-jest": "^29.4.0",
     "typescript-eslint": "^8.36.0"
   }
