@@ -10,7 +10,8 @@
         "baseUrl": ".",
         "paths": {
             "@utils/*": ["./utils/*"]
-        }
+        },
+        "allowImportingTsExtensions": true
     },
     "include": ["packages", "utils"]
 }
