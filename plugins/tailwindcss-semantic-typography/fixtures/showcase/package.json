@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@ilijazm/tailwindcss-section": "^1.0.2",
+    "@ilijazm/tailwindcss-semantic-typography": "../..",
+    "@ilijazm/tailwindcss-wrapper": "^1.0.2",
+    "@tailwindcss/vite": "^4.1.11",
+    "tailwindcss": "^4.1.11",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.0"
+  }
+}

@@ -97,14 +97,16 @@ export interface TailwindcssSemanticTypographyOptionsType {
 export const DEFAULT_FONT_STYLE = [];
 
 export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, string[]> = {
-    'display-1': ['text-7xl', 'leading-32', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
+    'display-1': ['text-7xl', 'leading-28', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
     'display-2': ['text-5xl', 'leading-20', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
-    'heading': ['text-3xl', 'leading-12', 'tracking-tight', 'font-extrabold', 'color-[var(--color-content-emphasis, var(--color-black))]'],
+    'heading': ['text-3xl', 'leading-12', 'tracking-tight', 'font-bold', 'color-[var(--color-content-emphasis, var(--color-black))]'],
+    'heading-highlight': ['text-3xl', 'leading-12', 'tracking-tight', 'font-extrabold', 'color-[var(--color-content-emphasis, var(--color-black))]', 'italic'],
     'subheading': ['text-lg', 'leading-8', 'tracking-normal', 'font-bold', 'color-[var(--color-content-emphasis, var(--color-black))]'],
-    'lead': ['text-xl', 'leading-7', 'tracking-normal', 'font-normal', 'color-[var(--color-content-text-emphasis, var(--color-black))]'],
-    'body': ['text-base', 'leading-6', 'tracking-normal', 'font-normal', 'color-[var(--color-content-text, var(--color-neutral-700))]'],
+    'lead': ['text-xl', 'leading-9', 'tracking-normal', 'font-normal', 'color-[var(--color-content-text-emphasis, var(--color-black))]'],
+    'body': ['text-base', 'leading-7', 'tracking-normal', 'font-normal', 'color-[var(--color-content-text, var(--color-neutral-700))]'],
     'quote': ['text-xl', 'leading-7', 'tracking-normal', 'font-medium', 'color-[var(--color-content-text-muted, var(--color-neutral-500))]', 'italic'],
     'overline': ['text-xs', 'leading-5', 'tracking-widest', 'font-bold', 'color-[var(--color-content-emphasis, var(--color-black))]', 'uppercase'],
+    'button': ['text-sm', 'leading-5', 'tracking-wide', 'font-semibold', 'color-[var(--color-content-emphasis, var(--color-black))]', "uppercase"],
     'code': ['text-base', 'leading-5', 'tracking-normal', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]', 'font-mono'],
     'heading-1': ['text-7xl', 'leading-[8rem]', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
     'heading-2': ['text-5xl', 'leading-20', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
