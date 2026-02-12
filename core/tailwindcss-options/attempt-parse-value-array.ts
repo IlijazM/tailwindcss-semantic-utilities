@@ -7,7 +7,7 @@
  * 1. It is an array
  * 1. It has exactly eleven entries
  * 1. It only contains strings
- * 1. All of the strings are trimmed
+ * 1. All the strings are trimmed
  * 1. None of the strings are empty
  *
  * @example of a valid color value array syntax.

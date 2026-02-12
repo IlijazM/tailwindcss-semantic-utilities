@@ -96,10 +96,14 @@
  * tailwindSemanticTypographyOptions.get('semanticTypography'); // auto-completion and type-safety available.
  * ```
  */
-export class TailwindTypesafeOptionsWrapper<T> {
+export class TailwindOptionsPropertyAccessor<T> {
     get<K extends keyof T>(key: K): T[K] {
         return this.options[key]
     };
+
+    getAll(): Readonly<T> {
+        return this.options;
+    }
 
     constructor(private readonly options: T) {}
 }
