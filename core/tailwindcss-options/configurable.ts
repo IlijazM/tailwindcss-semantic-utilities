@@ -1,4 +1,4 @@
-import {OptionsType} from "./tailwind-options";
+import {OptionsType} from "./tailwind-options-wrapper";
 
 export interface ConfigurableType<T> {
     /**
