@@ -5,3 +5,22 @@
 
 /*@plugin "@ilijazm/tailwindcss-semantic-typography";*/
 @plugin "../../";
+
+@theme {
+    --spacing-lead: var(--spacing-md);
+    --spacing-body: var(--spacing-sm);
+
+    --spacing-text: var(--spacing-wrapper-md);
+}
+
+@utility w-heading {
+    @apply w-wrapper-lg;
+}
+
+@utility mb-heading {
+    @apply mb-lg;
+}
+
+@utility mt-heading {
+    @apply mt-2xl;
+}

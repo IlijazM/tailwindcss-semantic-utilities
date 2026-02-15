@@ -1,5 +1,6 @@
 @theme {
   --spacing-power-basis: 1.8;
+  --spacing-wrapper-power-basis: 1.4;
   --spacing-4xs: calc(var(--spacing-3xs) / var(--spacing-power-basis));
   --spacing-3xs: calc(var(--spacing-2xs) / var(--spacing-power-basis));
   --spacing-2xs: calc(var(--spacing-xs) / var(--spacing-power-basis));
@@ -15,4 +16,21 @@
   --spacing-6xl: calc(var(--spacing-5xl) * var(--spacing-power-basis));
   --spacing-7xl: calc(var(--spacing-6xl) * var(--spacing-power-basis));
   --spacing-8xl: calc(var(--spacing-7xl) * var(--spacing-power-basis));
+
+  --spacing-wrapper: var(--spacing-6xl);
+
+  --spacing-wrapper-4xs: calc(var(--spacing-wrapper-3xs) / var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-3xs: calc(var(--spacing-wrapper-2xs) / var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-2xs: calc(var(--spacing-wrapper-xs) / var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-xs: calc(var(--spacing-wrapper-sm) / var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-sm: calc(var(--spacing-wrapper-md) / var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-md: var(--spacing-wrapper);
+  --spacing-wrapper-lg: calc(var(--spacing-wrapper-md) * var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-xl: calc(var(--spacing-wrapper-lg) * var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-2xl: calc(var(--spacing-wrapper-xl) * var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-3xl: calc(var(--spacing-wrapper-2xl) * var(--spacing-wrapper-power-basis));
+  --spacing-wrapper-4xl: calc(var(--spacing-wrapper-3xl) * var(--spacing-wrapper-power-basis));
+
+  --spacing-text: var(--spacing-wrapper-xs);
+  --spacing-wrapper-heading: var(--spacing-wrapper-md);
 }

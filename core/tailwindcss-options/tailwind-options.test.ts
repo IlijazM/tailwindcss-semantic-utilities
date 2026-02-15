@@ -1,7 +1,7 @@
-import { TailwindOption, TailwindOptionsWrapper, StronglyTypedTailwindOption } from './tailwind-options-wrapper';
+import { TailwindOption, TailwindOptionsWrapper, StronglyTypedTailwindOption, SelectableObjectTailwindOption } from './tailwind-options-wrapper';
 
 describe("TailwindcssOptions", () => {
-    it('empty options and empty default options', () => {
+    it('should return nothing with empty options and empty default options', () => {
       const options = {};
       const defaultOptions = {};
 
@@ -23,7 +23,7 @@ describe("TailwindcssOptions", () => {
     expect(tailwindOptions.get('foo')).toStrictEqual('Hello, world!');
   });
 
-  it('should override the default options if an option is provided', () => {
+  it('should override the default option if the respected option is provided', () => {
     const defaultOptions = { foo: new TailwindOption('Hello, world!') };
 
     const tailwindOptions = new TailwindOptionsWrapper({
@@ -59,62 +59,71 @@ describe("TailwindcssOptions", () => {
     expect(tailwindOptions.get('foo')).toStrictEqual('Hello, world!');
   });
 
-  //   it("empty options", () => {
-  //     const tailwindOptions = new TailwindOptionsWrapper({
-  //       options: {},
-  //       defaultOptions: { foo: ['bar'] },
-  //     }).getAll();
-  //
-  //     expect(tailwindOptions).toStrictEqual({ foo: ['bar'] });
-  //   });
-  //
-  //   it("empty options", () => {
-  //       const options = {};
-  //       const defaultOptions = { foo: 'bar' };
-  //
-  //       const tailwindOptions  = new TailwindOptionsWrapper({
-  //           options,
-  //           defaultOptions,
-  //       }).getAll();
-  //
-  //       expect(tailwindOptions).toStrictEqual(defaultOptions);
-  //   });
-  //
-  //   it("selects single from object", () => {
-  //       const tailwindOptions  = new TailwindOptionsWrapper({
-  //           options: {color: ["red"]},
-  //           defaultOptions: {color: {red: '#ff0000', green: '#00ff00', blue: '#0000ff'}},
-  //       }).getAll();
-  //
-  //       expect(tailwindOptions).toStrictEqual({color: {red: '#ff0000'}});
-  //   });
-  //
-  //   it("selects multiple from object", () => {
-  //       const tailwindOptions  = new TailwindOptionsWrapper({
-  //           options: {color: ["red", "blue"]},
-  //           defaultOptions: {color: {red: '#ff0000', green: '#00ff00', blue: '#0000ff'}},
-  //       }).getAll();
-  //
-  //       expect(tailwindOptions).toStrictEqual({color: {red: '#ff0000', blue: '#0000ff'}});
-  //   });
-  //
-  //   it("selects none from object", () => {
-  //       const tailwindOptions  = new TailwindOptionsWrapper({
-  //           options: {color: []},
-  //           defaultOptions: {color: {red: '#ff0000', green: '#00ff00', blue: '#0000ff'}},
-  //       }).getAll();
-  //
-  //       expect(tailwindOptions).toStrictEqual({color: {red: '#ff0000', green: '#00ff00', blue: '#0000ff'}});
-  //   });
-  //
-  //   it("selects non-existing from object", () => {
-  //       const tailwindOptions  = new TailwindOptionsWrapper({
-  //           options: {color: ["yellow"]},
-  //           defaultOptions: {color: {red: '#ff0000', green: '#00ff00', blue: '#0000ff'}},
-  //       }).getAll();
-  //
-  //       expect(tailwindOptions).toStrictEqual({color: {}});
-  //   });
+  it('should select all options from a selectable object if no options', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } });
+  });
+
+  it('should select all options from a selectable object if the respected option provided is an empty array', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: [] },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } });
+  });
+
+    it('should select a single option from a selectable object properly', () => {
+      const tailwindOptions = new TailwindOptionsWrapper({
+        options: { color: ['red'] },
+        defaultOptions: {
+          color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+        },
+      }).getAll();
+
+      expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000' } });
+    });
+
+    it('should select a multiple option from a selectable object', () => {
+      const tailwindOptions = new TailwindOptionsWrapper({
+        options: { color: ['red', 'blue'] },
+        defaultOptions: {
+          color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+        },
+      }).getAll();
+
+      expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', blue: '#0000ff' } });
+    });
+
+  it('should select no options from a selectable object if the respected option contains an option that is not present in the default options', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['yellow'] },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({ color: {} });
+  });
+
+  it('should select all options from a selectable object if the respected option contains a wildcard', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['*'] },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } });
+  });
   //
   // it('adds one default', () => {
   //   const tailwindOptions = new TailwindOptionsWrapper({

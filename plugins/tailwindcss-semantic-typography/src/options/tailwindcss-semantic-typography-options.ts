@@ -99,7 +99,7 @@ export const DEFAULT_FONT_STYLE = [];
 export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, string[]> = {
     'display-1': ['text-7xl', 'leading-28', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
     'display-2': ['text-5xl', 'leading-20', 'tracking-tighter', 'font-normal', 'color-[var(--color-content-emphasis, var(--color-black))]'],
-    'heading': ['text-3xl', 'leading-12', 'tracking-tight', 'font-bold', 'color-[var(--color-content-emphasis, var(--color-black))]'],
+    'heading': ['text-3xl', 'leading-12', 'tracking-tight', 'font-medium', 'color-[var(--color-content-emphasis, var(--color-black))]'],
     'heading-highlight': ['text-3xl', 'leading-12', 'tracking-tight', 'font-extrabold', 'color-[var(--color-content-emphasis, var(--color-black))]', 'italic'],
     'subheading': ['text-lg', 'leading-8', 'tracking-normal', 'font-bold', 'color-[var(--color-content-emphasis, var(--color-black))]'],
     'lead': ['text-xl', 'leading-9', 'tracking-normal', 'font-normal', 'color-[var(--color-content-text-emphasis, var(--color-black))]'],

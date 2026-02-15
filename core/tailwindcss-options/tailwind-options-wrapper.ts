@@ -37,7 +37,7 @@ export class StronglyTypedTailwindOption<T> extends TailwindOption<T> {
   }
 }
 
-export abstract class TailwindSelectableObjectOption<T> extends TailwindOption<Record<string, T>> {
+export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<string, T>> {
   constructor(_value: Record<string, T>) {
     super(_value);
   }
@@ -58,28 +58,25 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     super(TailwindOptionsWrapper.applyOptions({ options, defaultOptions }));
   }
 
-  private static applyOptions<T, U extends OptionsType<T>>({
+  private static applyOptions<T>({
     options,
     defaultOptions,
   }: {
     options: any;
-    defaultOptions: U;
-  }): U {
-    if (options == null) {
-      return defaultOptions;
-    }
+    defaultOptions: OptionsType<T>;
+  }): OptionsType<T> {
+    let result = defaultOptions;
 
-    let result = {} as OptionsType<T>;
+
 
     for (const optionKey of Object.keys(defaultOptions) as (keyof OptionsType<T>)[]) {
       // const additionalOptions = TailwindOptionsWrapper.getAllCustomTextStyleNames({ options, optionKey });
 
-      result[optionKey] = TailwindOptionsWrapper.applySingleOption({
+      result[optionKey] = TailwindOptionsWrapper.overrideDefaultOption({
         options,
         defaultOptions,
         optionKey,
       });
-
 
       // for (const additionalOption of additionalOptions) {
       //   if (!(optionKey in result)) {
@@ -89,15 +86,15 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
       // }
     }
 
-    return result as U;
+    return result;
   }
 
-  private static applySingleOption<T, K extends keyof T>({
+  private static overrideDefaultOption<T, K extends keyof T>({
     options,
     defaultOptions,
     optionKey,
   }: {
-    options: any,
+    options: any;
     defaultOptions: OptionsType<T>;
     optionKey: K;
   }): TailwindOption<T[K]> {
@@ -106,17 +103,24 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
       return defaultOptions[optionKey];
     }
 
-    if (defaultOptions[optionKey] instanceof TailwindSelectableObjectOption) {
-      throw "not implemented";
-      // return { [optionKey]: TailwindOptionsWrapper.applySingleOptionObject({ options, defaultOptions, optionKey }) };
+    if (defaultOptions[optionKey] instanceof SelectableObjectTailwindOption) {
+      if (options[optionKey].includes("*")) {
+        return defaultOptions[optionKey];
+      }
+
+      // @ts-ignore
+      defaultOptions[optionKey].value = Object.fromEntries(
+        Object.entries(defaultOptions[optionKey].value).filter(([key]) => options[optionKey].includes(key)),
+      );
     } else {
       try {
         defaultOptions[optionKey].value = options[optionKey];
       } catch (err) {
         console.warn(`Failed to apply option '${optionKey.toString()}': ${err}`);
       }
-      return defaultOptions[optionKey];
     }
+
+    return defaultOptions[optionKey];
   }
 
   // private static applySingleOptionObject<T, U extends OptionsType<T>>({
