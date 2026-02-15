@@ -6,27 +6,28 @@ export type OptionsType<T> = {
 };
 
 export class TailwindOption<T> {
-  constructor(protected _value: T) {}
+  public constructor(protected _value: T) {}
 
-  get value() {
+  public get value(): any {
     return this._value;
   }
 
-  set value(value: T) {
+  public apply({ value, additionalValues }: { value: any; additionalValues: any }) {
+    // @ts-ignore
     this._value = value;
   }
 }
 
-export class StronglyTypedTailwindOption<T> extends TailwindOption<T> {
-  constructor(value: T) {
+export class TypeSafeTailwindOption<T> extends TailwindOption<T> {
+  public constructor(value: T) {
     super(value);
   }
 
-  get value() {
+  public override get value(): T {
     return this._value;
   }
 
-  set value(value: T) {
+  public override apply({ value, additionalValues }: { value: any; additionalValues?: any }) {
     if (typeof value !== typeof this._value) {
       throw `Failed to apply option. Types do not match. Expected type: '${typeof this._value}'. Actual type: '${typeof value}'.`;
     }
@@ -38,8 +39,25 @@ export class StronglyTypedTailwindOption<T> extends TailwindOption<T> {
 }
 
 export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<string, T>> {
-  constructor(_value: Record<string, T>) {
+  public constructor(_value: Record<string, T>) {
     super(_value);
+  }
+
+  public override get value(): Record<string, T> {
+    return this._value;
+  }
+
+  public override apply({ value, additionalValues }: { value: any; additionalValues?: any }) {
+    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+      value = [value.toString()];
+    }
+    if (!Array.isArray(value)) {
+      throw new Error(`Unable to apply selectable object tailwind option with value: ${value}`);
+    }
+    if (value.includes("*")) {
+      return;
+    }
+    this._value = Object.fromEntries(Object.entries(this._value).filter(([key]) => value.includes(key)));
   }
 }
 
@@ -103,21 +121,10 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
       return defaultOptions[optionKey];
     }
 
-    if (defaultOptions[optionKey] instanceof SelectableObjectTailwindOption) {
-      if (options[optionKey].includes("*")) {
-        return defaultOptions[optionKey];
-      }
-
-      // @ts-ignore
-      defaultOptions[optionKey].value = Object.fromEntries(
-        Object.entries(defaultOptions[optionKey].value).filter(([key]) => options[optionKey].includes(key)),
-      );
-    } else {
-      try {
-        defaultOptions[optionKey].value = options[optionKey];
-      } catch (err) {
-        console.warn(`Failed to apply option '${optionKey.toString()}': ${err}`);
-      }
+    try {
+      defaultOptions[optionKey].apply({ value: options[optionKey], additionalValues: {} });
+    } catch (err) {
+      console.warn(`Failed to apply option '${optionKey.toString()}': ${err}`);
     }
 
     return defaultOptions[optionKey];

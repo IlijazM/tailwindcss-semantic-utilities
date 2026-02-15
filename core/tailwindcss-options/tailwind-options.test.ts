@@ -1,4 +1,4 @@
-import { TailwindOption, TailwindOptionsWrapper, StronglyTypedTailwindOption, SelectableObjectTailwindOption } from './tailwind-options-wrapper';
+import { TailwindOption, TailwindOptionsWrapper, TypeSafeTailwindOption, SelectableObjectTailwindOption } from './tailwind-options-wrapper';
 
 describe("TailwindcssOptions", () => {
     it('should return nothing with empty options and empty default options', () => {
@@ -48,7 +48,7 @@ describe("TailwindcssOptions", () => {
   });
 
   it('should not override the default options if types mismatch and strongly typed options are used', () => {
-    const defaultOptions = { foo: new StronglyTypedTailwindOption('Hello, world!') };
+    const defaultOptions = { foo: new TypeSafeTailwindOption('Hello, world!') };
 
     const tailwindOptions = new TailwindOptionsWrapper({
       options: { foo: 10 },

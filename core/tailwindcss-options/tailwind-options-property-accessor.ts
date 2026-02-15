@@ -1,11 +1,11 @@
 import { OptionsType } from './tailwind-options-wrapper';
 
 /**
- * wraps the type T and provides a getter function with auto-completion and type-safety.
+ * wraps the type T and provides a type-safe getter function with auto-completion.
  *
- * ## Why is that class necessary?
+ * ## Why is this class necessary?
  *
- * To maximize developer experience.
+ * To maximize the developer experience when defining tailwind options classes by providing an automatically generated type-safe getter function with auto-completion instead of expecting a manually written getter function for each property of the option.
  *
  * For Tailwind plugins it is common practise to define the tailwind options object as an interface and wrap a class around that interface to provide type-safe access to the plugin options.
  * However, implementing an interface in TypeScript leads to code duplication as seen in the following real-world example:
