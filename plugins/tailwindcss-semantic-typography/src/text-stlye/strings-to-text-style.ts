@@ -26,8 +26,11 @@ const extractors = {
     tailwindRegex: /^font-(\d+|thin|extralight|light|normal|medium|semibold|bold|extrabold|black)/,
   }),
   extractColor: extractRuleBuilder({ ruleName: 'color', tailwindPrefix: 'color-' }),
-  extractTextTransform: extractRuleBuilder({ ruleName: 'textTransform', allowedValues: ['uppercase', 'lowercase', 'normalcase'] }),
-  extractFontStyle: extractRuleBuilder({ ruleName: 'fontStyle', allowedValues: ['italic'] }),
+  extractTextTransform: extractRuleBuilder({
+    ruleName: 'textTransform',
+    allowedValues: ['uppercase', 'lowercase', 'normal-case'],
+  }),
+  extractFontStyle: extractRuleBuilder({ ruleName: 'fontStyle', allowedValues: ['italic', 'not-italic'] }),
   extractFontFamily: extractRuleBuilder({
     ruleName: 'fontFamily',
     tailwindPrefix: 'font-',

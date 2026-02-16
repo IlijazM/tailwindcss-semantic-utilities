@@ -41,9 +41,9 @@ export interface ITextStyleType {
 
   color?: string | 'text-content-text-muted' | 'text-content-text' | 'text-content-text-emphasis';
 
-  textTransform?: string | 'uppercase' | 'lowercase' | 'capitalize' | 'none';
+  textTransform?: string | 'uppercase' | 'lowercase' | 'capitalize' | 'normal-case' | 'none';
 
-  fontStyle?: string | 'italic' | 'normal';
+  fontStyle?: string | 'italic' | 'not-italic' | 'normal';
 
   fontFamily?: string | 'sans' | 'sans-serif' | 'mono';
 }
@@ -104,10 +104,18 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get textTransform(): string {
+    if (this.textStyle.textTransform === "normal-case") {
+      return "none";
+    }
+
     return this.textStyle.textTransform ?? 'none';
   }
 
   get fontStyle(): string {
+    if (this.textStyle.fontStyle === 'not-italic') {
+      return 'normal';
+    }
+
     return this.textStyle.fontStyle ?? 'normal';
   }
 
