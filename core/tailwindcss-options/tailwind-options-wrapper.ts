@@ -14,7 +14,7 @@ import { TailwindOptionsType } from './tailwind-options-type';
  */
 export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T> {
   constructor({ options, defaultOptions }: { options: any; defaultOptions: TailwindOptionsType<T> }) {
-    super(TailwindOptionsWrapper.applyOptions({ options, defaultOptions }));
+    super(TailwindOptionsWrapper.applyOptions({ options: options ?? {}, defaultOptions }));
   }
 
   private static applyOptions<T>({
@@ -25,6 +25,10 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     defaultOptions: TailwindOptionsType<T>;
   }): TailwindOptionsType<T> {
     let result = defaultOptions;
+
+    options = Object.fromEntries(
+      Object.entries(options).map(([key, value]) => [key.replace(/^"|^'|'$|"$/g, ""), value])
+    )
 
     for (const optionKey of Object.keys(defaultOptions) as (keyof TailwindOptionsType<T>)[]) {
       result[optionKey] = TailwindOptionsWrapper.overrideDefaultOption({
@@ -67,24 +71,6 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
 
     return defaultOptions[optionKey];
   }
-
-  // private static applySingleOptionObject<T, U extends TailwindOptionsType<T>>({
-  //   options,
-  //   defaultOptions,
-  //   optionKey,
-  // }: {
-  //   options: any;
-  //   defaultOptions: U;
-  //   optionKey: string;
-  // }): U {
-  //   const selections = TailwindOptionsWrapper.getStringArrayFromOption({ options, optionKey });
-  //
-  //   if (selections.includes('*')) {
-  //     return defaultOptions[optionKey];
-  //   }
-  //
-  //   return Object.fromEntries(Object.entries(defaultOptions[optionKey]).filter(([key, _]) => selections.includes(key)));
-  // }
 
   private static getStringArrayFromOption({ options, optionKey }: { options: any; optionKey: string }): string[] {
     const option = options[optionKey];
@@ -157,7 +143,7 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     for (const [potentialCustomColorKey] of Object.entries(options)) {
       if (!potentialCustomColorKey.startsWith(prefix)) {
         continue;
-      }
+     }
 
       const customColorKey = potentialCustomColorKey.replace(new RegExp(`^${prefix}`), '');
       customColorKeys[customColorKey] = options[potentialCustomColorKey];

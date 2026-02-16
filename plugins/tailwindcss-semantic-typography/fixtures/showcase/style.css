@@ -4,7 +4,9 @@
 @import "@ilijazm/tailwindcss-section";
 
 /*@plugin "@ilijazm/tailwindcss-semantic-typography";*/
-@plugin "../../";
+@plugin "../../" {
+    "typography--button": "*";
+}
 
 @theme {
     --spacing-lead: var(--spacing-md);

@@ -42,7 +42,8 @@
     "directory": "plugins/tailwindcss-semantic-typography"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "@ilijaz/tailwindcss-core": "*"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",

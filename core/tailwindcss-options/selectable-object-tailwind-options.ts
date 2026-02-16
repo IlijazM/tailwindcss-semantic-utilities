@@ -3,7 +3,7 @@ import { TailwindOption } from './tailwind-option';
 export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<string, T>> {
   public constructor(
     _value: Record<string, T>,
-    private onAdd: (key: string, value: T) => [string, T] = (key: string, value: T) => [key, value],
+    private onAdd: (key: string, value: null | any) => [string, null | T] = (key: string, value: T) => [key, value],
   ) {
     super(_value);
   }
@@ -38,6 +38,7 @@ export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<str
   }
 
   private addValues({ relatedValues }: { relatedValues?: any }) {
+    console.log(relatedValues)
     Object.assign(
       this._value,
       Object.fromEntries(
