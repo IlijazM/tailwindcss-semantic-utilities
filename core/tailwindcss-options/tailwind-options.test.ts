@@ -1,17 +1,22 @@
-import { TailwindOption, TailwindOptionsWrapper, TypeSafeTailwindOption, SelectableObjectTailwindOption } from './tailwind-options-wrapper';
+import {
+  TailwindOption,
+  TailwindOptionsWrapper,
+  TypeSafeTailwindOption,
+  SelectableObjectTailwindOption,
+} from './tailwind-options-wrapper';
 
-describe("TailwindcssOptions", () => {
-    it('should return nothing with empty options and empty default options', () => {
-      const options = {};
-      const defaultOptions = {};
+describe('TailwindcssOptions', () => {
+  it('should return nothing with empty options and empty default options', () => {
+    const options = {};
+    const defaultOptions = {};
 
-      const tailwindOptions = new TailwindOptionsWrapper({
-        options,
-        defaultOptions,
-      }).getAll();
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options,
+      defaultOptions,
+    }).getAll();
 
-      expect(tailwindOptions).toStrictEqual(defaultOptions);
-    });
+    expect(tailwindOptions).toStrictEqual(defaultOptions);
+  });
 
   it('should keep the default options if no options are provided', () => {
     const tailwindOptions = new TailwindOptionsWrapper({
@@ -61,7 +66,7 @@ describe("TailwindcssOptions", () => {
 
   it('should select all options from a selectable object if no options', () => {
     const tailwindOptions = new TailwindOptionsWrapper({
-      options: { },
+      options: {},
       defaultOptions: {
         color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
       },
@@ -81,27 +86,27 @@ describe("TailwindcssOptions", () => {
     expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } });
   });
 
-    it('should select a single option from a selectable object properly', () => {
-      const tailwindOptions = new TailwindOptionsWrapper({
-        options: { color: ['red'] },
-        defaultOptions: {
-          color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
-        },
-      }).getAll();
+  it('should select a single option from a selectable object properly', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['red'] },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
 
-      expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000' } });
-    });
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000' } });
+  });
 
-    it('should select a multiple option from a selectable object', () => {
-      const tailwindOptions = new TailwindOptionsWrapper({
-        options: { color: ['red', 'blue'] },
-        defaultOptions: {
-          color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
-        },
-      }).getAll();
+  it('should select a multiple option from a selectable object', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['red', 'blue'] },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
 
-      expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', blue: '#0000ff' } });
-    });
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', blue: '#0000ff' } });
+  });
 
   it('should select no options from a selectable object if the respected option contains an option that is not present in the default options', () => {
     const tailwindOptions = new TailwindOptionsWrapper({
@@ -124,44 +129,67 @@ describe("TailwindcssOptions", () => {
 
     expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } });
   });
-  //
-  // it('adds one default', () => {
-  //   const tailwindOptions = new TailwindOptionsWrapper({
-  //     options: { 'color--yellow': '#ffff00' },
-  //     defaultOptions: { color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } },
-  //   }).getAll();
-  //
-  //   expect(tailwindOptions).toStrictEqual({ color: { yellow: '#ffff00' } });
-  // });
-  //
-  // it('adds multiple default', () => {
-  //   const tailwindOptions = new TailwindOptionsWrapper({
-  //     options: { 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
-  //     defaultOptions: { color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } },
-  //   }).getAll();
-  //
-  //   expect(tailwindOptions).toStrictEqual({ color: { yellow: '#ffff00', cyan: '#00ffff' } });
-  // });
-  //
-  // it('adds multiple and selects from default', () => {
-  //   const tailwindOptions = new TailwindOptionsWrapper({
-  //     options: { color: ['red', 'green'], 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
-  //     defaultOptions: { color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } },
-  //   }).getAll();
-  //
-  //   expect(tailwindOptions).toStrictEqual({
-  //     color: { red: '#ff0000', green: '#00ff00', yellow: '#ffff00', cyan: '#00ffff' },
-  //   });
-  // });
-  //
-  // it('adds multiple and selects wildcard default', () => {
-  //   const tailwindOptions = new TailwindOptionsWrapper({
-  //     options: { color: ['*'], 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
-  //     defaultOptions: { color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff' } },
-  //   }).getAll();
-  //
-  //   expect(tailwindOptions).toStrictEqual({
-  //     color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff', yellow: '#ffff00', cyan: '#00ffff' },
-  //   });
-  // });
-})
+
+  it('adds one default', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { 'color--yellow': '#ffff00' },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({
+      color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff', yellow: '#ffff00' },
+    });
+  });
+
+  it('change on of the defaults', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { 'color--blue': '#00ffff' },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({
+      color: { red: '#ff0000', green: '#00ff00', blue: '#00ffff' },
+    });
+  });
+
+  it('adds multiple default', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({ color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff', yellow: '#ffff00', cyan: '#00ffff' } });
+  });
+
+  it('adds multiple and selects from default', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['red', 'green'], 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({
+      color: { red: '#ff0000', green: '#00ff00', yellow: '#ffff00', cyan: '#00ffff' },
+    });
+  });
+
+  it('adds multiple and selects wildcard default', () => {
+    const tailwindOptions = new TailwindOptionsWrapper({
+      options: { color: ['*'], 'color--yellow': '#ffff00', 'color--cyan': '#00ffff' },
+      defaultOptions: {
+        color: new SelectableObjectTailwindOption({ red: '#ff0000', green: '#00ff00', blue: '#0000ff' }),
+      },
+    }).getAll();
+
+    expect(tailwindOptions).toStrictEqual({
+      color: { red: '#ff0000', green: '#00ff00', blue: '#0000ff', yellow: '#ffff00', cyan: '#00ffff' },
+    });
+  });
+});

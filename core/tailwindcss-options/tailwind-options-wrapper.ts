@@ -12,7 +12,7 @@ export class TailwindOption<T> {
     return this._value;
   }
 
-  public apply({ value, additionalValues }: { value: any; additionalValues: any }) {
+  public apply({ value, relatedValues }: { value: any; relatedValues: any }) {
     // @ts-ignore
     this._value = value;
   }
@@ -27,7 +27,7 @@ export class TypeSafeTailwindOption<T> extends TailwindOption<T> {
     return this._value;
   }
 
-  public override apply({ value, additionalValues }: { value: any; additionalValues?: any }) {
+  public override apply({ value, relatedValues }: { value: any; relatedValues?: any }) {
     if (typeof value !== typeof this._value) {
       throw `Failed to apply option. Types do not match. Expected type: '${typeof this._value}'. Actual type: '${typeof value}'.`;
     }
@@ -39,7 +39,10 @@ export class TypeSafeTailwindOption<T> extends TailwindOption<T> {
 }
 
 export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<string, T>> {
-  public constructor(_value: Record<string, T>) {
+  public constructor(
+    _value: Record<string, T>,
+    private onAdd: (key: string, value: T) => [string, T] = (key: string, value: T) => [key, value],
+  ) {
     super(_value);
   }
 
@@ -47,17 +50,32 @@ export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<str
     return this._value;
   }
 
-  public override apply({ value, additionalValues }: { value: any; additionalValues?: any }) {
-    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+  public override apply({ value, relatedValues }: { value: any; relatedValues?: any }) {
+    this.selectValues({ value });
+    this.addValues({ relatedValues });
+  }
+
+  private selectValues({ value }: { value: any }) {
+    if (value == null) {
+      return;
+    }
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
       value = [value.toString()];
     }
     if (!Array.isArray(value)) {
       throw new Error(`Unable to apply selectable object tailwind option with value: ${value}`);
     }
-    if (value.includes("*")) {
+    if (value.includes('*')) {
       return;
     }
     this._value = Object.fromEntries(Object.entries(this._value).filter(([key]) => value.includes(key)));
+  }
+
+  private addValues({ relatedValues }: { relatedValues?: any }) {
+    Object.assign(
+      this._value,
+      Object.fromEntries(Object.entries(relatedValues).map(([key, value]) => this.onAdd(key, value as T))),
+    );
   }
 }
 
@@ -85,23 +103,12 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
   }): OptionsType<T> {
     let result = defaultOptions;
 
-
-
     for (const optionKey of Object.keys(defaultOptions) as (keyof OptionsType<T>)[]) {
-      // const additionalOptions = TailwindOptionsWrapper.getAllCustomTextStyleNames({ options, optionKey });
-
       result[optionKey] = TailwindOptionsWrapper.overrideDefaultOption({
         options,
         defaultOptions,
         optionKey,
       });
-
-      // for (const additionalOption of additionalOptions) {
-      //   if (!(optionKey in result)) {
-      //     result[optionKey] = {};
-      //   }
-      //   result[optionKey][additionalOption] = options[`${optionKey}--${additionalOption}`];
-      // }
     }
 
     return result;
@@ -116,13 +123,21 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     defaultOptions: OptionsType<T>;
     optionKey: K;
   }): TailwindOption<T[K]> {
+    const relatedValues = TailwindOptionsWrapper.getAllRelatedValues({ options, optionKey });
+
     // If no option is provided, return the default option for that key.
-    if (!options[optionKey] || (Array.isArray(options[optionKey]) && options[optionKey].length === 0)) {
+    if (
+      (!options[optionKey] || (Array.isArray(options[optionKey]) && options[optionKey].length === 0)) &&
+      Object.keys(relatedValues).length == 0
+    ) {
       return defaultOptions[optionKey];
     }
 
     try {
-      defaultOptions[optionKey].apply({ value: options[optionKey], additionalValues: {} });
+      defaultOptions[optionKey].apply({
+        value: options[optionKey],
+        relatedValues,
+      });
     } catch (err) {
       console.warn(`Failed to apply option '${optionKey.toString()}': ${err}`);
     }
@@ -205,10 +220,16 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     throw INVALID_OPTION_TYPE;
   }
 
-  private static getAllCustomTextStyleNames({ options, optionKey }: { options: any; optionKey: string }): string[] {
-    const customColorKeys: string[] = [];
+  private static getAllRelatedValues({
+    options,
+    optionKey,
+  }: {
+    options: any;
+    optionKey: string | number | symbol;
+  }): Record<string, any> {
+    const customColorKeys: Record<string, any> = [];
 
-    const prefix = optionKey + '--';
+    const prefix = `${optionKey.toString()}--`;
 
     for (const [potentialCustomColorKey] of Object.entries(options)) {
       if (!potentialCustomColorKey.startsWith(prefix)) {
@@ -216,7 +237,7 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
       }
 
       const customColorKey = potentialCustomColorKey.replace(new RegExp(`^${prefix}`), '');
-      customColorKeys.push(customColorKey);
+      customColorKeys[customColorKey] = options[potentialCustomColorKey];
     }
 
     return customColorKeys;
