@@ -1,83 +1,6 @@
-import { INVALID_OPTION_TYPE } from './tailwindcss-options-errors.ts';
 import { TailwindOptionsPropertyAccessor } from './tailwind-options-property-accessor';
-
-export type OptionsType<T> = {
-  [K in keyof T]: TailwindOption<T[K]>;
-};
-
-export class TailwindOption<T> {
-  public constructor(protected _value: T) {}
-
-  public get value(): any {
-    return this._value;
-  }
-
-  public apply({ value, relatedValues }: { value: any; relatedValues: any }) {
-    // @ts-ignore
-    this._value = value;
-  }
-}
-
-export class TypeSafeTailwindOption<T> extends TailwindOption<T> {
-  public constructor(value: T) {
-    super(value);
-  }
-
-  public override get value(): T {
-    return this._value;
-  }
-
-  public override apply({ value, relatedValues }: { value: any; relatedValues?: any }) {
-    if (typeof value !== typeof this._value) {
-      throw `Failed to apply option. Types do not match. Expected type: '${typeof this._value}'. Actual type: '${typeof value}'.`;
-    }
-    if (Array.isArray(value) && !Array.isArray(this._value)) {
-      throw `Failed to apply option. Types do not match. Expected type: '${Array.isArray(this._value) ? 'Array' : 'Not an array'}'. Actual type: '${Array.isArray(value) ? 'Array' : 'Not an array'}'.`;
-    }
-    this._value = value;
-  }
-}
-
-export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<string, T>> {
-  public constructor(
-    _value: Record<string, T>,
-    private onAdd: (key: string, value: T) => [string, T] = (key: string, value: T) => [key, value],
-  ) {
-    super(_value);
-  }
-
-  public override get value(): Record<string, T> {
-    return this._value;
-  }
-
-  public override apply({ value, relatedValues }: { value: any; relatedValues?: any }) {
-    this.selectValues({ value });
-    this.addValues({ relatedValues });
-  }
-
-  private selectValues({ value }: { value: any }) {
-    if (value == null) {
-      return;
-    }
-    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-      value = [value.toString()];
-    }
-    if (!Array.isArray(value)) {
-      throw new Error(`Unable to apply selectable object tailwind option with value: ${value}`);
-    }
-    if (value.includes('*')) {
-      return;
-    }
-    this._value = Object.fromEntries(Object.entries(this._value).filter(([key]) => value.includes(key)));
-  }
-
-  private addValues({ relatedValues }: { relatedValues?: any }) {
-    Object.assign(
-      this._value,
-      Object.fromEntries(Object.entries(relatedValues).map(([key, value]) => this.onAdd(key, value as T))),
-    );
-  }
-}
+import { TailwindOption } from './tailwind-option';
+import { TailwindOptionsType } from './tailwind-options-type';
 
 /**
  * responsible for parsing the options object provided from Tailwind CSS into a type-safe class and merging options together in a way to maximize ease of extendability whiles fully maintaining flexibility.
@@ -90,7 +13,7 @@ export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<str
  * 2. The merge strategy used needs proper implementation.
  */
 export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T> {
-  constructor({ options, defaultOptions }: { options: any; defaultOptions: OptionsType<T> }) {
+  constructor({ options, defaultOptions }: { options: any; defaultOptions: TailwindOptionsType<T> }) {
     super(TailwindOptionsWrapper.applyOptions({ options, defaultOptions }));
   }
 
@@ -99,11 +22,11 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     defaultOptions,
   }: {
     options: any;
-    defaultOptions: OptionsType<T>;
-  }): OptionsType<T> {
+    defaultOptions: TailwindOptionsType<T>;
+  }): TailwindOptionsType<T> {
     let result = defaultOptions;
 
-    for (const optionKey of Object.keys(defaultOptions) as (keyof OptionsType<T>)[]) {
+    for (const optionKey of Object.keys(defaultOptions) as (keyof TailwindOptionsType<T>)[]) {
       result[optionKey] = TailwindOptionsWrapper.overrideDefaultOption({
         options,
         defaultOptions,
@@ -120,7 +43,7 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     optionKey,
   }: {
     options: any;
-    defaultOptions: OptionsType<T>;
+    defaultOptions: TailwindOptionsType<T>;
     optionKey: K;
   }): TailwindOption<T[K]> {
     const relatedValues = TailwindOptionsWrapper.getAllRelatedValues({ options, optionKey });
@@ -145,7 +68,7 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
     return defaultOptions[optionKey];
   }
 
-  // private static applySingleOptionObject<T, U extends OptionsType<T>>({
+  // private static applySingleOptionObject<T, U extends TailwindOptionsType<T>>({
   //   options,
   //   defaultOptions,
   //   optionKey,
@@ -217,7 +140,7 @@ export class TailwindOptionsWrapper<T> extends TailwindOptionsPropertyAccessor<T
 
     // If the option is not a string, number, or array, throw an error. I'm not sure how this would happen,
     // but just in case.
-    throw INVALID_OPTION_TYPE;
+    throw new Error('The Tailwind option must be an array of strings.');
   }
 
   private static getAllRelatedValues({

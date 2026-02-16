@@ -1,4 +1,4 @@
-import { OptionsType } from './tailwind-options-wrapper';
+import { TailwindOptionsType } from './tailwind-options-type';
 
 /**
  * wraps the type T and provides a type-safe getter function with auto-completion.
@@ -99,7 +99,7 @@ import { OptionsType } from './tailwind-options-wrapper';
  * ```
  */
 export class TailwindOptionsPropertyAccessor<T> {
-  constructor(private readonly options: OptionsType<T>) {}
+  constructor(private readonly options: TailwindOptionsType<T>) {}
 
   get<K extends keyof T>(key: K): T[K] {
     return this.options[key].value;
