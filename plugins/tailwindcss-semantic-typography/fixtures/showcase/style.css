@@ -5,7 +5,7 @@
 
 /*@plugin "@ilijazm/tailwindcss-semantic-typography";*/
 @plugin "../../" {
-    "typography--button": "*";
+    "typography--breadcrumbs": "text-xs", "tracking-wide", "font-semibold", "font-mono", "uppercase";
 }
 
 @theme {
@@ -25,4 +25,60 @@
 
 @utility mt-heading {
     @apply mt-2xl;
+}
+
+@utility debug {
+    @apply border-2 border-red-500 border-dotted;
+}
+
+@utility demo-ring {
+    @apply relative outline-2 outline-dashed outline-neutral-300/0 rounded-xs outline-offset-14 transition-colors;
+}
+
+@utility demo-ring-active {
+    @apply outline-neutral-300;
+}
+
+@utility demo-ring-inner {
+    @apply z-10 relative outline-2 outline-dashed outline-neutral-300/0 rounded-xs outline-offset-10 transition-colors
+    before:-z-10 before:absolute before:left-0 before:top-0 before:w-full before:h-full before:scale-x-107 before:bg-neutral-50;
+}
+
+@utility demo-ring-inner-active {
+    @apply outline-neutral-300;
+}
+
+@utility demo-dash-to-right {
+    @apply after:absolute after:top-[50%] after:border-t-2 after:border-dashed after:border-neutral-300/0 transition-colors;
+}
+
+@utility demo-dash-to-right-active {
+    @apply after:border-neutral-300;
+}
+
+.demo-dash-to-right:after {
+    left: calc(100% + 2rem);
+    width: 100vw;
+}
+
+@utility wrapper-lg-sides {
+    width: calc((100% - var(--spacing-wrapper-lg)) / 2);
+    height: 100%;
+
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+@utility wrapper-md-left {
+    width: calc((100% - var(--spacing-wrapper-lg)) / 2);
+
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+@utility wrapper-md-right {
+    width: calc((100% - var(--spacing-wrapper-lg)) / 2 + var(--spacing-wrapper-lg) - var(--spacing-wrapper-md));
+
+    overflow-x: clip;
+    overflow-y: visible;
 }

@@ -1,10 +1,10 @@
-# TailwindCSS Semantic Typography
+# Tailwind CSS Semantic Typography
 
-TailwindCSS Semantic Typography is a highly extendable plugin for Tailwind CSS
-that add semantic text utilities for many use cases like headings, labels, code-blocks, etc.
-This allows the user to define a type system and re-use these font styles later.
+Tailwind CSS Semantic Typography is a highly extensible plugin that adds semantic text utilities for various use cases,
+such as headings, labels, and code blocks.
+It allows you to use an opinionated type system or a custom type system with its customization capabilities.
 
-For example `heading` translates to the following:
+For example, the utility class `text-heading` yields the following results:
 
 ```css
 .text-heading {
@@ -24,15 +24,15 @@ For example `heading` translates to the following:
 
 ## 1. Installation
 
-To install the TailwindCSS Semantic Typography follow the following steps:
+To install the Tailwind CSS Semantic Typography plugin, follow these steps:
 
-1. Install the TailwindCSS Semantic Typography dependency:
+1. Install the Tailwind CSS Semantic Typography plugin dependency:
 
 ```bash
 npm install @ilijazm/tailwindcss-semantic-typography
 ```
 
-2. Import the plugin in your `.css`-file.
+2. Import the plugin into your CSS file.
 
 ```diff
 @import "tailwindcss";
@@ -41,38 +41,120 @@ npm install @ilijazm/tailwindcss-semantic-typography
 
 ## 2. Features
 
+The following section demonstrates the features of the Tailwind CSS Semantic Typography plugin.
+
 ### Default utilities
 
-By default, the plugin adds the following utility classes:
+The Tailwind CSS Semantic Typography plugin is an opinionated tool that adds a type system to projects.
+This means it comes with a set of standard utilities that serve specific **purposes**.
+The following sections outline all the default utilities, their purposes, and guidelines.
 
-| utility      | translates                                                                                                              |
-|--------------|-------------------------------------------------------------------------------------------------------------------------|
-| `display-1`  | `text-7xl leading-32 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
-| `display-2`  | `text-5xl leading-20 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
-| `heading`    | `text-3xl leading-12 tracking-tight font-medium color-[var(--color-content-emphasis var(--color-black))]`               |
-| `subheading` | `text-lg leading-8 tracking-normal font-bold color-[var(--color-content-emphasis var(--color-black))]`                  |
-| `lead`       | `text-xl leading-7 tracking-normal font-normal color-[var(--color-content-text-emphasis var(--color-black))]`           |
-| `body`       | `text-base leading-6 tracking-normal font-normal color-[var(--color-content-text var(--color-neutral-700))]`            |
-| `quote`      | `text-xl leading-7 tracking-normal font-medium color-[var(--color-content-text-muted var(--color-neutral-500))] italic` |
-| `overline`   | `text-xs leading-5 tracking-widest font-bold color-[var(--color-content-emphasis var(--color-black))] uppercase`        |
-| `code`       | `text-base leading-5 tracking-normal font-normal color-[var(--color-content-emphasis var(--color-black))] font-mono`    |
-| `heading-1`  | `text-7xl leading-[8rem] tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`         |
-| `heading-2`  | `text-5xl leading-20 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
-| `heading-3`  | `text-4xl leading-15 tracking-tight font-semibold color-[var(--color-content-emphasis var(--color-black))]`             |
-| `heading-4`  | `text-3xl leading-10 tracking-tight font-bold color-[var(--color-content-emphasis var(--color-black))]`                 |
-| `heading-5`  | `text-lg leading-7 tracking-normal font-bold color-[var(--color-content-emphasis var(--color-black))]`                  |
-| `heading-6`  | `text-base leading-6 tracking-normal font-black color-[var(--color-content-emphasis var(--color-black))]`               |
+#### 1. Display Layer (Page-Level Hierarchy)
+
+Used for top-level page emphasis.
+
+| Utility          | Purpose                                                      | Rules                 |
+|------------------|--------------------------------------------------------------|-----------------------|
+| `text-display-1` | Primary page title (e.g., hero headline, landing page title) | Use **once per page** |
+| `text-display-2` | Secondary large title (e.g., supporting hero title)          | Use **once per page** |
+
+##### Guidelines
+
+* Reserved for **major structural emphasis**
+* Should not appear inside article content
+* Not intended for Markdown / CMS content
+
+##### Examples
+
+![img.png](img.png) \
+_This example demonstrates how `display-1` can be used as the H1 of a hero section._
+
+![img_1.png](img_1.png) \
+_This example demonstrates how `display-2` can be used for a hero page on a subpage, such as a blog page._
+
+#### 2. Structural Headings (Section Hierarchy)
+
+Used for structuring page content into readable sections.
+
+| Utility           | Purpose                                                                              |
+|-------------------|--------------------------------------------------------------------------------------|
+| `text-heading`    | Main section heading                                                                 |
+| `text-subheading` | Secondary heading under a section                                                    |
+| `text-overline`   | Small contextual label (kicker / eyebrow / meta label) that comes before the heading |
+
+**Guidelines**
+
+* Used in custom layouts
+* Recommended for manually structured UI sections
+* Do not use for Markdown-rendered content (see Rich Text section below)
+
+#### 3. Content Typography (Readable Text)
+
+Used inside sections for body content and emphasis.
+
+| Utility      | Purpose                             |
+|--------------|-------------------------------------|
+| `text-lead`  | Introductory paragraph of a section |
+| `text-body`  | Default paragraph text              |
+| `text-quote` | Quoted text or testimonial blocks   |
+| `text-code`  | Inline code or code blocks          |
+
+**Guidelines**
+
+* `text-lead` should appear at most once per section
+* `text-body` is the default fallback text style
+* `text-overline` is used for metadata or context labels above headings
+* `text-code` ensures consistent monospace formatting
+
+#### 4. Rich Text / Markdown Mapping
+
+Used when styling CMS-driven or Markdown content.
+
+These classes directly map to HTML heading tags:
+
+| Utility          | Maps to |
+|------------------|---------|
+| `text-heading-1` | `h1`    |
+| `text-heading-2` | `h2`    |
+| `text-heading-3` | `h3`    |
+| `text-heading-4` | `h4`    |
+| `text-heading-5` | `h5`    |
+| `text-heading-6` | `h6`    |
+
+**Guidelines**
+
+* Use only inside rendered Markdown / CMS content
+* Do not mix with `text-display-*`
+* These preserve document structure while applying design tokens
+
+| utility class     | yielded utility classes                                                                                                 |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `text-display-1`  | `text-7xl leading-32 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
+| `text-display-2`  | `text-5xl leading-20 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
+| `text-heading`    | `text-3xl leading-12 tracking-tight font-medium color-[var(--color-content-emphasis var(--color-black))]`               |
+| `text-subheading` | `text-lg leading-8 tracking-normal font-bold color-[var(--color-content-emphasis var(--color-black))]`                  |
+| `text-lead`       | `text-xl leading-7 tracking-normal font-normal color-[var(--color-content-text-emphasis var(--color-black))]`           |
+| `text-body`       | `text-base leading-6 tracking-normal font-normal color-[var(--color-content-text var(--color-neutral-700))]`            |
+| `text-quote`      | `text-xl leading-7 tracking-normal font-medium color-[var(--color-content-text-muted var(--color-neutral-500))] italic` |
+| `text-overline`   | `text-xs leading-5 tracking-widest font-bold color-[var(--color-content-emphasis var(--color-black))] uppercase`        |
+| `text-code`       | `text-base leading-5 tracking-normal font-normal color-[var(--color-content-emphasis var(--color-black))] font-mono`    |
+| `text-heading-1`  | `text-7xl leading-[8rem] tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`         |
+| `text-heading-2`  | `text-5xl leading-20 tracking-tighter font-normal color-[var(--color-content-emphasis var(--color-black))]`             |
+| `text-heading-3`  | `text-4xl leading-15 tracking-tight font-semibold color-[var(--color-content-emphasis var(--color-black))]`             |
+| `text-heading-4`  | `text-3xl leading-10 tracking-tight font-bold color-[var(--color-content-emphasis var(--color-black))]`                 |
+| `text-heading-5`  | `text-lg leading-7 tracking-normal font-bold color-[var(--color-content-emphasis var(--color-black))]`                  |
+| `text-heading-6`  | `text-base leading-6 tracking-normal font-black color-[var(--color-content-emphasis var(--color-black))]`               |
 
 ## 3. Customization
 
-The **TailwindCSS Semantic Utilities Plugin** is highly extendable.
+The **Tailwind CSS Semantic Utilities Plugin** is highly extendable.
 You can add, remove and change the default settings.
 
 ### Select which text-styles to include
 
 To select which text styles you want to include simply write them as a list with the `typography` option.
 
-The following code demonstrates how the **TailwindCSS Semantic Utilities Plugin** can be used
+The following code demonstrates how the **Tailwind CSS Semantic Utilities Plugin** can be used
 with just the "heading", "subheading", and "body" text-styles:
 
 ```css
@@ -92,7 +174,7 @@ with just the "heading", "subheading", and "body" text-styles:
 To customize an existing text-style you can use the `typography--<text-style>` option.
 The value of the option is defined in a _Tailwind CSS like_ classes.
 
-The following code demonstrates how the **TailwindCSS Semantic Utilities Plugin** can be used
+The following code demonstrates how the **Tailwind CSS Semantic Utilities Plugin** can be used
 with a custom "heading" style:
 
 ```css
@@ -144,7 +226,7 @@ In order to add a next text style it simply must get defined similarly to how to
 by simply using the respected option `typography-<custom text style name>`.
 The value of the option is defined in a _Tailwind CSS like_ classes.
 
-The following code demonstrates how the **TailwindCSS Semantic Utilities Plugin** can be used
+The following code demonstrates how the **Tailwind CSS Semantic Utilities Plugin** can be used
 with a custom "cta-button" style:
 
 ```css
