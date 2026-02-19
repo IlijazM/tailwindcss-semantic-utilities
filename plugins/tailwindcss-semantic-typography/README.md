@@ -82,11 +82,13 @@ Used for structuring page content into readable sections.
 | `text-subheading` | Secondary heading under a section                                                    |
 | `text-overline`   | Small contextual label (kicker / eyebrow / meta label) that comes before the heading |
 
-**Guidelines**
+##### Guidelines
 
 * Used in custom layouts
 * Recommended for manually structured UI sections
 * Do not use for Markdown-rendered content (see Rich Text section below)
+
+##### Examples
 
 #### 3. Content Typography (Readable Text)
 
@@ -99,12 +101,17 @@ Used inside sections for body content and emphasis.
 | `text-quote` | Quoted text or testimonial blocks   |
 | `text-code`  | Inline code or code blocks          |
 
-**Guidelines**
+##### Guidelines
 
 * `text-lead` should appear at most once per section
 * `text-body` is the default fallback text style
 * `text-overline` is used for metadata or context labels above headings
 * `text-code` ensures consistent monospace formatting
+
+##### Examples
+
+![img_2.png](img_2.png)
+_This example demonstrates where a lead is supposed to be placed._
 
 #### 4. Rich Text / Markdown Mapping
 

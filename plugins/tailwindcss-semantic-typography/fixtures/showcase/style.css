@@ -61,6 +61,19 @@
     width: 100vw;
 }
 
+@utility demo-dash-to-left {
+    @apply after:absolute after:top-[50%] after:border-t-2 after:border-dashed after:border-neutral-300/0 transition-colors;
+}
+
+@utility demo-dash-to-left-active {
+    @apply after:border-neutral-300;
+}
+
+.demo-dash-to-left:after {
+    right: calc(100% + 2rem);
+    width: 100vw;
+}
+
 @utility wrapper-lg-sides {
     width: calc((100% - var(--spacing-wrapper-lg)) / 2);
     height: 100%;
