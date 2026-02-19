@@ -46,22 +46,32 @@ export interface ITextStyleType {
   fontStyle?: string | 'italic' | 'not-italic' | 'normal';
 
   fontFamily?: string | 'sans' | 'sans-serif' | 'mono';
+
+  width?: string;
+
+  marginTop?: string;
+
+  marginBottom?: string;
+
+  exceptions?: Array<{ rules: string[], textStyle: ITextStyleType }>
 }
 
 export class TextStyleType implements ITextStyleType {
   get className(): string {
     // allow both input with and without leading dot.
-    if (this.textStyle.className.startsWith(".")) {
-      console.warn(`Warning during applying utility '${this.textStyle.className}': this.textStyle.className is not supposed to start with a '.'. This gets fixed automatically.`);
-      return this.textStyle.className.replace(/^\./, "");
+    if (this.textStyle.className.startsWith('.')) {
+      console.warn(
+        `Warning during applying utility '${this.textStyle.className}': this.textStyle.className is not supposed to start with a '.'. This gets fixed automatically.`,
+      );
+      return this.textStyle.className.replace(/^\./, '');
     }
 
     return this.textStyle.className;
   }
 
   get fontSize(): string {
-    if (this.textStyle.fontSize?.startsWith("text-")) {
-      const fontSize = this.textStyle.fontSize?.replace(/^text-/, "");
+    if (this.textStyle.fontSize?.startsWith('text-')) {
+      const fontSize = this.textStyle.fontSize?.replace(/^text-/, '');
       return `theme(fontSize.${fontSize})`;
     }
 
@@ -69,8 +79,8 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get lineHeight(): string {
-    if (this.textStyle.lineHeight?.startsWith("leading-")) {
-      const lineHeight = this.textStyle.lineHeight?.replace(/^leading-/, "");
+    if (this.textStyle.lineHeight?.startsWith('leading-')) {
+      const lineHeight = this.textStyle.lineHeight?.replace(/^leading-/, '');
       try {
         const lineHeightNumber = parseInt(lineHeight, 10);
         return `calc(var(--spacing) * ${lineHeightNumber})`;
@@ -82,8 +92,8 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get letterSpacing(): string {
-    if (this.textStyle.letterSpacing?.startsWith("tracking-")) {
-      const letterSpacing = this.textStyle.letterSpacing?.replace(/^tracking-/, "");
+    if (this.textStyle.letterSpacing?.startsWith('tracking-')) {
+      const letterSpacing = this.textStyle.letterSpacing?.replace(/^tracking-/, '');
       return `theme(letterSpacing.${letterSpacing})`;
     }
 
@@ -91,8 +101,8 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get fontWeight(): string {
-    if (this.textStyle.fontWeight?.startsWith("font-")) {
-      const fontWeight = this.textStyle.fontWeight?.replace(/^font-/, "");
+    if (this.textStyle.fontWeight?.startsWith('font-')) {
+      const fontWeight = this.textStyle.fontWeight?.replace(/^font-/, '');
       return `theme(fontWeight.${fontWeight})`;
     }
 
@@ -104,8 +114,8 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get textTransform(): string {
-    if (this.textStyle.textTransform === "normal-case") {
-      return "none";
+    if (this.textStyle.textTransform === 'normal-case') {
+      return 'none';
     }
 
     return this.textStyle.textTransform ?? 'none';
@@ -120,11 +130,42 @@ export class TextStyleType implements ITextStyleType {
   }
 
   get fontFamily(): string {
-    if (this.textStyle.fontFamily?.startsWith("font-")) {
-      const fontFamily = this.textStyle.fontFamily?.replace(/^font-/, "");
+    if (this.textStyle.fontFamily?.startsWith('font-')) {
+      const fontFamily = this.textStyle.fontFamily?.replace(/^font-/, '');
       return `theme(fontFamily.${fontFamily})`;
     }
     return this.textStyle.fontFamily ?? 'theme(fontFamily.sans)';
+  }
+
+  get width(): string {
+    if (this.textStyle.width?.startsWith('w-')) {
+      const width = this.textStyle.width?.replace(/^w-/, '');
+      return `theme(spacing.${width})`;
+    }
+
+    return this.textStyle.width ?? '';
+  }
+
+  get marginTop(): string {
+    if (/^m?[ty]-/.test(this.textStyle.marginTop ?? '')) {
+      const marginTop = this.textStyle.marginTop?.replace(/^m?[ty]-/, '');
+      return `theme(spacing.${marginTop})`;
+    }
+
+    return this.textStyle.marginTop ?? '';
+  }
+
+  get marginBottom(): string {
+    if (/^m?[by]-/.test(this.textStyle.marginBottom ?? '')) {
+      const marginBottom = this.textStyle.marginBottom?.replace(/^m?[by]-/, '');
+      return `theme(spacing.${marginBottom})`;
+    }
+
+    return this.textStyle.marginBottom ?? '';
+  }
+
+  get exceptions(): Array<{ rules: string[]; textStyle: ITextStyleType }> {
+    return this.textStyle.exceptions ?? [];
   }
 
   private readonly textStyle: ITextStyleType;
@@ -132,5 +173,4 @@ export class TextStyleType implements ITextStyleType {
   constructor(textStyle: ITextStyleType) {
     this.textStyle = textStyle;
   }
-
 }

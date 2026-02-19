@@ -6,11 +6,26 @@ export function stringsToTextStyle(strings: string[] | string): ITextStyleType {
   }
   strings = strings.flatMap((string) => string.split(';')).map((string) => string.trim());
 
-  let result: Partial<ITextStyleType> = {};
+  let result: Partial<ITextStyleType> = { exceptions: [] };
 
   for (const extractor of Object.values(extractors)) {
     for (const string of strings) {
-      result = { ...result, ...extractor(string) };
+      if (string.includes(":")) {
+        const split = string.split(':');
+        const rules = split.filter((_, i) => i !== split.length - 1);
+        const textStyle = extractor(split.at(-1)!);
+
+        if (Object.keys(textStyle).length === 0) {
+          continue;
+        }
+
+        result.exceptions!.push({
+          rules,
+          textStyle: textStyle as ITextStyleType,
+        });
+      } else {
+        result = { ...result, ...extractor(string) };
+      }
     }
   }
 
@@ -36,6 +51,9 @@ const extractors = {
     tailwindPrefix: 'font-',
     negativeTailwindRegex: /^font-(\d+|thin|extralight|light|normal|medium|semibold|bold|extrabold|black)/,
   }),
+  extractWidth: extractRuleBuilder({ ruleName: 'width', tailwindPrefix: 'w-' }),
+  extractMarginTop: extractRuleBuilder({ ruleName: 'marginTop', tailwindPrefix: ['mt-','my-'] }),
+  extractMarginBottom: extractRuleBuilder({ ruleName: 'marginBottom', tailwindPrefix: ['mb-', 'my-'] }),
 };
 
 function extractRuleBuilder({
@@ -46,17 +64,24 @@ function extractRuleBuilder({
   allowedValues,
 }: {
   ruleName: string;
-  tailwindPrefix?: string;
+  tailwindPrefix?: string | string[];
   tailwindRegex?: RegExp;
   negativeTailwindRegex?: RegExp;
   allowedValues?: string[];
 }) {
   const ruleNameCamelCase = ruleName;
   const ruleNameKebabCase = camelCaseToKebabCase(ruleName);
+
   return function (input: string): Partial<ITextStyleType> {
+    const inputStartsWithTailwindPrefix =
+      tailwindPrefix &&
+      (typeof tailwindPrefix === 'string'
+        ? input.startsWith(tailwindPrefix)
+        : tailwindPrefix.some((prefix) => input.startsWith(prefix)));
+
     if (negativeTailwindRegex && negativeTailwindRegex.test(input)) {
       return {};
-    } else if (tailwindPrefix && input.startsWith(tailwindPrefix)) {
+    } else if (inputStartsWithTailwindPrefix) {
       if (input.startsWith(tailwindPrefix + '[') && input.endsWith(']')) {
         return { [ruleName]: input.replace(new RegExp(tailwindPrefix + '\\['), '').replace(/]$/, '') };
       } else {

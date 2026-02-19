@@ -5,11 +5,13 @@ import { TailwindCssSemanticTypographyPlugin } from '@src/tailwindcss-semantic-t
 
 const tailwindcssSemanticTypographyPlugin: PluginCreator = plugin.withOptions(
   (options) => {
-    return ({ addBase, addUtilities }) => {
+    return ({ addBase, addUtilities, addVariant }) => {
       const plugin = new TailwindCssSemanticTypographyPlugin(options);
 
-      addBase(plugin.base)
+      addBase(plugin.base);
       addUtilities(plugin.utilities);
+
+      plugin.variants.forEach(([name, variant]) => addVariant(name!, variant!));
     };
   },
 

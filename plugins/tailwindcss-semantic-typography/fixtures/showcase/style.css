@@ -8,10 +8,9 @@
     "typography--breadcrumbs": "text-xs", "tracking-wide", "font-semibold", "font-mono", "uppercase";
 }
 
-@theme {
-    --spacing-lead: var(--spacing-md);
+.old {
     --spacing-body: var(--spacing-sm);
-
+    --spacing-lead: var(--spacing-md);
     --spacing-text: var(--spacing-wrapper-md);
 }
 
@@ -94,4 +93,15 @@
 
     overflow-x: clip;
     overflow-y: visible;
+}
+
+/* new */
+
+.class-preview {
+    @apply absolute top-0 left-0 translate-y-[-50%] flex justify-end w-64 font-mono text-right text-neutral-500
+           after:absolute after:left-full after:top-[50%] after:w-42 after:ml-6 after:border-t after:border-dashed after:border-neutral-400;
+}
+
+.class-preview > p {
+    @apply w-fit outline outline-dashed outline-neutral-400 outline-offset-2 rounded-xs;
 }

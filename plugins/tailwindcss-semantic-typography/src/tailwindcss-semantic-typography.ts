@@ -7,7 +7,7 @@ export class TailwindCssSemanticTypographyPlugin {
       ...Object.fromEntries(
         Object.entries(this.options.get('typography')).flatMap(([className, style]) =>
           Object.entries({
-            ...new TextStyle({ className, style }).cssDeclarations,
+            ...new TextStyle({ className, style }).utilities,
           }),
         ),
       ),
@@ -23,7 +23,25 @@ export class TailwindCssSemanticTypographyPlugin {
           }),
         ),
       ),
+
+      ...Object.fromEntries(
+        Object.entries(this.options.get('typography')).flatMap(([className, style]) =>
+          Object.entries({
+            ...new TextStyle({ className, style }).getBase(),
+          }),
+        ),
+      ),
     };
+  }
+
+  public get variants(): string[][] {
+    return [
+      [`next-text-any`, `&:has(+[class^=text-])`],
+      [`prev-text-any`, `[class^=text-] + &`],
+      ...Object.entries(this.options.get('typography')).flatMap(
+        ([className, style]) => new TextStyle({ className, style }).variants,
+      ),
+    ];
   }
 
   public get themeExtension() {

@@ -9,8 +9,34 @@
 </head>
 <body class="bg-neutral-50">
 <div>
-    <div class="">
-        <section class="section-xl">
+    <div class="relative showcase-content">
+        <section class="section-xl wrapper-lg">
+            <h1 class="text-display-1">Tailwind CSS Semantic Typography Plugin</h1>
+            <p class="text-lead">TailwindCSS Semantic Palette is a highly extendable plugin for Tailwind CSS such as headings, labels, and code blocks.</p>
+            <p class="text-body mb-lg">It allows you to use an opinionated type system or a custom type system with its customization capabilities.</p>
+
+            <button class="text-button bg-neutral-900 text-neutral-100 px-lg py-3 mr-sm rounded-full cursor-pointer">Installation</button>
+            <button class="text-button bg-neutral-200 px-lg py-3 rounded-full cursor-pointer">Features</button>
+
+        </section>
+
+        <section class="section-md wrapper-lg">
+            <div class="text-overline">Installation & Setup</div>
+            <h2 class="text-heading">Tailwind CSS Semantic Typography Plugin</h2>
+            <div class="text-lead">Did you ever wonder how to install the plugin Tailwind CSS Semantic Typography?</div>
+            <div class="text-body">Fear no more because this section will guide you right through all your questions. We will cover installation and setup using easy to copy and paste code snippets.</div>
+            <div class="text-body">The first step to installing Tailwind CSS Semantic Typography is to, you guessed it, install the dependency. This can simply be done by copy and pasting the following command.</div>
+            <div class="bg-neutral-800  rounded-lg my-md py-md">
+                <pre class="text-code pl-lg text-neutral-200 before:opacity-50 before:content-['$_']">npm install @ilijazm/tailwindcss-semantic-typography</pre>
+            </div>
+            <div class="text-body">Next, we need to add the plugin to the CSS-file. How do we do that? Simple: Just add the following line in the CSS file.</div>
+            <div class="bg-neutral-800  rounded-lg my-md py-md">
+                <pre class="text-code pl-lg text-neutral-200 before:opacity-50 before:content-['$_']">@import "tailwindcss";</pre>
+                <pre class="text-code pl-lg bg-green-600/40 text-neutral-200 before:opacity-50 before:content-['$_']">@plugin "@ilijazm/tailwindcss-semantic-typography";</pre>
+            </div>
+        </section>
+
+        <section class="section-xl old">
 
             <!-- display-1 -->
 
@@ -167,5 +193,184 @@
         </section>
     </div>
 </div>
+
+<script>
+    Array.from(document.querySelectorAll('.showcase-content *')).forEach((el) => {
+        ["text-display-1", "text-lead", "text-body", "text-button", "text-heading"].forEach((textClass) => {
+            if (el.classList.contains(textClass)) {
+                el.style.position = "relative";
+
+                const element = document.createElement("div");
+                element.innerHTML = `<div class="class-preview"><p>.${textClass}</p></div>`;
+                element.children[0].style.top = (el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2) + "px";
+
+                document.querySelector(".showcase-content").appendChild(element);
+            }
+        })
+    });
+
+
+</script>
+
+<script>(function () {
+    const existing = document.getElementById("__margin_debug_overlay__");
+    if (existing) existing.remove();
+
+    const scope = document.querySelector(".showcase-content");
+    if (!scope) {
+        console.warn("No .showcase-content found.");
+        return;
+    }
+
+    const overlayRoot = document.createElement("div");
+    overlayRoot.id = "__margin_debug_overlay__";
+    overlayRoot.style.position = "absolute";
+    overlayRoot.style.top = "0";
+    overlayRoot.style.left = "0";
+    overlayRoot.style.width = "100%";
+    overlayRoot.style.height = "100%";
+    overlayRoot.style.opacity = "20%";
+    overlayRoot.style.pointerEvents = "none";
+    overlayRoot.style.zIndex = "999999";
+    document.body.appendChild(overlayRoot);
+
+    const stripeBackground = `
+    repeating-linear-gradient(
+      45deg,
+      rgba(140,140,140,0.18),
+      rgba(140,140,140,0.18) 6px,
+      rgba(170,170,170,0.18) 6px,
+      rgba(170,170,170,0.18) 12px
+    )
+  `;
+
+    const BORDER = "2px solid rgba(90,90,90,0.9)";
+    const RADIUS = 4;
+    const Y_GAP = 4; // softens vertical overlay so borders don’t touch
+
+    const textElements = scope.querySelectorAll(
+        '[class^="text-"], [class*=" text-"]'
+    );
+
+    textElements.forEach((el) => {
+        const style = window.getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+
+        const margins = {
+            top: parseFloat(style.marginTop),
+            right: parseFloat(style.marginRight),
+            bottom: parseFloat(style.marginBottom),
+            left: parseFloat(style.marginLeft),
+        };
+
+        if (
+            margins.top === 0 &&
+            margins.bottom === 0
+        ) return;
+
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+
+        // === Origin highlight ===
+        const origin = document.createElement("div");
+        origin.style.position = "absolute";
+        origin.style.left = rect.left + scrollX + "px";
+        origin.style.top = rect.top + scrollY + "px";
+        origin.style.width = rect.width + "px";
+        origin.style.height = rect.height + "px";
+        origin.style.border = BORDER;
+        origin.style.borderRadius = 0;
+        origin.style.boxSizing = "border-box";
+        overlayRoot.appendChild(origin);
+
+        function createMarginOverlay(x, y, w, h, side) {
+            if (w <= 0 || h <= 0) return;
+
+            const div = document.createElement("div");
+            div.style.position = "absolute";
+            div.style.left = x + "px";
+            div.style.top = y + "px";
+            div.style.width = w + "px";
+            div.style.height = h + "px";
+            div.style.background = stripeBackground;
+            div.style.border = BORDER;
+            div.style.boxSizing = "border-box";
+
+            // === Rounded connection logic ===
+            if (side === "top") {
+                div.style.borderBottom = "none";
+                div.style.borderTopLeftRadius = RADIUS + "px";
+                div.style.borderTopRightRadius = RADIUS + "px";
+            }
+
+            if (side === "bottom") {
+                div.style.borderTop = "none";
+                div.style.borderBottomLeftRadius = RADIUS + "px";
+                div.style.borderBottomRightRadius = RADIUS + "px";
+            }
+
+            if (side === "left") {
+                div.style.borderRight = "none";
+                div.style.borderTopLeftRadius = RADIUS + "px";
+                div.style.borderBottomLeftRadius = RADIUS + "px";
+            }
+
+            if (side === "right") {
+                div.style.borderLeft = "none";
+                div.style.borderTopRightRadius = RADIUS + "px";
+                div.style.borderBottomRightRadius = RADIUS + "px";
+            }
+
+            overlayRoot.appendChild(div);
+        }
+
+        // === TOP ===
+        if (margins.top > 0) {
+            createMarginOverlay(
+                rect.left + scrollX,
+                rect.top + scrollY - margins.top + Y_GAP,
+                rect.width,
+                margins.top - Y_GAP,
+                "top"
+            );
+        }
+
+        // === BOTTOM ===
+        if (margins.bottom > 0) {
+            createMarginOverlay(
+                rect.left + scrollX,
+                rect.bottom + scrollY,
+                rect.width,
+                margins.bottom - Y_GAP,
+                "bottom"
+            );
+        }
+
+        // === LEFT ===
+        if (margins.left > 0) {
+            createMarginOverlay(
+                rect.left + scrollX - margins.left,
+                rect.top + scrollY,
+                margins.left,
+                rect.height,
+                "left"
+            );
+        }
+
+        // === RIGHT ===
+        if (margins.right > 0) {
+            createMarginOverlay(
+                rect.right + scrollX,
+                rect.top + scrollY,
+                margins.right,
+                rect.height,
+                "right"
+            );
+        }
+    });
+
+    console.log("Polished margin debug enabled.");
+})();
+</script>
 </body>
 </html>

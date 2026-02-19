@@ -12,6 +12,8 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-tighter',
     'font-normal',
     'color-[var(--color-content-emphasis, var(--color-black))]',
+    'w-wrapper-lg',
+    'mb-xl',
   ]),
   'display-2': stringsToTextStyle([
     'text-5xl',
@@ -19,6 +21,8 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-tighter',
     'font-normal',
     'color-[var(--color-content-emphasis, var(--color-black))]',
+    'w-wrapper-lg',
+    'mb-xl',
   ]),
   heading: stringsToTextStyle([
     'text-3xl',
@@ -26,6 +30,10 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-tight',
     'font-medium',
     'color-[var(--color-content-emphasis, var(--color-black))]',
+    'w-wrapper-md',
+    'mb-lg',
+    'mt-xl',
+    "prev-text-overline:mt-0",
   ]),
   subheading: stringsToTextStyle([
     'text-lg',
@@ -33,6 +41,9 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-normal',
     'font-bold',
     'color-[var(--color-content-emphasis, var(--color-black))]',
+    'w-wrapper-md',
+    'mb-lg',
+    'mt-xl',
   ]),
   lead: stringsToTextStyle([
     'text-xl',
@@ -40,6 +51,8 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-normal',
     'font-normal',
     'color-[var(--color-content-text-emphasis, var(--color-black))]',
+    'w-wrapper-md',
+    'mb-md',
   ]),
   body: stringsToTextStyle([
     'text-base',
@@ -47,6 +60,8 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'tracking-normal',
     'font-normal',
     'color-[var(--color-content-text, var(--color-neutral-700))]',
+    'w-wrapper-md',
+    'mb-sm',
   ]),
   quote: stringsToTextStyle([
     'text-xl',
@@ -63,6 +78,7 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'font-bold',
     'color-[var(--color-content-emphasis, var(--color-black))]',
     'uppercase',
+    "next-text-heading:mt-xl",
   ]),
   button: stringsToTextStyle([
     'text-sm',

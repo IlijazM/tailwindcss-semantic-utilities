@@ -38,7 +38,6 @@ export class SelectableObjectTailwindOption<T> extends TailwindOption<Record<str
   }
 
   private addValues({ relatedValues }: { relatedValues?: any }) {
-    console.log(relatedValues)
     Object.assign(
       this._value,
       Object.fromEntries(
