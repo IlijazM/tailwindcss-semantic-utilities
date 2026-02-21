@@ -60,9 +60,21 @@ export class TextStyle {
 
       exception.rules.forEach((rule) => {
         if (rule.startsWith("next-text-")) {
-          querySelector += `:has(+.text-${rule.replace(/^next-text-/, "")})`;
+          let cssRule = rule.replace(/^next-text-/, '');
+          if (cssRule === "any") {
+            cssRule = "[class^=text-]"
+          } else {
+            cssRule = `.text-${cssRule}`;
+          }
+          querySelector += `:has(+${cssRule})`;
         } else if (rule.startsWith("prev-text-")) {
-          querySelector = `.text-${rule.replace(/^prev-text-/, "")} + ${querySelector}`;
+          let cssRule = rule.replace(/^prev-text-/, '');
+          if (cssRule === 'any') {
+            cssRule = '[class^=text-]';
+          } else {
+            cssRule =`.text-${cssRule}`;
+          }
+          querySelector = `${cssRule} + ${querySelector}`;
         }
       })
 

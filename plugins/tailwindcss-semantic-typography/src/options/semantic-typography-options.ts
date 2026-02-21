@@ -78,7 +78,7 @@ export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
     'font-bold',
     'color-[var(--color-content-emphasis, var(--color-black))]',
     'uppercase',
-    "next-text-heading:mt-xl",
+    "prev-text-any:next-text-heading:mt-xl",
   ]),
   button: stringsToTextStyle([
     'text-sm',

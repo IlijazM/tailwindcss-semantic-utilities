@@ -196,12 +196,14 @@
 
 <script>
     Array.from(document.querySelectorAll('.showcase-content *')).forEach((el) => {
-        ["text-display-1", "text-lead", "text-body", "text-button", "text-heading"].forEach((textClass) => {
+        ["text-display-1", "text-lead", "text-body", "text-heading"].forEach((textClass) => {
             if (el.classList.contains(textClass)) {
                 el.style.position = "relative";
 
+                const classNames = Array.from(el.classList).map(e => "." + e).join(" ")
+
                 const element = document.createElement("div");
-                element.innerHTML = `<div class="class-preview"><p>.${textClass}</p></div>`;
+                element.innerHTML = `<div class="class-preview"><p>${classNames}</p></div>`;
                 element.children[0].style.top = (el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2) + "px";
 
                 document.querySelector(".showcase-content").appendChild(element);
@@ -237,10 +239,10 @@
     const stripeBackground = `
     repeating-linear-gradient(
       45deg,
-      rgba(140,140,140,0.18),
-      rgba(140,140,140,0.18) 6px,
-      rgba(170,170,170,0.18) 6px,
-      rgba(170,170,170,0.18) 12px
+      rgba(100,140,140,0.58),
+      rgba(140,140,140,0.58) 6px,
+      rgba(170,170,170,0.58) 6px,
+      rgba(170,170,170,0.58) 12px
     )
   `;
 
