@@ -1,5 +1,5 @@
 import { ITextStyleType, TextStyleType } from '@src/text-stlye/text-style-type.ts';
-import {stringsToTextStyle} from "@src/text-stlye/strings-to-text-style.ts";
+import { stringsToTextStyle } from '@src/text-stlye/strings-to-text-style.ts';
 
 export class TextStyle {
   private readonly textStyle: TextStyleType;
@@ -11,7 +11,7 @@ export class TextStyle {
     });
   }
 
-  get cssRoot(){
+  get cssRoot() {
     return {
       [`--text-style-${this.textStyle.className}-font-size`]: this.textStyle.fontSize,
       [`--text-style-${this.textStyle.className}-line-height`]: this.textStyle.lineHeight,
@@ -29,7 +29,7 @@ export class TextStyle {
   }
 
   getBase() {
-    const result: any =  {
+    const result: any = {
       ['[class^="text-"]+.text-' + this.textStyle.className]: {
         marginTop: `var(--text-style-${this.textStyle.className}-margin-top)`,
       },
@@ -56,36 +56,91 @@ export class TextStyle {
         }).filter(([_, value]) => value),
       );
 
-      let querySelector = ".text-" + this.textStyle.className;
+      let querySelector = '.text-' + this.textStyle.className;
+      let mediaRule: string | null = null;
 
       exception.rules.forEach((rule) => {
-        if (rule.startsWith("next-text-")) {
+        if (rule.startsWith('next-text-')) {
           let cssRule = rule.replace(/^next-text-/, '');
-          if (cssRule === "any") {
-            cssRule = "[class^=text-]"
+          if (cssRule === 'any') {
+            cssRule = '[class^=text-]';
           } else {
             cssRule = `.text-${cssRule}`;
           }
           querySelector += `:has(+${cssRule})`;
-        } else if (rule.startsWith("prev-text-")) {
+        } else if (rule.startsWith('prev-text-')) {
           let cssRule = rule.replace(/^prev-text-/, '');
           if (cssRule === 'any') {
             cssRule = '[class^=text-]';
           } else {
-            cssRule =`.text-${cssRule}`;
+            cssRule = `.text-${cssRule}`;
           }
           querySelector = `${cssRule} + ${querySelector}`;
+        } else if (
+          rule.startsWith('sm') ||
+          rule.startsWith('md') ||
+          rule.startsWith('lg') ||
+          rule.startsWith('xl') ||
+          rule.startsWith('2xl')
+        ) {
+          mediaRule = `@media (width >= theme(breakpoint.${rule.split(':')[0]}))`;
         }
-      })
+      });
 
-      result[querySelector] = overrides;
-      console.log('result[querySelector] = overrides', querySelector, overrides);
+      if (mediaRule) {
+        if (!(mediaRule in result)) {
+          result[mediaRule] = {};
+        }
+        result[mediaRule][querySelector] = overrides;
+      } else {
+        result[querySelector] = overrides;
+      }
     });
 
     return result;
   }
 
   get utilities() {
+    const responsiveOverrides = Object.fromEntries(
+      this.textStyle.exceptions
+        .map((exception) => ({
+          textStyle: exception.textStyle,
+          responsiveOverride: exception.rules.find(
+            (rule) =>
+              rule.startsWith('sm') ||
+              rule.startsWith('md') ||
+              rule.startsWith('lg') ||
+              rule.startsWith('xl') ||
+              rule.startsWith('2xl'),
+          ),
+        }))
+        .filter(({ textStyle, responsiveOverride }) => textStyle !== undefined && responsiveOverride !== undefined)
+        .map(({ textStyle, responsiveOverride }) => {
+          const textStyleType = new TextStyleType(textStyle);
+
+          return [
+            `@media (min-width: theme(breakpoint.${responsiveOverride}))`,
+            {
+              fontSize: textStyle.fontSize ? textStyleType.fontSize : undefined,
+              lineHeight: textStyle.lineHeight ? textStyleType.lineHeight : undefined,
+              letterSpacing: textStyle.letterSpacing ? textStyleType.letterSpacing : undefined,
+              fontWeight: textStyle.fontWeight ? textStyleType.fontWeight : undefined,
+              color: textStyle.color ? textStyleType.color : undefined,
+              textTransform: textStyle.textTransform ? textStyleType.textTransform : undefined,
+              fontStyle: textStyle.fontStyle ? textStyleType.fontStyle : undefined,
+              fontFamily: textStyle.fontFamily ? textStyleType.fontFamily : undefined,
+              width: textStyle.width ? textStyleType.width : undefined,
+              marginTop: textStyle.marginTop ? textStyleType.marginTop : undefined,
+              marginBottom: textStyle.marginBottom ? textStyleType.marginBottom : undefined,
+            },
+          ];
+        }),
+    );
+
+    if (Object.keys(responsiveOverrides).length > 0) {
+      console.log('overrides', responsiveOverrides);
+    }
+
     const type = {
       fontSize: `var(--text-style-${this.textStyle.className}-font-size)`,
       lineHeight: `var(--text-style-${this.textStyle.className}-line-height)`,
@@ -95,6 +150,7 @@ export class TextStyle {
       textTransform: `var(--text-style-${this.textStyle.className}-text-transform)`,
       fontStyle: `var(--text-style-${this.textStyle.className}-font-style)`,
       fontFamily: `var(--text-style-${this.textStyle.className}-font-family)`,
+      ...responsiveOverrides,
     };
 
     return {

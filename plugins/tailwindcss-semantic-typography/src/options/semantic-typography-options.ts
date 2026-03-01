@@ -7,8 +7,11 @@ import { TextStyle } from '@src/text-stlye/text-style.ts';
 
 export const DEFAULT_TYPOGRAPHY_OPTIONS: Record<string, ITextStyleType> = {
   'display-1': stringsToTextStyle([
-    'text-7xl',
-    'leading-28',
+    'text-2xl',
+    'md:text-4xl',
+    'lg:text-6xl',
+    'xl:text-7xl',
+    'xl:leading-28',
     'tracking-tighter',
     'font-normal',
     'color-[var(--color-content-emphasis, var(--color-black))]',
